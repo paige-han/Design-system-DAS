@@ -1,0 +1,41 @@
+/*
+  Open Seattle design tokens: the single source of truth for every style.
+  Values come from the Figma "Open Seattle" variables. Change a value here
+  and every component that uses it updates.
+
+  Tailwind turns each token into classes automatically:
+    --color-primary   ->  bg-primary, text-primary, border-primary
+    --radius-pill     ->  rounded-pill
+    --spacing         ->  base unit for p-*, m-*, gap-* (p-6 = 6 x 4px = 24px)
+*/
+@theme {
+  /* Fonts */
+  --font-sans: "Montserrat", ui-sans-serif, system-ui, sans-serif;
+
+  /* Color: reference palette (Figma: Open Seattle/ref/...) */
+  --color-primary-20: #00382f;    /* ref/primary/primary20 */
+  --color-secondary-92: #f5ed4f;  /* ref/secondary/secondary92 */
+  --color-white: #ffffff;         /* Open Seattle/white */
+
+  /* Color: roles. Components use these, never the reference colors above. */
+  --color-primary: var(--color-primary-20);
+  --color-on-primary: var(--color-white);
+  --color-accent: var(--color-secondary-92);
+  --color-on-accent: var(--color-primary-20);
+
+  /* Type: label/large (Montserrat Bold 14/20, +0.1 tracking) */
+  --text-label-lg: 14px;
+  --text-label-lg--line-height: 20px;
+  --text-label-lg--letter-spacing: 0.1px;
+  --text-label-lg--font-weight: 700;
+
+  /* Shape */
+  --radius-pill: 9999px;
+
+  /* Spacing: 4px base unit */
+  --spacing: 4px;
+
+  /* Breakpoints, matching the Figma Small / Medium / Large sections */
+  --breakpoint-md: 600px;
+  --breakpoint-lg: 960px;
+}
