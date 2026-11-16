@@ -7,8 +7,9 @@ import type { ButtonHTMLAttributes, ReactNode } from "react";
  *   variant="primary"  -> Style=Filled, dark green  (on light backgrounds)
  *   variant="onDark"   -> Style=Filled, yellow      (on dark backgrounds, e.g. "Support us")
  *   variant="elevated" -> Style=Elevated, green + shadow (footer "Sign up")
+ *   variant="outlined" -> Style=Outlined, green border, smaller label (Volunteer Position "Learn more")
  */
-export type ButtonVariant = "primary" | "onDark" | "elevated";
+export type ButtonVariant = "primary" | "onDark" | "elevated" | "outlined";
 
 export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   /** Visual style. Pick by the background the button sits on. */
@@ -20,10 +21,12 @@ export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
 }
 
 const variantClasses: Record<ButtonVariant, string> = {
-  primary: "bg-primary text-on-primary hover:bg-primary/90 focus-visible:outline-primary",
-  onDark: "bg-accent text-on-accent hover:bg-accent/90 focus-visible:outline-accent",
+  primary: "type-label-lg bg-primary text-on-primary hover:bg-primary/90 focus-visible:outline-primary",
+  onDark: "type-label-lg bg-accent text-on-accent hover:bg-accent/90 focus-visible:outline-accent",
   elevated:
-    "bg-elevated text-on-elevated shadow-elevation-dark-2 hover:bg-elevated/90 focus-visible:outline-on-dark",
+    "type-label-lg bg-elevated text-on-elevated shadow-elevation-dark-2 hover:bg-elevated/90 focus-visible:outline-on-dark",
+  outlined:
+    "border-2 border-primary text-primary type-label-md hover:bg-primary/8 focus-visible:outline-primary",
 };
 
 export function Button({
@@ -40,7 +43,7 @@ export function Button({
       className={[
         // Shape and size from Figma: 40px tall, pill radius, 24px side padding
         "inline-flex h-10 shrink-0 items-center justify-center gap-2 rounded-pill px-6",
-        "type-label-lg whitespace-nowrap",
+        "whitespace-nowrap",
         "cursor-pointer transition-colors",
         "focus-visible:outline-2 focus-visible:outline-offset-2",
         "disabled:cursor-not-allowed disabled:opacity-40",

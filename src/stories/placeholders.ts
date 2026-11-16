@@ -9,3 +9,6 @@ function placeholder(label: string, bg: string, fg: string) {
 
 export const partnerLogo = (name: string) => placeholder(`${name} logo`, "#ffffff", "#566061");
 export const projectPhoto = (name: string) => placeholder(`${name} photo`, "#004138", "#f2f7f7");
+
+export const headshot = (name: string) => placeholder(name, "#e4ebeb", "#566061");
+export const eventImage = (name: string) => placeholder(`${name} image`, "#00251f", "#a6d569");

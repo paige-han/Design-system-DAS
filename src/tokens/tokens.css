@@ -78,6 +78,7 @@
   /* Brand + status */
   --color-brand-leaf: var(--color-tertiary-80);     /* logo trees */
   --color-icon-badge: var(--color-primary-30);      /* icon circle on cards */
+  --color-icon: var(--color-primary-30);            /* standalone icons, step numbers */
   --color-status-active: var(--color-secondary-98);
   --color-status-complete: var(--color-error-96);
   --color-status-evaluating: var(--color-neutral-95); /* not in Figma yet; placeholder */

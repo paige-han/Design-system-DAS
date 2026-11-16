@@ -1,12 +1,12 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import { IconCard } from "./IconCard";
-import { CodeIcon, GroupsIcon, MedalIcon } from "../../icons";
+import { AcuteIcon, LeaderboardIcon, MonitoringIcon } from "../../icons";
 
 const meta = {
   title: "Cards/IconCard",
   component: IconCard,
   args: {
-    icon: <MedalIcon />,
+    icon: <LeaderboardIcon />,
     title: "New Skills",
     description: "Gain expertise in tech & digital.",
     className: "w-[272px]",
@@ -20,14 +20,14 @@ type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {};
 
-/** A row of benefit cards, as on the Volunteer page. Stacks on Small. */
+/** Figma "Card 1 w/ Icon", "Card 2", "Card 3": the volunteer benefits row. Stacks on Small. */
 export const BenefitsRow: Story = {
   parameters: { layout: "padded" },
   render: () => (
     <div className="grid grid-cols-1 gap-8 md:grid-cols-3">
-      <IconCard icon={<MedalIcon />} title="New Skills" description="Gain expertise in tech & digital." />
-      <IconCard icon={<GroupsIcon />} title="Community" description="Work with people who care about Seattle." />
-      <IconCard icon={<CodeIcon />} title="Real Projects" description="Ship tools that nonprofits use every day." />
+      <IconCard icon={<LeaderboardIcon />} title="New Skills" description="Gain expertise in tech & digital." />
+      <IconCard icon={<MonitoringIcon />} title="Networking Opportunities" description="Connect with pros & nonprofits." />
+      <IconCard icon={<AcuteIcon />} title="Sense of Community" description="Join a supportive, collaborative team." />
     </div>
   ),
 };

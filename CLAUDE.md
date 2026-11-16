@@ -43,23 +43,25 @@ Every new component is also exported from `src/index.ts`.
 
 ## What exists today
 - Foundations: Colors, Typography, Elevation
-- Basics: Button (primary, onDark, elevated), Logo, TextInput, FilterChip, StatusBadge
-- Cards: IconCard, ProjectCard
+- Basics: Button (primary, onDark, elevated, outlined), Logo, TextInput, FilterChip, StatusBadge,
+  IconBadge, ListItem (icon or picture), ProcessSteps
+- Cards: IconCard (Figma Card 1 w/ Icon, Card 2, Card 3), FeatureCard (Card 1 w Icon LA),
+  ProjectCard, EventCard, TeamCard (Card 1 w, Mobile Team Card), VolunteerPositionCard,
+  HighlightCard (Figma "Testimonial Card")
 - Sections: Header (desktop + mobile menu), Footer
 - Pages: Projects (example composed only from the above)
-- Icons: `src/icons` (Material Symbols Outlined + GitHub). Add new ones from
-  `@material-symbols/svg-400` the same way.
+- Icons: `src/icons` (Material Symbols Outlined + GitHub + LinkedIn). Add new ones from
+  `@material-symbols/svg-400` the same way. Figma layer names tell you the symbol name,
+  e.g. "monitoring_FILL0_wght400_GRAD0_opsz40" = `monitoring`.
 
 ## Not designed yet (ask the designer before inventing)
 - FilterChip selected state, StatusBadge "evaluating" color, Header mobile menu panel
-- Event Card, Testimonial Card, LinkedIn icon (still to pull from Figma)
-
-## Naming
-- Variant names describe purpose, not looks (`onDark`, not `yellow`).
-- Keep the Figma name in the component's doc comment so designers can find it.
+- EventCard mobile layout (currently stacks the image on top)
+- LinkedIn URL in the Footer is a guess; confirm the real one
 
 ## Figma (optional)
-The original style guide is in Figma (file key `vs1l6ERmi4AqYjxBBK9gDJ`). If the Figma MCP is
+The original style guide is in Figma (file key `vs1l6ERmi4AqYjxBBK9gDJ`; components on page
+"Style Guide & Components", current screens on page "Current Prototype"). If the Figma MCP is
 connected, you may read a node there to match an existing component exactly, but the result
 must still use tokens from this repo.
 

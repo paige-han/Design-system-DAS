@@ -12,7 +12,7 @@ const meta = {
   component: Button,
   args: { children: "Apply to volunteer" },
   argTypes: {
-    variant: { control: "inline-radio", options: ["primary", "onDark", "elevated"] },
+    variant: { control: "inline-radio", options: ["primary", "onDark", "elevated", "outlined"] },
     icon: { control: false },
   },
 } satisfies Meta<typeof Button>;
@@ -32,6 +32,10 @@ export const Elevated: Story = {
   globals: { backgrounds: { value: "dark" } },
 };
 
+export const Outlined: Story = {
+  args: { variant: "outlined", children: "Learn more →" },
+};
+
 export const WithIcon: Story = {
   args: { icon: <PlusIcon />, children: "Add project" },
 };
@@ -49,6 +53,7 @@ export const AllVariants: Story = {
         <Button>Apply to volunteer</Button>
         <Button icon={<PlusIcon />}>Add project</Button>
         <Button disabled>Submit</Button>
+        <Button variant="outlined">Learn more →</Button>
       </div>
       <div className="flex flex-wrap items-center gap-4 bg-surface-dark p-10">
         <Button variant="onDark">Partner with us</Button>

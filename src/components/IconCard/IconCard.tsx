@@ -1,12 +1,14 @@
 import type { ReactNode } from "react";
+import { IconBadge } from "../IconBadge/IconBadge";
 
 /**
  * IconCard: centered card with an icon badge, a title and a short description.
  *
- * Figma mapping: "Card 1 w/ Icon" (e.g. the "New Skills" volunteer benefit card).
+ * Figma mapping: "Card 1 w/ Icon" (also used as "Card 2" and "Card 3", which only
+ * change the icon and text). Volunteer benefits: New Skills, Networking, Community.
  */
 export interface IconCardProps {
-  /** Icon shown in the 80px green circle (48px icon works best). */
+  /** A Material Symbol from src/icons, shown in the green circle. */
   icon: ReactNode;
   title: string;
   description: string;
@@ -22,12 +24,7 @@ export function IconCard({ icon, title, description, className = "" }: IconCardP
         className,
       ].join(" ")}
     >
-      <span
-        className="flex size-20 items-center justify-center rounded-pill bg-icon-badge text-on-dark"
-        aria-hidden="true"
-      >
-        <span className="size-12">{icon}</span>
-      </span>
+      <IconBadge icon={icon} />
       <h3 className="type-title-lg text-on-surface">{title}</h3>
       <p className="type-body-md text-on-surface">{description}</p>
     </article>

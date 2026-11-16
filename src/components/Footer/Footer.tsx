@@ -2,7 +2,7 @@ import type { FormEvent, ReactNode } from "react";
 import { Logo } from "../Logo/Logo";
 import { Button } from "../Button/Button";
 import { TextInput } from "../TextInput/TextInput";
-import { GitHubIcon } from "../../icons";
+import { GitHubIcon, LinkedInIcon } from "../../icons";
 
 /**
  * Footer: newsletter signup, site links, credits and social links.
@@ -42,7 +42,7 @@ export const defaultFooterLinks: FooterLinkGroup[] = [
 ];
 
 export const defaultSocialLinks: SocialLink[] = [
-  // TODO: add the LinkedIn icon exported from Figma ("LinkedIN_white").
+  { label: "LinkedIn", href: "https://www.linkedin.com/company/digitalaidseattle", icon: <LinkedInIcon /> },
   { label: "GitHub", href: "https://github.com/digitalaidseattle", icon: <GitHubIcon /> },
 ];
 
