@@ -1,18 +1,19 @@
 import type { ButtonHTMLAttributes, ReactNode } from "react";
 
 /**
- * Button: Open Seattle's main call-to-action.
+ * Button: Digital Aid Seattle's call-to-action.
  *
- * Figma mapping:
- *   variant="primary" -> "Button"       (dark green, white text; use on light backgrounds)
- *   variant="onDark"  -> "Button-dark"  (yellow, dark green text; use on dark backgrounds)
+ * Figma mapping ("Button-dark" component set, M3 based):
+ *   variant="primary"  -> Style=Filled, dark green  (on light backgrounds)
+ *   variant="onDark"   -> Style=Filled, yellow      (on dark backgrounds, e.g. "Support us")
+ *   variant="elevated" -> Style=Elevated, green + shadow (footer "Sign up")
  */
-export type ButtonVariant = "primary" | "onDark";
+export type ButtonVariant = "primary" | "onDark" | "elevated";
 
 export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   /** Visual style. Pick by the background the button sits on. */
   variant?: ButtonVariant;
-  /** Optional icon shown before the label (24px icons work best). */
+  /** Optional icon shown before the label (20px). */
   icon?: ReactNode;
   /** Button label. Keep it short and action-first ("Apply to volunteer"). */
   children: ReactNode;
@@ -21,6 +22,8 @@ export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
 const variantClasses: Record<ButtonVariant, string> = {
   primary: "bg-primary text-on-primary hover:bg-primary/90 focus-visible:outline-primary",
   onDark: "bg-accent text-on-accent hover:bg-accent/90 focus-visible:outline-accent",
+  elevated:
+    "bg-elevated text-on-elevated shadow-elevation-dark-2 hover:bg-elevated/90 focus-visible:outline-on-dark",
 };
 
 export function Button({
@@ -36,10 +39,8 @@ export function Button({
       type={type}
       className={[
         // Shape and size from Figma: 40px tall, pill radius, 24px side padding
-        "inline-flex h-10 items-center justify-center gap-2 rounded-pill px-6",
-        // Type: label/large
-        "font-sans text-label-lg",
-        // States
+        "inline-flex h-10 shrink-0 items-center justify-center gap-2 rounded-pill px-6",
+        "type-label-lg whitespace-nowrap",
         "cursor-pointer transition-colors",
         "focus-visible:outline-2 focus-visible:outline-offset-2",
         "disabled:cursor-not-allowed disabled:opacity-40",

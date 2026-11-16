@@ -1,41 +1,190 @@
 /*
-  Open Seattle design tokens: the single source of truth for every style.
-  Values come from the Figma "Open Seattle" variables. Change a value here
-  and every component that uses it updates.
+  Digital Aid Seattle design tokens: the single source of truth for every style.
+  Values come from the Figma "Open Seattle" variables (file vs1l6ERmi4AqYjxBBK9gDJ).
+  Change a value here and every component that uses it updates.
 
-  Tailwind turns each token into classes automatically:
-    --color-primary   ->  bg-primary, text-primary, border-primary
-    --radius-pill     ->  rounded-pill
-    --spacing         ->  base unit for p-*, m-*, gap-* (p-6 = 6 x 4px = 24px)
+  Tailwind turns tokens into classes automatically:
+    --color-primary        ->  bg-primary, text-primary, border-primary
+    --radius-card          ->  rounded-card
+    --shadow-elevation-1   ->  shadow-elevation-1
+    --container-content    ->  max-w-content
+    --spacing (4px)        ->  base unit for p-*, m-*, gap-* (p-6 = 24px)
+  Full type styles are utilities at the bottom: type-headline-lg, type-body-md, ...
 */
 @theme {
-  /* Fonts */
+  /* ---------- Fonts ---------- */
   --font-sans: "Montserrat", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "Oswald", "Montserrat", ui-sans-serif, sans-serif;
 
-  /* Color: reference palette (Figma: Open Seattle/ref/...) */
-  --color-primary-20: #00382f;    /* ref/primary/primary20 */
-  --color-secondary-92: #f5ed4f;  /* ref/secondary/secondary92 */
-  --color-white: #ffffff;         /* Open Seattle/white */
+  /* ---------- Color: reference palette (Figma: Open Seattle/ref/...) ---------- */
+  --color-primary-6: #001713;
+  --color-primary-12: #00251f;
+  --color-primary-17: #003029;
+  --color-primary-20: #00382f;
+  --color-primary-24: #004138;
+  --color-primary-30: #005045;
+  --color-primary-35: #005d51;
 
-  /* Color: roles. Components use these, never the reference colors above. */
+  --color-secondary-20: #343200;
+  --color-secondary-92: #f5ed4f;
+  --color-secondary-98: #fffad8;
+
+  --color-tertiary-70: #8bb950;
+  --color-tertiary-80: #a6d569;
+
+  --color-neutral-20: #293233;
+  --color-neutral-25: #333f40;
+  --color-neutral-40: #566061;
+  --color-neutral-92: #e4ebeb;
+  --color-neutral-95: #eaf1f1;
+  --color-neutral-97: #f2f7f7;
+  --color-neutral-98: #f7fafa;
+  --color-neutral-100: #ffffff;
+
+  --color-error-96: #fff0ee;
+
+  --color-black: #00211f;           /* Open Seattle/black */
+  --color-white: #ffffff;           /* Open Seattle/white */
+  --color-overlay-24: #6f797a;      /* overlays/Overlay 24 (also M3 outline) */
+  --color-green-overlay: #b8e97a;   /* overlays/Green Overlay */
+  --color-on-surface-variant-ref: #3f4849; /* M3/sys/light/on-surface-variant */
+
+  /* ---------- Color: roles. Components use ONLY these. ---------- */
+  /* Actions */
   --color-primary: var(--color-primary-20);
   --color-on-primary: var(--color-white);
   --color-accent: var(--color-secondary-92);
   --color-on-accent: var(--color-primary-20);
+  --color-elevated: var(--color-primary-24);
+  --color-on-elevated: var(--color-white);
 
-  /* Type: label/large (Montserrat Bold 14/20, +0.1 tracking) */
-  --text-label-lg: 14px;
-  --text-label-lg--line-height: 20px;
-  --text-label-lg--letter-spacing: 0.1px;
-  --text-label-lg--font-weight: 700;
+  /* Light surfaces */
+  --color-surface: var(--color-neutral-98);         /* page background, project card */
+  --color-surface-card: var(--color-white);         /* cards, inputs */
+  --color-on-surface: var(--color-black);           /* main text */
+  --color-on-surface-strong: var(--color-neutral-20);
+  --color-on-surface-muted: var(--color-neutral-25);
+  --color-on-surface-variant: var(--color-on-surface-variant-ref);
+  --color-placeholder: var(--color-neutral-40);
+  --color-outline: var(--color-overlay-24);
+  --color-outline-soft: var(--color-neutral-95);
 
-  /* Shape */
-  --radius-pill: 9999px;
+  /* Dark surfaces */
+  --color-surface-dark: var(--color-primary-17);    /* header */
+  --color-surface-darkest: var(--color-black);      /* footer */
+  --color-on-dark: var(--color-neutral-97);
+  --color-on-dark-soft: var(--color-neutral-98);
 
-  /* Spacing: 4px base unit */
+  /* Brand + status */
+  --color-brand-leaf: var(--color-tertiary-80);     /* logo trees */
+  --color-icon-badge: var(--color-primary-30);      /* icon circle on cards */
+  --color-status-active: var(--color-secondary-98);
+  --color-status-complete: var(--color-error-96);
+  --color-status-evaluating: var(--color-neutral-95); /* not in Figma yet; placeholder */
+
+  /* ---------- Shape ---------- */
+  --radius-sm: 8px;      /* chips, images */
+  --radius-card: 12px;   /* cards */
+  --radius-input: 28px;  /* text inputs */
+  --radius-pill: 9999px; /* buttons, badges */
+
+  /* ---------- Elevation (Figma: Elevation Light / Dark) ---------- */
+  --shadow-elevation-1: 0 2px 4px 0 #343d3e0a, 0 4px 8px 2px #343d3e0a;
+  --shadow-elevation-2: 0 4px 8px 0 #343d3e14, 0 8px 16px 0 #343d3e14;
+  --shadow-elevation-3: 0 6px 12px 0 #5660611f, 0 12px 24px 0 #5660611f;
+  --shadow-elevation-dark-2: 0 4px 8px 0 #00110e14, 0 8px 16px 2px #00110e14;
+
+  /* ---------- Layout ---------- */
   --spacing: 4px;
+  --container-content: 880px; /* desktop content width (1280 frame - 200px sides) */
 
   /* Breakpoints, matching the Figma Small / Medium / Large sections */
   --breakpoint-md: 600px;
   --breakpoint-lg: 960px;
+}
+
+/* ---------- Type styles (Figma: Open Seattle/display, headline, title, body, label) ---------- */
+@utility type-display-lg {
+  font-family: var(--font-display);
+  font-size: 57px;
+  line-height: 72px;
+  letter-spacing: -0.25px;
+  font-weight: 500;
+}
+@utility type-headline-lg {
+  font-family: var(--font-display);
+  font-size: 32px;
+  line-height: 48px;
+  letter-spacing: 0;
+  font-weight: 400;
+}
+@utility type-headline-md {
+  font-family: var(--font-display);
+  font-size: 28px;
+  line-height: 40px;
+  letter-spacing: 0;
+  font-weight: 400;
+}
+@utility type-headline-sm {
+  font-family: var(--font-display);
+  font-size: 24px;
+  line-height: 36px;
+  letter-spacing: 0;
+  font-weight: 400;
+}
+@utility type-title-lg {
+  font-family: var(--font-sans);
+  font-size: 22px;
+  line-height: 28px;
+  letter-spacing: 0;
+  font-weight: 600;
+}
+@utility type-title-md {
+  font-family: var(--font-sans);
+  font-size: 16px;
+  line-height: 24px;
+  letter-spacing: 0.15px;
+  font-weight: 700;
+}
+@utility type-body-lg {
+  font-family: var(--font-sans);
+  font-size: 16px;
+  line-height: 32px;
+  letter-spacing: 0.5px;
+  font-weight: 500;
+}
+@utility type-body-md {
+  font-family: var(--font-sans);
+  font-size: 14px;
+  line-height: 28px;
+  letter-spacing: 0.25px;
+  font-weight: 500;
+}
+@utility type-label-lg {
+  font-family: var(--font-sans);
+  font-size: 14px;
+  line-height: 20px;
+  letter-spacing: 0.1px;
+  font-weight: 700;
+}
+@utility type-label-lg-semibold {
+  font-family: var(--font-sans);
+  font-size: 14px;
+  line-height: 20px;
+  letter-spacing: 0.1px;
+  font-weight: 600;
+}
+@utility type-label-md {
+  font-family: var(--font-sans);
+  font-size: 12px;
+  line-height: 16px;
+  letter-spacing: 0.5px;
+  font-weight: 700;
+}
+@utility type-label-sm {
+  font-family: var(--font-sans);
+  font-size: 11px;
+  line-height: 16px;
+  letter-spacing: 0.5px;
+  font-weight: 700;
 }

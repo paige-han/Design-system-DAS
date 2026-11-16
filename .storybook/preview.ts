@@ -6,8 +6,9 @@ const preview: Preview = {
     layout: "centered",
     backgrounds: {
       options: {
-        light: { name: "Light", value: "#FFFFFF" },
-        dark: { name: "Dark green", value: "#00382F" },
+        light: { name: "White", value: "#FFFFFF" },
+        surface: { name: "Surface (page)", value: "#F7FAFA" },
+        dark: { name: "Dark green", value: "#003029" },
       },
     },
     viewport: {

@@ -1,6 +1,6 @@
-# Open Seattle Design System
+# Digital Aid Seattle Design System
 
-A code-first component library for the Open Seattle website, designed by prompt with Claude Code
+A code-first component library for the Digital Aid Seattle website, designed by prompt with Claude Code
 and previewed in Storybook.
 
 ## Get started
@@ -13,6 +13,8 @@ npm run storybook
 ```
 
 Storybook opens at http://localhost:6006.
+
+Published Storybook (after GitHub Pages is turned on): https://paige-han.github.io/design-system/
 
 ## Where things live
 
