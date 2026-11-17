@@ -44,6 +44,9 @@
   --color-coral-500: #cf6f64;
 
   --color-red-500: #de3730;
+  /* Extra, not in the Figma guide yet: red/500 is 4.47:1 on white, just under the 4.5:1 text minimum.
+     Used for error TEXT only (old style guide error/40). Borders keep red/500 (3:1 is enough). */
+  --color-red-600: #ba1a1a;
 
   --color-neutral-0: #ffffff;
   --color-neutral-50: #f7fafa;
@@ -86,7 +89,7 @@
   --text-color-brand: var(--color-green-500);
   --text-color-on-dark: var(--color-neutral-50);
   --text-color-on-accent: var(--color-green-900);
-  --text-color-error: var(--color-red-500);
+  --text-color-error: var(--color-red-600); /* see note on red-600 */
   --text-color-action: var(--color-green-700);
   --text-color-on-action: var(--color-neutral-0);
 

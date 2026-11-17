@@ -4,6 +4,7 @@ import "../src/styles.css";
 const preview: Preview = {
   parameters: {
     layout: "centered",
+
     backgrounds: {
       options: {
         light: { name: "White", value: "#FFFFFF" },
@@ -11,6 +12,7 @@ const preview: Preview = {
         dark: { name: "Dark green", value: "#003029" },
       },
     },
+
     viewport: {
       options: {
         small: { name: "Small (mobile)", styles: { width: "375px", height: "800px" } },
@@ -18,6 +20,13 @@ const preview: Preview = {
         large: { name: "Large (desktop)", styles: { width: "1280px", height: "900px" } },
       },
     },
+
+    a11y: {
+      // 'todo' - show a11y violations in the test UI only
+      // 'error' - fail CI on a11y violations
+      // 'off' - skip a11y checks entirely
+      test: "error"
+    }
   },
   initialGlobals: { backgrounds: { value: "light" } },
   tags: ["autodocs"],

@@ -40,7 +40,7 @@ const semantic: Group[] = [
       ["brand", "Brand-colored text and icons"],
       ["on-dark", "Text on dark backgrounds"],
       ["on-accent", "Text on yellow"],
-      ["error", "Error messages"],
+      ["error", "Error messages (red/600, extra: red/500 fails 4.5:1 on white)"],
       ["action", "Outlined button label"],
       ["on-action", "Text on primary buttons"],
     ],
@@ -75,7 +75,7 @@ const primitives: { name: string; steps: string[] }[] = [
   { name: "lime", steps: ["200", "300", "400", "600"] },
   { name: "yellow", steps: ["100", "400"] },
   { name: "coral", steps: ["400", "500"] },
-  { name: "red", steps: ["500"] },
+  { name: "red", steps: ["500", "600"] },
   { name: "neutral", steps: ["0", "50", "100", "200", "300", "400", "500", "600", "700", "800", "900", "950"] },
 ];
 

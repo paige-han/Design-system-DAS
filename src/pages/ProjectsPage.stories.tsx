@@ -44,6 +44,7 @@ function ProjectsPage() {
             <FilterChip key={s.value} label={s.label} selected={filter.includes(s.value)} onClick={() => toggle(s.value)} />
           ))}
         </div>
+        <h2 className="sr-only">All projects</h2>
         <div className="grid w-full grid-cols-1 justify-items-center gap-xl md:grid-cols-2">
           {visible.map((p) => (
             <ProjectCard key={p.title} {...p} imageSrc={p.image} imageAlt={`${p.title} image`} imageFit={p.fit} />

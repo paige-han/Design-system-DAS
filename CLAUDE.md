@@ -71,6 +71,8 @@ Every new component is also exported from `src/index.ts`.
 - FilterChip selected state, StatusBadge "evaluating" color, Header mobile menu panel
 - EventCard mobile layout (currently stacks the image on top)
 - LinkedIn URL in the Footer is a guess; confirm the real one
+- `text/error` uses an extra `red/600` (#BA1A1A) because the guide's red/500 is 4.47:1 on white
+  (needs 4.5:1). Update the Figma guide to match, or pick another error text color
 - Coral primitives exist in the Figma guide but nothing uses them yet; ask what they are for
 
 ## Figma (optional)
@@ -80,6 +82,13 @@ frame "Foundations". The older style guide is in Figma (file key `vs1l6ERmi4AqYj
 connected, you may read a node there to match an existing component exactly, but the result
 must still use tokens from this repo.
 
+## Testing
+- `npm test` renders every story in a real browser (Vitest + Playwright) and runs axe
+  accessibility checks. Accessibility violations FAIL the test (`a11y.test: "error"` in
+  `.storybook/preview.ts`). Fix the cause (contrast, heading order, labels); don't turn the check off.
+- GitHub runs the same tests on every push (`.github/workflows/test.yml`).
+- `npm run test:watch` re-runs tests while you work.
+
 ## After every change
-- Make sure `npm run build-storybook` succeeds.
+- Make sure `npm test` and `npm run build-storybook` both succeed.
 - In your reply, tell the designer which story to look at, and name any token you added.

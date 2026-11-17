@@ -1,0 +1,22 @@
+# Renders every Storybook story in a real browser and checks accessibility (axe).
+# Runs on every push and pull request; a failing check means a story broke or an
+# accessibility rule (e.g. color contrast, heading order) is violated.
+name: Test stories
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - run: npx playwright install --with-deps chromium
+      - run: npm test
