@@ -58,6 +58,8 @@ export const color = {
     statusActive: yellow[100],
     statusUnderEvaluation: "#ddffaf",
     statusCompleted: "#fff0ee",
+    successSubtle: green[50],
+    errorSubtle: "#fff0ee",
   },
   text: {
     primary: green[900],

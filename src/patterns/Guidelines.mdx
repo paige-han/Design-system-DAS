@@ -1,0 +1,65 @@
+import { Meta } from "@storybook/addon-docs/blocks";
+
+<Meta title="Patterns/Guidelines" />
+
+# Forms and states: how they behave
+
+These rules sit behind **Patterns/Forms** and the **Feedback** components. Every story under
+Patterns runs as an automated test, so the behaviour described here is checked on each change.
+
+## Forms
+
+**Labels**
+- Every field has a visible label above it. Placeholder text is never the label.
+- Labels name the thing ("Email address"); helper text below the label gives format or reassurance.
+- Fields are required by default. Mark the exceptions with **(optional)** instead of starring the rest.
+- The footer newsletter field is the one exception: its label is screen-reader only, because the
+  heading next to it explains it.
+
+**When to check**
+1. Don't show errors while someone is still typing their first attempt.
+2. Check everything when they press the submit button.
+3. After that first submit, re-check as they type, so each message disappears the moment it's fixed.
+
+**Showing errors**
+- One field → message under the field, with an icon, linked to the field for screen readers.
+- Several fields → also show an **error summary** at the top that lists every problem, links to
+  each field, and takes keyboard focus.
+- Never clear what they typed when something fails.
+
+**Sending and after**
+- While sending: spinner on the submit button, button blocked, label unchanged.
+- Success: replace the form with a success Alert that says what happens next.
+- Server failure: error Alert above the form, answers kept, so they can just press the button again.
+- Alerts stay on the page. The site's Snackbar vanished after 6 seconds, before many people read it.
+
+## Writing messages
+
+| Instead of (live site) | Write |
+| --- | --- |
+| Error: Not a valid email address. | Enter an email address like name@example.org |
+| We are experiencing technical issues. Please try again later. | We couldn't sign you up. Something went wrong on our end. Please try again in a few minutes. |
+| Thank you for subscribing. | You're subscribed. Look for our next newsletter in your inbox. |
+| No matching projects found. | No matching projects. Try removing a filter to see more projects. + **Clear filters** |
+| Loading projects | (progress bar and card skeletons, no text) |
+
+Rules: say what happened, then what to do. Start error messages with the fix ("Enter…", "Check…").
+Don't blame the person, don't say "invalid", and don't use "Error:" as a prefix since the icon and
+color already say it.
+
+## States
+
+| Situation | Use | Example |
+| --- | --- | --- |
+| A page's data is loading | **ProgressBar** at the top of the page | Any page fetching from Sanity |
+| A content area is loading | **Skeleton** shaped like the content | Projects grid → ProjectCardSkeleton |
+| Nothing to show | **EmptyState**, neutral | No matching projects, no public events |
+| A section failed to load | **EmptyState**, tone="error", with **Try again** | Projects couldn't load |
+| The whole page is missing or broken | **ErrorState** inside the page layout | 404, 500 |
+| Result of something the person did | **Alert** next to where they did it | Newsletter sign-up result |
+
+Every empty or error state answers two questions: *what happened?* and *what can I do now?*
+If there's a button that fixes it (Clear filters, Try again, Back home), show it.
+
+Animations (skeleton pulse, progress bar, button spinner) stop for people who turn off motion
+in their device settings.

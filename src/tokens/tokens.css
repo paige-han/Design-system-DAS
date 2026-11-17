@@ -80,7 +80,11 @@
   /* Project status badges. Values match the live site (StateBadge.tsx); not in the Figma guide yet */
   --bg-color-status-active: var(--bg-color-accent-subtle); /* #FFFAD8 */
   --bg-color-status-under-evaluation: #ddffaf; /* old style guide tertiary/96; no matching primitive */
-  --bg-color-status-completed: #fff0ee; /* old style guide error/96; no matching primitive */
+  --bg-color-status-completed: var(--bg-color-error-subtle);
+
+  /* Feedback backgrounds (alerts, form messages). Not in the Figma guide yet */
+  --bg-color-success-subtle: var(--bg-color-subtle); /* green-50 #F3FFFA */
+  --bg-color-error-subtle: #fff0ee; /* old style guide error/96; no matching primitive */
 
   /* ---------- Text (color/text/…) ---------- */
   --text-color-primary: var(--color-green-900);
@@ -137,7 +141,14 @@
   --shadow-elevation-dark-2: 0 4px 8px 0 #00110e14, 0 8px 16px 2px #00110e14;
 
   /* ---------- Layout ---------- */
-  --container-content: 880px; /* desktop content width (1280 frame - 200px sides) */
+  --container-content: 880px;
+
+  /* Motion */
+  --animate-progress: progress-indeterminate 1.4s ease-in-out infinite;
+  @keyframes progress-indeterminate {
+    0% { left: -33%; }
+    100% { left: 100%; }
+  } /* desktop content width (1280 frame - 200px sides) */
   --breakpoint-md: 600px;
   --breakpoint-lg: 960px;
 }

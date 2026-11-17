@@ -17,3 +17,8 @@ export const WithError: Story = {
   args: { defaultValue: "paige@", error: "Enter a valid email address" },
   globals: { backgrounds: { value: "light" } },
 };
+/** On dark backgrounds the message is light so it stays readable; the icon and border still flag the error. */
+export const WithErrorOnDark: Story = {
+  args: { defaultValue: "paige@", error: "Enter an email address like name@example.org", onDark: true },
+  decorators: [(Story) => <div className="bg-brand-strong p-lg"><Story /></div>],
+};

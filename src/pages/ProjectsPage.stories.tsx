@@ -1,6 +1,20 @@
 import { useState } from "react";
 import type { Meta, StoryObj } from "@storybook/react-vite";
-import { Header, Footer, FilterChip, ProjectCard, type ProjectStatus } from "../index";
+import { expect, userEvent, within } from "storybook/test";
+import {
+  Button,
+  EmptyState,
+  ErrorIcon,
+  FilterChip,
+  Footer,
+  Header,
+  ProgressBar,
+  ProjectCard,
+  ProjectCardSkeleton,
+  RefreshIcon,
+  SearchOffIcon,
+  type ProjectStatus,
+} from "../index";
 import { partnerLogo, projectPhoto } from "../stories/placeholders";
 
 const projects: {
@@ -27,15 +41,32 @@ const statuses: { label: string; value: ProjectStatus }[] = [
   { label: "Completed", value: "Completed" },
 ];
 
-/** An example page built only from design-system components. Filters work. */
-function ProjectsPage() {
-  const [filter, setFilter] = useState<ProjectStatus[]>([]);
+type LoadState = "ready" | "loading" | "error";
+
+interface ProjectsPageProps {
+  /** Where loading the projects stands. */
+  state?: LoadState;
+  /** Filters already selected when the page opens. */
+  initialFilter?: ProjectStatus[];
+  /** Projects to show (defaults to the sample set). */
+  data?: typeof projects;
+}
+
+/** An example page built only from design-system components. Filters, "Clear filters" and "Try again" work. */
+function ProjectsPage({ state: initialState = "ready", initialFilter = [], data = projects }: ProjectsPageProps) {
+  const [filter, setFilter] = useState<ProjectStatus[]>(initialFilter);
+  const [state, setState] = useState<LoadState>(initialState);
   const toggle = (s: ProjectStatus) =>
     setFilter((cur) => (cur.includes(s) ? cur.filter((x) => x !== s) : [...cur, s]));
-  const visible = filter.length ? projects.filter((p) => filter.includes(p.status)) : projects;
+  const visible = filter.length ? data.filter((p) => filter.includes(p.status)) : data;
+  const retry = () => {
+    setState("loading");
+    setTimeout(() => setState("ready"), 1200);
+  };
 
   return (
     <div className="bg-surface">
+      {state === "loading" && <ProgressBar label="Loading projects" className="fixed top-0 z-10" />}
       <Header activeHref="/projects" />
       <main className="mx-auto flex max-w-content flex-col items-center gap-2xl px-md pt-2xl pb-5xl lg:px-0">
         <h1 className="type-display-lg text-center text-primary">Projects</h1>
@@ -44,12 +75,48 @@ function ProjectsPage() {
             <FilterChip key={s.value} label={s.label} selected={filter.includes(s.value)} onClick={() => toggle(s.value)} />
           ))}
         </div>
-        <h2 className="sr-only">All projects</h2>
-        <div className="grid w-full grid-cols-1 justify-items-center gap-xl md:grid-cols-2">
-          {visible.map((p) => (
-            <ProjectCard key={p.title} {...p} imageSrc={p.image} imageAlt={`${p.title} image`} imageFit={p.fit} />
-          ))}
-        </div>
+        {state === "error" ? (
+          <EmptyState
+            tone="error"
+            icon={<ErrorIcon />}
+            title="We couldn't load projects"
+            description="Check your connection and try again. If it keeps happening, we're probably fixing it."
+            action={
+              <Button icon={<RefreshIcon />} onClick={retry}>
+                Try again
+              </Button>
+            }
+          />
+        ) : state === "loading" ? (
+          <>
+            <h2 className="sr-only">Loading projects</h2>
+            <div className="grid w-full grid-cols-1 justify-items-center gap-xl md:grid-cols-2">
+              {[0, 1, 2, 3].map((i) => (
+                <ProjectCardSkeleton key={i} />
+              ))}
+            </div>
+          </>
+        ) : visible.length === 0 ? (
+          <EmptyState
+            icon={<SearchOffIcon />}
+            title="No matching projects"
+            description="Try removing a filter to see more projects."
+            action={
+              <Button variant="outlined" onClick={() => setFilter([])}>
+                Clear filters
+              </Button>
+            }
+          />
+        ) : (
+          <>
+            <h2 className="sr-only">All projects</h2>
+            <div className="grid w-full grid-cols-1 justify-items-center gap-xl md:grid-cols-2">
+              {visible.map((p) => (
+                <ProjectCard key={p.title} {...p} imageSrc={p.image} imageAlt={`${p.title} image`} imageFit={p.fit} />
+              ))}
+            </div>
+          </>
+        )}
       </main>
       <Footer />
     </div>
@@ -63,5 +130,24 @@ const meta = {
   tags: ["!autodocs"],
 } satisfies Meta<typeof ProjectsPage>;
 export default meta;
-export const Desktop: StoryObj<typeof meta> = { globals: { viewport: { value: "large" } } };
-export const Mobile: StoryObj<typeof meta> = { globals: { viewport: { value: "small" } } };
+type Story = StoryObj<typeof meta>;
+export const Desktop: Story = { globals: { viewport: { value: "large" } } };
+export const Mobile: Story = { globals: { viewport: { value: "small" } } };
+
+/** First load: top progress bar plus card-shaped skeletons. */
+export const Loading: Story = { args: { state: "loading" }, globals: { viewport: { value: "large" } } };
+
+/** Filters hide everything. "Clear filters" brings the projects back. */
+export const NoMatches: Story = {
+  args: { initialFilter: ["Completed"], data: projects.filter((p) => p.status !== "Completed") },
+  globals: { viewport: { value: "large" } },
+  play: async ({ canvasElement }) => {
+    const c = within(canvasElement);
+    await expect(c.getByRole("heading", { name: "No matching projects" })).toBeVisible();
+    await userEvent.click(c.getByRole("button", { name: "Clear filters" }));
+    await expect(c.getAllByRole("article").length).toBeGreaterThan(0);
+  },
+};
+
+/** Loading failed. "Try again" reloads (simulated). */
+export const LoadError: Story = { args: { state: "error" }, globals: { viewport: { value: "large" } } };

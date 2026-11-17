@@ -64,3 +64,6 @@ export const AllVariants: Story = {
     </div>
   ),
 };
+
+/** While a form is sending: spinner, clicks blocked, label unchanged. */
+export const Loading: Story = { args: { loading: true, children: "Sign up" } };

@@ -83,6 +83,17 @@ frame "Foundations". The older style guide is in Figma (file key `vs1l6ERmi4AqYj
 connected, you may read a node there to match an existing component exactly, but the result
 must still use tokens from this repo.
 
+## Forms and states
+- Forms: TextField (visible label, helper, error, optional, multiline), Checkbox, Button `loading`,
+  ButtonLink (button look, renders <a>). TextInput is only the footer pill; pass `onDark` on dark backgrounds.
+- Feedback: Alert (success/error/info, stays on the page), Skeleton + ProjectCardSkeleton, ProgressBar,
+  EmptyState (neutral or error tone), ErrorState (404/500 page body).
+- Patterns live in src/patterns/ (NewsletterForm, ContactForm). Follow "Patterns/Guidelines" in
+  Storybook for validation timing, error summary, message wording and which state component to use.
+- Every new form or stateful pattern gets one story per state, with a `play` function that drives it
+  (type, click, expect). Those stories run as tests.
+- Feedback backgrounds `bg-success-subtle` and `bg-error-subtle` are not in the Figma guide yet.
+
 ## MUI theme (for the website)
 - The website (digital-aid-seattle-website) is built with **MUI v6**, not Tailwind.
   `src/mui/theme.ts` turns our tokens into an MUI theme the site can drop in; see the

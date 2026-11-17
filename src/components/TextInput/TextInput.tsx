@@ -1,4 +1,5 @@
 import { useId, type InputHTMLAttributes } from "react";
+import { ErrorIcon } from "../../icons";
 
 /**
  * TextInput: single-line text field.
@@ -12,9 +13,11 @@ export interface TextInputProps extends InputHTMLAttributes<HTMLInputElement> {
   label: string;
   /** Error message. When set, the field gets a red border and the message shows below. */
   error?: string;
+  /** Set when the field sits on a dark background, so the error message stays readable. */
+  onDark?: boolean;
 }
 
-export function TextInput({ label, error, className = "", ...props }: TextInputProps) {
+export function TextInput({ label, error, onDark = false, className = "", ...props }: TextInputProps) {
   const errorId = useId();
   return (
     <label className={`block ${className}`}>
@@ -31,7 +34,11 @@ export function TextInput({ label, error, className = "", ...props }: TextInputP
         {...props}
       />
       {error && (
-        <span id={errorId} className="mt-2xs block px-md type-label-md text-error">
+        <span
+          id={errorId}
+          className={`mt-xs flex items-center gap-2xs px-md type-label-md ${onDark ? "text-on-dark" : "text-error"}`}
+        >
+          <ErrorIcon className="size-4 shrink-0" />
           {error}
         </span>
       )}
