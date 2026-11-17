@@ -1,0 +1,60 @@
+import { Meta } from "@storybook/addon-docs/blocks";
+
+<Meta title="For developers/MUI theme" />
+
+# MUI theme for digitalaidseattle.org
+
+`src/mui/theme.ts` is a drop-in replacement for `theme/theme.ts` in
+[digital-aid-seattle-website](https://github.com/digitalaidseattle/digital-aid-seattle-website).
+It is built from `src/tokens/tokens.ts`, which uses the same names and values as the Figma
+**Foundations** page. A unit test (`src/tokens/tokens.test.ts`) fails if `tokens.ts` and
+`tokens.css` (used by Storybook) ever disagree.
+
+See it rendered: **For developers → MUI theme preview**.
+
+## How to adopt it
+
+1. Copy `src/tokens/tokens.ts` and `src/mui/theme.ts` into the website (e.g. `theme/tokens.ts`, `theme/theme.ts`),
+   and change the import in `theme.ts` to `./tokens`.
+2. Keep exporting `theme` as before. Breakpoints, typography variant names, the `card` button variant and the
+   component overrides are unchanged, so pages need no edits.
+3. Check these pages, where the fixes below are visible: Home, Volunteers, Projects, the newsletter form.
+
+## What changes on the site
+
+| Change | Before | After | Why |
+| --- | --- | --- | --- |
+| `secondary.light` (yellow hover) | `#F5ED4F`, same as main | `#FFFAD8` | Yellow hovers (card buttons, chips) now visibly change |
+| `error.main` | `#FF897D` (about 2.3:1 on white) | `#BA1A1A` (6.5:1) | Newsletter form errors were too faint to read |
+| Clickable cards (`CardActionArea`) | No visible keyboard focus | 2px green focus ring | Keyboard users can see where they are |
+| Buttons | MUI default focus | Same focus ring as cards | Consistent focus style |
+| `card` button text color | The string `"primary.dark"` (not resolved) | `#00211F` | Explicit, readable on yellow |
+| Chip outlined hover | Full yellow | Light yellow `#FFFAD8` | Matches Figma |
+| Shadows 1–4 | MUI defaults | Figma Elevation 1–4 | Cards and menus match the designs |
+| `labelSmall` letter spacing | 0.5px | 0 | Figma Label/Small |
+| `caption` | MUI default | Montserrat 11/16 | Figma Caption |
+
+Everything else keeps its current value: primary green `#003029`, page background `#F2F7F7`,
+fonts, radii and spacing.
+
+## Kept for compatibility (to clean up later)
+
+- **`text.secondary`** is still a near-white color, because the site uses it for text and icons on dark
+  backgrounds (`pages/index.tsx`, `pages/volunteers.tsx`). In MUI it normally means grey secondary text.
+  Follow-up: replace those uses with `ds.text.onDark`, then set `text.secondary` to `ds.text.secondary` (`#333F40`).
+- **`displaySmall` (36/48)** and **`bodySmall` (12/24)** exist on the site but not in the Figma guide.
+- **`secondary.dark` `#D2CB2D`** is kept from the site; it isn't in the Figma guide.
+
+## Using tokens in new code
+
+Every semantic token from Figma is available on the theme:
+
+```tsx
+<Box sx={{ bgcolor: "ds.bg.brandStrong", color: "ds.text.onDark", borderRadius: `${theme.ds.radius.md}px` }} />
+```
+
+- Colors: `palette.ds.bg.*`, `palette.ds.text.*`, `palette.ds.border.*`, `palette.ds.icon.*`
+  (in `sx`, as strings like `"ds.bg.brand"`)
+- Spacing, radius, shadows: `theme.ds.space`, `theme.ds.radius`, `theme.ds.elevation` (numbers in px)
+- MUI's own `theme.spacing()` stays on its 8px unit, so existing `sx={{ m: 4 }}` (32px) keeps working.
+  The Figma scale maps to it as md = 2, lg = 3, xl = 4, 3xl = 8, 4xl = 10.

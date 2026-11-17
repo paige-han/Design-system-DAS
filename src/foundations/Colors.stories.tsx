@@ -27,6 +27,9 @@ const semantic: Group[] = [
       ["action-pressed", "Primary button hover / pressed"],
       ["action-on-dark", "Elevated button on dark"],
       ["state-layer", "Overlays, use with opacity (bg-state-layer/24)"],
+      ["status-active", "Badge: Active (extra)"],
+      ["status-under-evaluation", "Badge: Evaluating (extra)"],
+      ["status-completed", "Badge: Completed (extra)"],
     ],
   },
   {

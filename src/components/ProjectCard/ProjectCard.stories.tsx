@@ -9,7 +9,7 @@ const meta = {
     title: "Seattle Humane Society",
     partner: "City of Bellevue",
     programArea: "Program Areas",
-    status: "active",
+    status: "Active",
     dates: "Jun 12 – Nov 1",
     description:
       "Founded in 1897, Seattle Humane proudly promotes the human-animal bond by saving and serving pets in need.",
@@ -28,7 +28,7 @@ export const Complete: Story = {
     title: "ClearViction App",
     partner: "City of Seattle",
     programArea: "Legal Aid",
-    status: "complete",
+    status: "Completed",
     dates: "Jan 1 – Feb 15",
     imageSrc: projectPhoto("Project"),
     imageFit: "cover",

@@ -7,24 +7,24 @@ const projects: {
   title: string; partner: string; programArea: string; status: ProjectStatus; dates: string; description: string;
   image: string; fit?: "cover";
 }[] = [
-  { title: "Seattle Humane Society", partner: "City of Bellevue", programArea: "Program Areas", status: "active",
+  { title: "Seattle Humane Society", partner: "City of Bellevue", programArea: "Program Areas", status: "Active",
     dates: "Jun 12 – Nov 1", image: partnerLogo("Partner"),
     description: "Founded in 1897, Seattle Humane proudly promotes the human-animal bond by saving and serving pets in need." },
-  { title: "CiviForm", partner: "City of Seattle", programArea: "Program Areas", status: "active",
+  { title: "CiviForm", partner: "City of Seattle", programArea: "Program Areas", status: "Under Evaluation",
     dates: "Apr 2 – Aug 10", image: partnerLogo("Partner"),
     description: "A simpler way to access government services. CiviForm makes it easier for residents to find and apply for public assistance programs." },
-  { title: "The Cadre", partner: "City of Seattle", programArea: "Nonprofit Support", status: "active",
+  { title: "The Cadre", partner: "City of Seattle", programArea: "Nonprofit Support", status: "Active",
     dates: "Ongoing", image: projectPhoto("Project"), fit: "cover",
     description: "Digital Aid Seattle works with Seattle-based nonprofits to create free digital solutions for their needs." },
-  { title: "ClearViction App", partner: "City of Seattle", programArea: "Legal Aid", status: "complete",
+  { title: "ClearViction App", partner: "City of Seattle", programArea: "Legal Aid", status: "Completed",
     dates: "Jan 1 – Feb 15", image: projectPhoto("Project"), fit: "cover",
     description: "Digital Aid Seattle works with Seattle-based nonprofits to create free digital solutions for their needs." },
 ];
 
 const statuses: { label: string; value: ProjectStatus }[] = [
-  { label: "Active", value: "active" },
-  { label: "Evaluating", value: "evaluating" },
-  { label: "Complete", value: "complete" },
+  { label: "Active", value: "Active" },
+  { label: "Evaluating", value: "Under Evaluation" },
+  { label: "Completed", value: "Completed" },
 ];
 
 /** An example page built only from design-system components. Filters work. */

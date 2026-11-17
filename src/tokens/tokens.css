@@ -77,10 +77,10 @@
   --bg-color-action-on-dark: var(--color-green-600);
   --bg-color-state-layer: var(--color-neutral-500); /* use with opacity: bg-state-layer/24 */
 
-  /* Component-level extras, not in the Figma guide yet (ask the designer before reusing) */
-  --bg-color-status-active: var(--bg-color-accent-subtle);
-  --bg-color-status-evaluating: var(--color-neutral-200);
-  --bg-color-status-complete: #fff0ee; /* old style guide error/96; no matching primitive */
+  /* Project status badges. Values match the live site (StateBadge.tsx); not in the Figma guide yet */
+  --bg-color-status-active: var(--bg-color-accent-subtle); /* #FFFAD8 */
+  --bg-color-status-under-evaluation: #ddffaf; /* old style guide tertiary/96; no matching primitive */
+  --bg-color-status-completed: #fff0ee; /* old style guide error/96; no matching primitive */
 
   /* ---------- Text (color/text/…) ---------- */
   --text-color-primary: var(--color-green-900);

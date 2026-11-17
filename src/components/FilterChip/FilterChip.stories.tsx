@@ -22,7 +22,7 @@ export const StatusFilter: Story = {
       setSelected((cur) => (cur.includes(s) ? cur.filter((x) => x !== s) : [...cur, s]));
     return (
       <div className="flex gap-lg">
-        {["Active", "Evaluating", "Complete"].map((s) => (
+        {["Active", "Evaluating", "Completed"].map((s) => (
           <FilterChip key={s} label={s} selected={selected.includes(s)} onClick={() => toggle(s)} />
         ))}
       </div>

@@ -23,7 +23,7 @@ designer who designs by prompt. Storybook is their canvas. Code is the source of
    - Icon `icon-<name>` (SVG fill: `fill-<name>`): `default`, `on-dark`, `accent`.
    Never use primitives (`green-500`, `neutral-200`) in components; they only define the tokens.
    Tailwind's default palette is switched off, so `bg-white`, `text-gray-500` etc. don't exist.
-   Extras not in the Figma guide (avoid unless needed): `bg-status-active|evaluating|complete`.
+   Extras not in the Figma guide (avoid unless needed): `bg-status-active|under-evaluation|completed`.
 2b. **Text uses one type class**: `type-display-lg|sm`, `type-headline-lg|md|sm`, `type-title-lg|md`,
    `type-body-lg|md`, `type-label-lg|md|sm`, `type-caption` (+ extra `type-label-lg-semibold`).
    Don't combine font-size, weight and line-height classes by hand.
@@ -56,7 +56,8 @@ Every new component is also exported from `src/index.ts`.
 
 ## What exists today
 - Foundations: Colors, Typography, Spacing, Radius, Elevation
-- Basics: Button (primary, onDark, elevated, outlined), Logo, TextInput (with error state), FilterChip, StatusBadge,
+- Basics: Button (primary, onDark, elevated, outlined), Logo, TextInput (with error state), FilterChip,
+  StatusBadge (CMS values "Active" | "Under Evaluation" | "Completed", shown as Active / Evaluating / Completed),
   IconBadge, ListItem (icon or picture), ProcessSteps
 - Cards: IconCard (Figma Card 1 w/ Icon, Card 2, Card 3), FeatureCard (Card 1 w Icon LA),
   ProjectCard, EventCard, TeamCard (Card 1 w, Mobile Team Card), VolunteerPositionCard,
@@ -68,7 +69,7 @@ Every new component is also exported from `src/index.ts`.
   e.g. "monitoring_FILL0_wght400_GRAD0_opsz40" = `monitoring`.
 
 ## Not designed yet (ask the designer before inventing)
-- FilterChip selected state, StatusBadge "evaluating" color, Header mobile menu panel
+- FilterChip selected state, Header mobile menu panel
 - EventCard mobile layout (currently stacks the image on top)
 - LinkedIn URL in the Footer is a guess; confirm the real one
 - `text/error` uses an extra `red/600` (#BA1A1A) because the guide's red/500 is 4.47:1 on white
@@ -82,8 +83,16 @@ frame "Foundations". The older style guide is in Figma (file key `vs1l6ERmi4AqYj
 connected, you may read a node there to match an existing component exactly, but the result
 must still use tokens from this repo.
 
+## MUI theme (for the website)
+- The website (digital-aid-seattle-website) is built with **MUI v6**, not Tailwind.
+  `src/mui/theme.ts` turns our tokens into an MUI theme the site can drop in; see the
+  "For developers / MUI theme" page in Storybook.
+- `src/tokens/tokens.ts` is the JavaScript copy of `tokens.css`. When you change a token,
+  change BOTH files; `src/tokens/tokens.test.ts` fails if they disagree.
+- Any new component should be designed so it can be built with MUI (Card, Button, Chip, Box, Stack …).
+
 ## Testing
-- `npm test` renders every story in a real browser (Vitest + Playwright) and runs axe
+- `npm test` runs the token drift test and renders every story in a real browser (Vitest + Playwright) and runs axe
   accessibility checks. Accessibility violations FAIL the test (`a11y.test: "error"` in
   `.storybook/preview.ts`). Fix the cause (contrast, heading order, labels); don't turn the check off.
 - GitHub runs the same tests on every push (`.github/workflows/test.yml`).
