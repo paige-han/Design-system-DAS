@@ -1,75 +1,92 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
 
-/** Reads token values straight from tokens.css, so this page is always up to date. */
+/** Reads values straight from tokens.css, so this page always matches the code. */
 function cssVar(name: string) {
   return getComputedStyle(document.documentElement).getPropertyValue(name).trim();
 }
 
-const roles: { group: string; tokens: [string, string][] }[] = [
+type Group = { title: string; varPrefix: string; usage: string; tokens: [string, string][] };
+
+const semantic: Group[] = [
   {
-    group: "Actions",
+    title: "Background",
+    varPrefix: "--bg-color-",
+    usage: "bg-",
     tokens: [
-      ["primary", "Main buttons"],
-      ["on-primary", "Text on primary"],
+      ["default", "Cards, inputs"],
+      ["subtle", "Light green tint"],
+      ["surface", "Page background, project cards"],
+      ["surface-alt", "Hover on light surfaces"],
+      ["brand", "Icon badges"],
+      ["brand-strong", "Header, hero"],
+      ["inverse", "Footer"],
       ["accent", "Buttons on dark backgrounds"],
-      ["on-accent", "Text on accent"],
-      ["elevated", "Elevated button"],
+      ["accent-subtle", "Selected chips, active status"],
+      ["highlight", "Lime highlight"],
+      ["action", "Primary buttons"],
+      ["action-pressed", "Primary button hover / pressed"],
+      ["action-on-dark", "Elevated button on dark"],
+      ["state-layer", "Overlays, use with opacity (bg-state-layer/24)"],
     ],
   },
   {
-    group: "Light surfaces",
+    title: "Text",
+    varPrefix: "--text-color-",
+    usage: "text-",
     tokens: [
-      ["surface", "Page background, project card"],
-      ["surface-card", "Cards, inputs"],
-      ["on-surface", "Main text"],
-      ["on-surface-strong", "Card labels"],
-      ["on-surface-muted", "Secondary text"],
-      ["on-surface-variant", "Chip text"],
-      ["placeholder", "Input placeholder"],
-      ["outline", "Chip border"],
-      ["outline-soft", "Image border"],
+      ["primary", "Main text"],
+      ["secondary", "Labels, supporting text"],
+      ["tertiary", "Placeholders, hints"],
+      ["brand", "Brand-colored text and icons"],
+      ["on-dark", "Text on dark backgrounds"],
+      ["on-accent", "Text on yellow"],
+      ["error", "Error messages"],
+      ["action", "Outlined button label"],
+      ["on-action", "Text on primary buttons"],
     ],
   },
   {
-    group: "Dark surfaces",
+    title: "Border",
+    varPrefix: "--border-color-",
+    usage: "border-",
     tokens: [
-      ["surface-dark", "Header"],
-      ["surface-darkest", "Footer"],
-      ["on-dark", "Text on dark"],
-      ["on-dark-soft", "Footer text"],
+      ["default", "Default borders"],
+      ["subtle", "Dividers, image frames"],
+      ["strong", "Chip outlines"],
+      ["brand", "Selected / outlined button"],
+      ["on-surface", "White card edge, focus ring on dark"],
+      ["error", "Field in error"],
     ],
   },
   {
-    group: "Brand & status",
+    title: "Icon",
+    varPrefix: "--icon-color-",
+    usage: "icon-",
     tokens: [
-      ["brand-leaf", "Logo trees"],
-      ["icon-badge", "Icon circle on cards"],
-      ["status-active", "Active badge"],
-      ["status-evaluating", "Evaluating badge (placeholder)"],
-      ["status-complete", "Complete badge"],
+      ["default", "Icons on light"],
+      ["on-dark", "Icons on dark"],
+      ["accent", "Lime accent icons, logo trees"],
     ],
   },
 ];
 
-const palette: { name: string; steps: string[] }[] = [
-  { name: "primary", steps: ["6", "12", "17", "20", "24", "30", "35"] },
-  { name: "secondary", steps: ["20", "92", "98"] },
-  { name: "tertiary", steps: ["70", "80"] },
-  { name: "neutral", steps: ["20", "25", "40", "92", "95", "97", "98", "100"] },
-  { name: "error", steps: ["96"] },
+const primitives: { name: string; steps: string[] }[] = [
+  { name: "green", steps: ["50", "400", "500", "600", "700", "800", "900", "950"] },
+  { name: "lime", steps: ["200", "300", "400", "600"] },
+  { name: "yellow", steps: ["100", "400"] },
+  { name: "coral", steps: ["400", "500"] },
+  { name: "red", steps: ["500"] },
+  { name: "neutral", steps: ["0", "50", "100", "200", "300", "400", "500", "600", "700", "800", "900", "950"] },
 ];
 
-function Swatch({ token, note }: { token: string; note?: string }) {
-  const value = cssVar(`--color-${token}`);
+function Swatch({ cssName, label, note }: { cssName: string; label: string; note?: string }) {
+  const value = cssVar(cssName);
   return (
-    <div className="flex items-center gap-3">
-      <div
-        className="size-12 shrink-0 rounded-sm border border-outline-soft"
-        style={{ background: `var(--color-${token})` }}
-      />
-      <div className="min-w-0">
-        <p className="type-label-lg text-on-surface">{token}</p>
-        <p className="type-label-sm font-normal text-on-surface-muted">
+    <div className="flex w-[196px] flex-col gap-xs">
+      <div className="h-18 rounded-sm border border-subtle" style={{ background: `var(${cssName})` }} />
+      <div>
+        <p className="type-label-lg text-primary">{label}</p>
+        <p className="type-caption text-tertiary">
           {value || "—"}
           {note ? ` · ${note}` : ""}
         </p>
@@ -80,38 +97,35 @@ function Swatch({ token, note }: { token: string; note?: string }) {
 
 function ColorsPage() {
   return (
-    <div className="flex flex-col gap-12 p-8">
-      <section>
-        <h1 className="type-headline-lg text-on-surface">Color roles</h1>
-        <p className="type-body-md mb-6 text-on-surface-muted">
-          Components use these names only. Change what a role points to in tokens.css.
+    <div className="flex flex-col gap-3xl p-xl">
+      <header>
+        <h1 className="type-headline-lg text-primary">Colour</h1>
+        <p className="type-body-md text-secondary">
+          Same names as the Figma Foundations page. Components use the semantic tokens; primitives are only for
+          defining them.
         </p>
-        <div className="grid grid-cols-1 gap-10 md:grid-cols-2 lg:grid-cols-4">
-          {roles.map((r) => (
-            <div key={r.group} className="flex flex-col gap-4">
-              <h2 className="type-title-md text-on-surface">{r.group}</h2>
-              {r.tokens.map(([t, note]) => (
-                <Swatch key={t} token={t} note={note} />
-              ))}
-            </div>
-          ))}
-        </div>
-      </section>
-      <section>
-        <h1 className="type-headline-lg text-on-surface">Reference palette</h1>
-        <p className="type-body-md mb-6 text-on-surface-muted">From Figma "Open Seattle/ref". Roles point to these.</p>
-        <div className="flex flex-col gap-6">
-          {palette.map((p) => (
-            <div key={p.name}>
-              <h2 className="type-title-md mb-3 text-on-surface">{p.name}</h2>
-              <div className="flex flex-wrap gap-6">
-                {p.steps.map((s) => (
-                  <Swatch key={s} token={`${p.name}-${s}`} />
-                ))}
-              </div>
-            </div>
-          ))}
-        </div>
+      </header>
+      {semantic.map((g) => (
+        <section key={g.title} className="flex flex-col gap-md">
+          <h2 className="type-title-md text-primary">
+            {g.title} <span className="type-caption text-tertiary">class: {g.usage}…</span>
+          </h2>
+          <div className="flex flex-wrap gap-md">
+            {g.tokens.map(([t, note]) => (
+              <Swatch key={t} cssName={`${g.varPrefix}${t}`} label={`${g.usage}${t}`} note={note} />
+            ))}
+          </div>
+        </section>
+      ))}
+      <section className="flex flex-col gap-md">
+        <h2 className="type-title-md text-primary">Primitives</h2>
+        {primitives.map((p) => (
+          <div key={p.name} className="flex flex-wrap gap-md">
+            {p.steps.map((s) => (
+              <Swatch key={s} cssName={`--color-${p.name}-${s}`} label={`${p.name}/${s}`} />
+            ))}
+          </div>
+        ))}
       </section>
     </div>
   );

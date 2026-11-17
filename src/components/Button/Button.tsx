@@ -21,12 +21,12 @@ export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
 }
 
 const variantClasses: Record<ButtonVariant, string> = {
-  primary: "type-label-lg bg-primary text-on-primary hover:bg-primary/90 focus-visible:outline-primary",
-  onDark: "type-label-lg bg-accent text-on-accent hover:bg-accent/90 focus-visible:outline-accent",
+  primary: "type-label-lg bg-action text-on-action hover:bg-action-pressed focus-visible:outline-brand",
+  onDark: "type-label-lg bg-accent text-on-accent hover:bg-accent/90 focus-visible:outline-on-surface",
   elevated:
-    "type-label-lg bg-elevated text-on-elevated shadow-elevation-dark-2 hover:bg-elevated/90 focus-visible:outline-on-dark",
+    "type-label-lg bg-action-on-dark text-on-action shadow-elevation-dark-2 hover:bg-action-pressed focus-visible:outline-on-surface",
   outlined:
-    "border-2 border-primary text-primary type-label-md hover:bg-primary/8 focus-visible:outline-primary",
+    "border-2 border-brand text-action type-label-md hover:bg-state-layer/8 focus-visible:outline-brand",
 };
 
 export function Button({
@@ -42,7 +42,7 @@ export function Button({
       type={type}
       className={[
         // Shape and size from Figma: 40px tall, pill radius, 24px side padding
-        "inline-flex h-10 shrink-0 items-center justify-center gap-2 rounded-pill px-6",
+        "inline-flex h-10 shrink-0 items-center justify-center gap-xs rounded-full px-lg",
         "whitespace-nowrap",
         "cursor-pointer transition-colors",
         "focus-visible:outline-2 focus-visible:outline-offset-2",

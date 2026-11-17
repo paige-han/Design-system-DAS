@@ -1,32 +1,33 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
 
 const levels = [
-  { cls: "shadow-elevation-1", name: "Elevation 1", use: "Cards" },
-  { cls: "shadow-elevation-2", name: "Elevation 2", use: "Hovered cards, menus" },
-  { cls: "shadow-elevation-3", name: "Elevation 3", use: "Dialogs, popovers" },
+  { cls: "shadow-elevation-1", name: "Elevation/1", use: "Cards" },
+  { cls: "shadow-elevation-2", name: "Elevation/2", use: "Hovered cards, menus" },
+  { cls: "shadow-elevation-3", name: "Elevation/3", use: "Popovers, raised panels" },
+  { cls: "shadow-elevation-4", name: "Elevation/4", use: "Dialogs" },
 ];
 
 function ElevationPage() {
   return (
-    <div className="flex flex-col gap-10 p-8">
+    <div className="flex flex-col gap-2xl p-xl">
       <div>
-        <h1 className="type-headline-lg text-on-surface">Elevation</h1>
-        <p className="type-body-md text-on-surface-muted">Shadows from Figma "Elevation Light" and "Elevation Dark".</p>
+        <h1 className="type-headline-lg text-primary">Elevation</h1>
+        <p className="type-body-md text-secondary">Shadows from the Figma Foundations page (Elevation/1–4).</p>
       </div>
-      <div className="flex flex-wrap gap-10">
+      <div className="flex flex-wrap gap-2xl">
         {levels.map((l) => (
-          <div key={l.cls} className={`flex size-48 flex-col justify-end rounded-card bg-surface-card p-5 ${l.cls}`}>
-            <p className="type-label-lg text-on-surface">{l.name}</p>
-            <p className="type-label-sm font-normal text-on-surface-muted">{l.cls}</p>
-            <p className="type-label-sm font-normal text-on-surface-muted">{l.use}</p>
+          <div key={l.cls} className={`flex h-30 w-50 flex-col justify-end rounded-md bg-default p-md ${l.cls}`}>
+            <p className="type-label-lg text-primary">{l.name}</p>
+            <p className="type-caption text-tertiary">{l.cls}</p>
+            <p className="type-caption text-tertiary">{l.use}</p>
           </div>
         ))}
-        <div className="flex size-48 flex-col justify-end rounded-card bg-surface-dark p-5">
-          <div className="mb-auto flex h-10 items-center justify-center rounded-pill bg-elevated shadow-elevation-dark-2 type-label-lg text-on-elevated">
+        <div className="flex h-30 w-50 flex-col justify-end rounded-md bg-brand-strong p-md">
+          <div className="mb-auto flex h-10 items-center justify-center rounded-full bg-action-on-dark shadow-elevation-dark-2 type-label-lg text-on-action">
             Sign up
           </div>
-          <p className="type-label-lg text-on-dark">Elevation Dark 2</p>
-          <p className="type-label-sm font-normal text-on-dark">shadow-elevation-dark-2</p>
+          <p className="type-label-lg text-on-dark">Elevation Dark/2 (extra)</p>
+          <p className="type-caption text-on-dark">shadow-elevation-dark-2</p>
         </div>
       </div>
     </div>

@@ -1,115 +1,178 @@
 /*
   Digital Aid Seattle design tokens: the single source of truth for every style.
-  Values come from the Figma "Open Seattle" variables (file vs1l6ERmi4AqYjxBBK9gDJ).
-  Change a value here and every component that uses it updates.
 
-  Tailwind turns tokens into classes automatically:
-    --color-primary        ->  bg-primary, text-primary, border-primary
-    --radius-card          ->  rounded-card
-    --shadow-elevation-1   ->  shadow-elevation-1
-    --container-content    ->  max-w-content
-    --spacing (4px)        ->  base unit for p-*, m-*, gap-* (p-6 = 24px)
-  Full type styles are utilities at the bottom: type-headline-lg, type-body-md, ...
+  Source: Figma "Website Prototype" → Design System → Foundations (node 2009:9282).
+  The names below mirror the Figma variables one to one:
+    Primitives  green/500       →  --color-green-500
+    Color       color/bg/brand  →  --bg-color-brand      → class bg-brand
+                color/text/…    →  --text-color-…        → class text-…
+                color/border/…  →  --border-color-…      → class border-… (and outline-…)
+                color/icon/…    →  --icon-color-…        → class icon-… (and fill-…)
+    Spacing     spacing/lg      →  --spacing-lg          → class p-lg, gap-lg, m-lg …
+    Radius      radius/md       →  --radius-md           → class rounded-md
+  Change a value here and every component updates.
+
+  Components use the semantic names (bg-brand, text-secondary …), never primitives.
 */
-@theme {
+@theme static {
+  /* Turn off Tailwind's default palette so only our colors exist */
+  --color-*: initial;
+
   /* ---------- Fonts ---------- */
   --font-sans: "Montserrat", ui-sans-serif, system-ui, sans-serif;
   --font-display: "Oswald", "Montserrat", ui-sans-serif, sans-serif;
 
-  /* ---------- Color: reference palette (Figma: Open Seattle/ref/...) ---------- */
-  --color-primary-6: #001713;
-  --color-primary-12: #00251f;
-  --color-primary-17: #003029;
-  --color-primary-20: #00382f;
-  --color-primary-24: #004138;
-  --color-primary-30: #005045;
-  --color-primary-35: #005d51;
+  /* ---------- Primitives (Figma collection "Primitives") ---------- */
+  --color-green-50: #f3fffa;
+  --color-green-400: #005d51;
+  --color-green-500: #005045;
+  --color-green-600: #004138;
+  --color-green-700: #00382f;
+  --color-green-800: #003029;
+  --color-green-900: #00211f;
+  --color-green-950: #001713;
 
-  --color-secondary-20: #343200;
-  --color-secondary-92: #f5ed4f;
-  --color-secondary-98: #fffad8;
+  --color-lime-200: #b8e97a;
+  --color-lime-300: #a6d569;
+  --color-lime-400: #8bb950;
+  --color-lime-600: #598320;
 
-  --color-tertiary-70: #8bb950;
-  --color-tertiary-80: #a6d569;
+  --color-yellow-100: #fffad8;
+  --color-yellow-400: #f5ed4f;
 
-  --color-neutral-20: #293233;
-  --color-neutral-25: #333f40;
-  --color-neutral-40: #566061;
-  --color-neutral-92: #e4ebeb;
-  --color-neutral-95: #eaf1f1;
-  --color-neutral-97: #f2f7f7;
-  --color-neutral-98: #f7fafa;
-  --color-neutral-100: #ffffff;
+  --color-coral-400: #e58a7b;
+  --color-coral-500: #cf6f64;
 
-  --color-error-96: #fff0ee;
+  --color-red-500: #de3730;
 
-  --color-black: #00211f;           /* Open Seattle/black */
-  --color-white: #ffffff;           /* Open Seattle/white */
-  --color-overlay-24: #6f797a;      /* overlays/Overlay 24 (also M3 outline) */
-  --color-green-overlay: #b8e97a;   /* overlays/Green Overlay */
-  --color-on-surface-variant-ref: #3f4849; /* M3/sys/light/on-surface-variant */
+  --color-neutral-0: #ffffff;
+  --color-neutral-50: #f7fafa;
+  --color-neutral-100: #f2f7f7;
+  --color-neutral-200: #eaf1f1;
+  --color-neutral-300: #d5ddde;
+  --color-neutral-400: #bec8c9;
+  --color-neutral-500: #6f797a;
+  --color-neutral-600: #566061;
+  --color-neutral-700: #3f4849;
+  --color-neutral-800: #333f40;
+  --color-neutral-900: #293233;
+  --color-neutral-950: #191c1d;
 
-  /* ---------- Color: roles. Components use ONLY these. ---------- */
-  /* Actions */
-  --color-primary: var(--color-primary-20);
-  --color-on-primary: var(--color-white);
-  --color-accent: var(--color-secondary-92);
-  --color-on-accent: var(--color-primary-20);
-  --color-elevated: var(--color-primary-24);
-  --color-on-elevated: var(--color-white);
+  /* ---------- Background (color/bg/…) ---------- */
+  --bg-color-default: var(--color-neutral-0);
+  --bg-color-subtle: var(--color-green-50);
+  --bg-color-surface: var(--color-neutral-50);
+  --bg-color-surface-alt: var(--color-neutral-100);
+  --bg-color-brand: var(--color-green-500);
+  --bg-color-brand-strong: var(--color-green-800);
+  --bg-color-inverse: var(--color-green-900);
+  --bg-color-accent: var(--color-yellow-400);
+  --bg-color-accent-subtle: var(--color-yellow-100);
+  --bg-color-highlight: var(--color-lime-300);
+  --bg-color-action: var(--color-green-700);
+  --bg-color-action-pressed: var(--color-green-400);
+  --bg-color-action-on-dark: var(--color-green-600);
+  --bg-color-state-layer: var(--color-neutral-500); /* use with opacity: bg-state-layer/24 */
 
-  /* Light surfaces */
-  --color-surface: var(--color-neutral-98);         /* page background, project card */
-  --color-surface-card: var(--color-white);         /* cards, inputs */
-  --color-on-surface: var(--color-black);           /* main text */
-  --color-on-surface-strong: var(--color-neutral-20);
-  --color-on-surface-muted: var(--color-neutral-25);
-  --color-on-surface-variant: var(--color-on-surface-variant-ref);
-  --color-placeholder: var(--color-neutral-40);
-  --color-outline: var(--color-overlay-24);
-  --color-outline-soft: var(--color-neutral-95);
+  /* Component-level extras, not in the Figma guide yet (ask the designer before reusing) */
+  --bg-color-status-active: var(--bg-color-accent-subtle);
+  --bg-color-status-evaluating: var(--color-neutral-200);
+  --bg-color-status-complete: #fff0ee; /* old style guide error/96; no matching primitive */
 
-  /* Dark surfaces */
-  --color-surface-dark: var(--color-primary-17);    /* header */
-  --color-surface-darkest: var(--color-black);      /* footer */
-  --color-on-dark: var(--color-neutral-97);
-  --color-on-dark-soft: var(--color-neutral-98);
+  /* ---------- Text (color/text/…) ---------- */
+  --text-color-primary: var(--color-green-900);
+  --text-color-secondary: var(--color-neutral-800);
+  --text-color-tertiary: var(--color-neutral-600);
+  --text-color-brand: var(--color-green-500);
+  --text-color-on-dark: var(--color-neutral-50);
+  --text-color-on-accent: var(--color-green-900);
+  --text-color-error: var(--color-red-500);
+  --text-color-action: var(--color-green-700);
+  --text-color-on-action: var(--color-neutral-0);
 
-  /* Brand + status */
-  --color-brand-leaf: var(--color-tertiary-80);     /* logo trees */
-  --color-icon-badge: var(--color-primary-30);      /* icon circle on cards */
-  --color-icon: var(--color-primary-30);            /* standalone icons, step numbers */
-  --color-status-active: var(--color-secondary-98);
-  --color-status-complete: var(--color-error-96);
-  --color-status-evaluating: var(--color-neutral-95); /* not in Figma yet; placeholder */
+  /* ---------- Border (color/border/…) ---------- */
+  --border-color-default: var(--color-neutral-400);
+  --border-color-subtle: var(--color-neutral-200);
+  --border-color-strong: var(--color-neutral-500);
+  --border-color-brand: var(--color-green-700);
+  --border-color-on-surface: var(--color-neutral-0);
+  --border-color-error: var(--color-red-500);
 
-  /* ---------- Shape ---------- */
-  --radius-sm: 8px;      /* chips, images */
-  --radius-card: 12px;   /* cards */
-  --radius-input: 28px;  /* text inputs */
-  --radius-pill: 9999px; /* buttons, badges */
+  /* ---------- Icon (color/icon/…) ---------- */
+  --icon-color-default: var(--color-green-900);
+  --icon-color-on-dark: var(--color-neutral-50);
+  --icon-color-accent: var(--color-lime-300);
 
-  /* ---------- Elevation (Figma: Elevation Light / Dark) ---------- */
+  /* ---------- Spacing (spacing/…) ---------- */
+  --spacing: 4px; /* base unit, still allows p-1, gap-1.5 … for off-scale values */
+  --spacing-2xs: 4px;
+  --spacing-xs: 8px;
+  --spacing-sm: 12px;
+  --spacing-md: 16px;
+  --spacing-lg: 24px;
+  --spacing-xl: 32px;
+  --spacing-2xl: 40px;
+  --spacing-3xl: 64px;
+  --spacing-4xl: 80px;
+  --spacing-5xl: 120px;
+
+  /* ---------- Radius (radius/…) ---------- */
+  --radius-none: 0px;
+  --radius-xs: 4px;
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+  --radius-xl: 28px;
+  --radius-full: 9999px;
+
+  /* ---------- Elevation (Elevation/1–4) ---------- */
   --shadow-elevation-1: 0 2px 4px 0 #343d3e0a, 0 4px 8px 2px #343d3e0a;
   --shadow-elevation-2: 0 4px 8px 0 #343d3e14, 0 8px 16px 0 #343d3e14;
   --shadow-elevation-3: 0 6px 12px 0 #5660611f, 0 12px 24px 0 #5660611f;
+  --shadow-elevation-4: 0 10px 20px 0 #56606133, 0 20px 40px 0 #56606133;
+  /* Extra, from the old style guide (Elevation Dark/2): elevated button on dark backgrounds */
   --shadow-elevation-dark-2: 0 4px 8px 0 #00110e14, 0 8px 16px 2px #00110e14;
 
   /* ---------- Layout ---------- */
-  --spacing: 4px;
   --container-content: 880px; /* desktop content width (1280 frame - 200px sides) */
-
-  /* Breakpoints, matching the Figma Small / Medium / Large sections */
   --breakpoint-md: 600px;
   --breakpoint-lg: 960px;
 }
 
-/* ---------- Type styles (Figma: Open Seattle/display, headline, title, body, label) ---------- */
+/* ---------- Semantic color utilities ---------- */
+@utility bg-* {
+  background-color: --value(--bg-color-*);
+  background-color: --alpha(--value(--bg-color-*) / calc(--modifier(integer) * 1%));
+}
+@utility text-* {
+  color: --value(--text-color-*);
+}
+@utility border-* {
+  border-color: --value(--border-color-*);
+}
+@utility outline-* {
+  outline-color: --value(--border-color-*);
+}
+@utility icon-* {
+  color: --value(--icon-color-*);
+}
+@utility fill-* {
+  fill: --value(--icon-color-*);
+}
+
+/* ---------- Type styles (Figma text styles) ---------- */
 @utility type-display-lg {
   font-family: var(--font-display);
   font-size: 57px;
   line-height: 72px;
   letter-spacing: -0.25px;
+  font-weight: 500;
+}
+@utility type-display-sm {
+  font-family: var(--font-display);
+  font-size: 45px;
+  line-height: 60px;
+  letter-spacing: 0;
   font-weight: 500;
 }
 @utility type-headline-lg {
@@ -168,6 +231,7 @@
   letter-spacing: 0.1px;
   font-weight: 700;
 }
+/* Extra (chips, badges): Label/Large in SemiBold, from the old style guide's M3 label */
 @utility type-label-lg-semibold {
   font-family: var(--font-sans);
   font-size: 14px;
@@ -186,6 +250,13 @@
   font-family: var(--font-sans);
   font-size: 11px;
   line-height: 16px;
-  letter-spacing: 0.5px;
+  letter-spacing: 0;
   font-weight: 700;
+}
+@utility type-caption {
+  font-family: var(--font-sans);
+  font-size: 11px;
+  line-height: 16px;
+  letter-spacing: 0;
+  font-weight: 400;
 }

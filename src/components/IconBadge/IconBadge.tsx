@@ -16,7 +16,7 @@ export function IconBadge({ icon, className = "" }: IconBadgeProps) {
   return (
     <span
       aria-hidden="true"
-      className={`flex size-20 shrink-0 items-center justify-center rounded-pill bg-icon-badge text-on-dark ${className}`}
+      className={`flex size-20 shrink-0 items-center justify-center rounded-full bg-brand icon-on-dark ${className}`}
     >
       <span className="size-10">{icon}</span>
     </span>

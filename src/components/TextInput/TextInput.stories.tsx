@@ -13,3 +13,7 @@ type Story = StoryObj<typeof meta>;
 
 export const Empty: Story = {};
 export const Filled: Story = { args: { defaultValue: "paige@example.org" } };
+export const WithError: Story = {
+  args: { defaultValue: "paige@", error: "Enter a valid email address" },
+  globals: { backgrounds: { value: "light" } },
+};

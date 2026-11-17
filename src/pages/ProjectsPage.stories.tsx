@@ -37,14 +37,14 @@ function ProjectsPage() {
   return (
     <div className="bg-surface">
       <Header activeHref="/projects" />
-      <main className="mx-auto flex max-w-content flex-col items-center gap-10 px-4 pt-10 pb-30 lg:px-0">
-        <h1 className="type-display-lg text-center text-on-surface">Projects</h1>
-        <div className="flex flex-wrap justify-center gap-6">
+      <main className="mx-auto flex max-w-content flex-col items-center gap-2xl px-md pt-2xl pb-5xl lg:px-0">
+        <h1 className="type-display-lg text-center text-primary">Projects</h1>
+        <div className="flex flex-wrap justify-center gap-lg">
           {statuses.map((s) => (
             <FilterChip key={s.value} label={s.label} selected={filter.includes(s.value)} onClick={() => toggle(s.value)} />
           ))}
         </div>
-        <div className="grid w-full grid-cols-1 justify-items-center gap-8 md:grid-cols-2">
+        <div className="grid w-full grid-cols-1 justify-items-center gap-xl md:grid-cols-2">
           {visible.map((p) => (
             <ProjectCard key={p.title} {...p} imageSrc={p.image} imageAlt={`${p.title} image`} imageFit={p.fit} />
           ))}

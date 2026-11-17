@@ -18,7 +18,7 @@ export const Default: Story = {};
 export const OpenRoles: Story = {
   parameters: { layout: "padded" },
   render: () => (
-    <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
+    <div className="grid grid-cols-1 gap-lg md:grid-cols-2">
       {["Grant Writer", "UX Designer", "Frontend Engineer", "Volunteer Coordinator"].map((t) => (
         <VolunteerPositionCard key={t} title={t} />
       ))}

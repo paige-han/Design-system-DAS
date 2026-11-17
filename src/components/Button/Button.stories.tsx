@@ -49,13 +49,13 @@ export const AllVariants: Story = {
   parameters: { layout: "fullscreen" },
   render: () => (
     <div className="grid grid-cols-1 md:grid-cols-2">
-      <div className="flex flex-wrap items-center gap-4 bg-white p-10">
+      <div className="flex flex-wrap items-center gap-md bg-default p-2xl">
         <Button>Apply to volunteer</Button>
         <Button icon={<PlusIcon />}>Add project</Button>
         <Button disabled>Submit</Button>
         <Button variant="outlined">Learn more →</Button>
       </div>
-      <div className="flex flex-wrap items-center gap-4 bg-surface-dark p-10">
+      <div className="flex flex-wrap items-center gap-md bg-brand-strong p-2xl">
         <Button variant="onDark">Partner with us</Button>
         <Button variant="onDark" icon={<PlusIcon />}>Add project</Button>
         <Button variant="onDark" disabled>Submit</Button>

@@ -40,9 +40,9 @@ function NavItem({ link, active }: { link: NavLink; active: boolean }) {
       href={link.href}
       aria-current={active ? "page" : undefined}
       className={[
-        "rounded-pill px-3 py-2.5 type-label-lg text-on-dark transition-colors",
-        "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-on-dark",
-        active ? "bg-outline/24" : "hover:bg-outline/16",
+        "rounded-full px-sm py-2.5 type-label-lg text-on-dark transition-colors",
+        "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-on-surface",
+        active ? "bg-state-layer/24" : "hover:bg-state-layer/16",
       ].join(" ")}
     >
       {link.label}
@@ -60,14 +60,14 @@ export function Header({
   const [open, setOpen] = useState(defaultMenuOpen);
 
   return (
-    <header className="bg-surface-dark">
-      <div className="mx-auto flex h-20 max-w-content items-center justify-between px-4 lg:h-[78px] lg:px-0">
-        <a href="/" className="rounded-sm focus-visible:outline-2 focus-visible:outline-on-dark">
+    <header className="bg-brand-strong">
+      <div className="mx-auto flex h-20 max-w-content items-center justify-between px-md lg:h-[78px] lg:px-0">
+        <a href="/" className="rounded-sm focus-visible:outline-2 focus-visible:outline-on-surface">
           <Logo braces={false} className="lg:hidden" />
           <Logo className="hidden lg:block" />
         </a>
 
-        <nav aria-label="Main" className="hidden items-center gap-6 lg:flex">
+        <nav aria-label="Main" className="hidden items-center gap-lg lg:flex">
           {links.map((link) => (
             <NavItem key={link.href} link={link} active={link.href === activeHref} />
           ))}
@@ -91,11 +91,11 @@ export function Header({
       </div>
 
       {open && (
-        <nav aria-label="Main" className="flex flex-col items-start gap-2 px-4 pt-2 pb-6 lg:hidden">
+        <nav aria-label="Main" className="flex flex-col items-start gap-xs px-md pt-xs pb-lg lg:hidden">
           {links.map((link) => (
             <NavItem key={link.href} link={link} active={link.href === activeHref} />
           ))}
-          <Button variant="onDark" onClick={onCtaClick} className="mt-2">
+          <Button variant="onDark" onClick={onCtaClick} className="mt-xs">
             {ctaLabel}
           </Button>
         </nav>

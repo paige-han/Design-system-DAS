@@ -37,7 +37,7 @@ export function Logo({ braces = true, height = 48, className = "" }: LogoProps) 
       {braces && <path d={BRACES} fill="currentColor" />}
       <path d={WORDMARK} fill="currentColor" />
       {TREES.map((d) => (
-        <path key={d} d={d} className="fill-brand-leaf" />
+        <path key={d} d={d} className="fill-accent" />
       ))}
     </svg>
   );

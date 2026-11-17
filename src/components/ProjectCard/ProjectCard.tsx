@@ -39,12 +39,12 @@ export function ProjectCard({
   return (
     <article
       className={[
-        "flex w-full max-w-[420px] flex-col gap-5 rounded-card border-3 border-surface-card bg-surface p-8",
+        "flex w-full max-w-[420px] flex-col gap-5 rounded-md border-3 border-on-surface bg-surface p-xl",
         "shadow-elevation-1",
         className,
       ].join(" ")}
     >
-      <div className="aspect-square w-full overflow-hidden rounded-sm border-2 border-outline-soft bg-surface-card">
+      <div className="aspect-square w-full overflow-hidden rounded-sm border-2 border-subtle bg-default">
         <img
           src={imageSrc}
           alt={imageAlt}
@@ -52,20 +52,20 @@ export function ProjectCard({
         />
       </div>
 
-      <h3 className="type-title-lg text-on-surface">{title}</h3>
+      <h3 className="type-title-lg text-primary">{title}</h3>
 
-      <div className="flex items-start justify-between gap-4">
-        <div className="flex flex-col gap-4 pt-2.5 text-on-surface-strong">
+      <div className="flex items-start justify-between gap-md">
+        <div className="flex flex-col gap-md pt-2.5 text-secondary">
           <p className="type-label-lg">{partner}</p>
           <p className="type-label-md">{programArea}</p>
         </div>
         <div className="flex flex-col items-end gap-1.5">
           <StatusBadge status={status} />
-          <p className="type-label-md text-right text-on-surface-muted">{dates}</p>
+          <p className="type-label-md text-right text-secondary">{dates}</p>
         </div>
       </div>
 
-      <p className="type-body-md text-on-surface">{description}</p>
+      <p className="type-body-md text-primary">{description}</p>
     </article>
   );
 }

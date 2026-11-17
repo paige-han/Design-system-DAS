@@ -24,7 +24,7 @@ export const Default: Story = {};
 export const BenefitsRow: Story = {
   parameters: { layout: "padded" },
   render: () => (
-    <div className="grid grid-cols-1 gap-8 md:grid-cols-3">
+    <div className="grid grid-cols-1 gap-xl md:grid-cols-3">
       <IconCard icon={<LeaderboardIcon />} title="New Skills" description="Gain expertise in tech & digital." />
       <IconCard icon={<MonitoringIcon />} title="Networking Opportunities" description="Connect with pros & nonprofits." />
       <IconCard icon={<AcuteIcon />} title="Sense of Community" description="Join a supportive, collaborative team." />

@@ -15,13 +15,13 @@ export function TeamCard({ name, role, photoSrc, className = "" }: TeamCardProps
   return (
     <article
       className={[
-        "flex w-full max-w-[196px] flex-col overflow-hidden rounded-card border-3 border-surface-card bg-surface",
+        "flex w-full max-w-[196px] flex-col overflow-hidden rounded-md border-3 border-on-surface bg-surface",
         "shadow-elevation-1",
         className,
       ].join(" ")}
     >
       {photoSrc && <img src={photoSrc} alt={name} className="aspect-square w-full object-cover" />}
-      <div className="flex flex-col gap-1 p-4 text-on-surface">
+      <div className="flex flex-col gap-2xs p-md text-primary">
         <h3 className="type-title-md">{name}</h3>
         <p className="type-body-md">{role}</p>
       </div>

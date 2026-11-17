@@ -21,7 +21,7 @@ export function StatusBadge({ status, className = "" }: StatusBadgeProps) {
   const { label, bg } = styles[status];
   return (
     <span
-      className={`inline-flex h-10 items-center rounded-pill px-3 type-label-lg-semibold text-on-surface-muted ${bg} ${className}`}
+      className={`inline-flex h-10 items-center rounded-full px-sm type-label-lg-semibold text-secondary ${bg} ${className}`}
     >
       {label}
     </span>

@@ -28,7 +28,7 @@ export function EventCard({
   return (
     <article
       className={[
-        "flex flex-col gap-6 rounded-card border-3 border-surface-card bg-surface p-8 md:flex-row md:items-center md:gap-10",
+        "flex flex-col gap-lg rounded-md border-3 border-on-surface bg-surface p-xl md:flex-row md:items-center md:gap-2xl",
         "shadow-elevation-1",
         className,
       ].join(" ")}
@@ -36,18 +36,18 @@ export function EventCard({
       <img
         src={imageSrc}
         alt={imageAlt}
-        className="aspect-square w-full shrink-0 rounded-sm border-2 border-outline-soft bg-surface-card object-cover md:size-[215px]"
+        className="aspect-square w-full shrink-0 rounded-sm border-2 border-subtle bg-default object-cover md:size-[215px]"
       />
       <div className="flex flex-col gap-7.5">
-        <div className="flex flex-col gap-4">
-          <h3 className="type-title-lg text-on-surface">{title}</h3>
-          <p className="flex flex-wrap gap-x-6 type-label-lg text-on-surface-strong">
+        <div className="flex flex-col gap-md">
+          <h3 className="type-title-lg text-primary">{title}</h3>
+          <p className="flex flex-wrap gap-x-lg type-label-lg text-secondary">
             <span>{date}</span>
             <span>{time}</span>
           </p>
-          <p className="type-label-md text-on-surface-muted">{location}</p>
+          <p className="type-label-md text-secondary">{location}</p>
         </div>
-        <p className="type-body-md text-on-surface">{description}</p>
+        <p className="type-body-md text-primary">{description}</p>
       </div>
     </article>
   );

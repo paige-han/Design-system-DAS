@@ -20,7 +20,7 @@ export function ListItem({ label, icon, imageSrc, imageAlt = "", className = "" 
   return (
     <div
       className={[
-        "flex items-center gap-4 rounded-sm border-2 border-surface-card bg-surface py-2 pr-6 pl-4",
+        "flex items-center gap-md rounded-sm border-2 border-on-surface bg-surface py-xs pr-lg pl-md",
         "shadow-elevation-1",
         imageSrc ? "min-h-18" : "min-h-14",
         className,
@@ -29,9 +29,9 @@ export function ListItem({ label, icon, imageSrc, imageAlt = "", className = "" 
       {imageSrc ? (
         <img src={imageSrc} alt={imageAlt} className="size-14 shrink-0 object-contain" />
       ) : (
-        icon && <span className="size-6 shrink-0 text-icon" aria-hidden="true">{icon}</span>
+        icon && <span className="size-6 shrink-0 text-brand" aria-hidden="true">{icon}</span>
       )}
-      <span className="type-label-md text-on-surface">{label}</span>
+      <span className="type-label-md text-primary">{label}</span>
     </div>
   );
 }

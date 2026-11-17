@@ -11,13 +11,13 @@ export interface ProcessStepsProps {
 
 export function ProcessSteps({ steps, className = "" }: ProcessStepsProps) {
   return (
-    <ol className={`flex flex-col gap-2 ${className}`}>
+    <ol className={`flex flex-col gap-xs ${className}`}>
       {steps.map((step, i) => (
         <li key={step} className="flex items-baseline">
-          <span className="w-10 shrink-0 type-title-lg text-icon" aria-hidden="true">
+          <span className="w-10 shrink-0 type-title-lg text-brand" aria-hidden="true">
             {i + 1}.
           </span>
-          <span className="type-body-lg text-on-surface">{step}</span>
+          <span className="type-body-lg text-primary">{step}</span>
         </li>
       ))}
     </ol>

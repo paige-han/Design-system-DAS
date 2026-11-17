@@ -18,13 +18,13 @@ export function FeatureCard({ icon, title, description, className = "" }: Featur
   return (
     <article
       className={[
-        "flex flex-col gap-6 rounded-card border-3 border-surface-card bg-surface p-8 md:flex-row md:gap-8",
+        "flex flex-col gap-lg rounded-md border-3 border-on-surface bg-surface p-xl md:flex-row md:gap-xl",
         "shadow-elevation-1",
         className,
       ].join(" ")}
     >
       <IconBadge icon={icon} />
-      <div className="flex flex-col gap-6 text-on-surface">
+      <div className="flex flex-col gap-lg text-primary">
         <h3 className="type-title-md">{title}</h3>
         <p className="type-body-lg">{description}</p>
       </div>

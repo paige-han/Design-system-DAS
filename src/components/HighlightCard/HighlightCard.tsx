@@ -14,7 +14,7 @@ export function HighlightCard({ title, description, className = "" }: HighlightC
   return (
     <article
       className={[
-        "flex flex-col rounded-card border-3 border-surface-card bg-surface p-8 text-center text-on-surface",
+        "flex flex-col rounded-md border-3 border-on-surface bg-surface p-xl text-center text-primary",
         "shadow-elevation-1",
         className,
       ].join(" ")}

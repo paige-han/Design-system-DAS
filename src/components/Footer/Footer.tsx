@@ -59,15 +59,15 @@ export function Footer({
   }
 
   return (
-    <footer className="bg-surface-darkest px-4 py-14 text-on-dark-soft lg:px-0 lg:py-20">
-      <div className="mx-auto flex max-w-content flex-col gap-14 lg:gap-20">
+    <footer className="bg-inverse px-md py-14 text-on-dark lg:px-0 lg:py-4xl">
+      <div className="mx-auto flex max-w-content flex-col gap-14 lg:gap-4xl">
         {/* Newsletter */}
-        <div className="flex flex-col gap-6 lg:flex-row lg:items-center lg:justify-between">
+        <div className="flex flex-col gap-lg lg:flex-row lg:items-center lg:justify-between">
           <div>
             <h2 className="type-headline-md">Sign up for our newsletter</h2>
             <p className="type-body-lg">{newsletterText}</p>
           </div>
-          <form onSubmit={handleSubmit} className="flex flex-col gap-4 md:flex-row md:gap-8">
+          <form onSubmit={handleSubmit} className="flex flex-col gap-md md:flex-row md:gap-xl">
             <TextInput
               label="Email address"
               name="email"
@@ -83,10 +83,10 @@ export function Footer({
         </div>
 
         {/* Links */}
-        <div className="flex flex-col gap-10 lg:flex-row lg:justify-between">
-          <div className="flex flex-col justify-between gap-6">
+        <div className="flex flex-col gap-2xl lg:flex-row lg:justify-between">
+          <div className="flex flex-col justify-between gap-lg">
             <Logo />
-            <div className="flex flex-col gap-4 type-label-sm">
+            <div className="flex flex-col gap-md type-label-sm">
               <p className="font-normal">
                 Illustrations by:
                 <br />
@@ -96,11 +96,11 @@ export function Footer({
             </div>
           </div>
 
-          <nav aria-label="Footer" className="grid grid-cols-1 gap-x-30 gap-y-10 md:grid-cols-2">
+          <nav aria-label="Footer" className="grid grid-cols-1 gap-x-5xl gap-y-2xl md:grid-cols-2">
             {linkGroups.map((group) => (
-              <div key={group.title} className="flex w-[190px] flex-col gap-1">
+              <div key={group.title} className="flex w-[190px] flex-col gap-2xs">
                 <h3 className="type-label-lg">{group.title}</h3>
-                <ul className="flex flex-col gap-1">
+                <ul className="flex flex-col gap-2xs">
                   {group.links.map((link) => (
                     <li key={link.href}>
                       <a href={link.href} className="type-body-lg hover:underline">
@@ -113,10 +113,10 @@ export function Footer({
             ))}
           </nav>
 
-          <ul className="flex gap-6 lg:flex-col lg:justify-center">
+          <ul className="flex gap-lg lg:flex-col lg:justify-center">
             {socialLinks.map((s) => (
               <li key={s.href}>
-                <a href={s.href} aria-label={s.label} className="block size-12 text-on-dark-soft">
+                <a href={s.href} aria-label={s.label} className="block size-12 text-on-dark">
                   {s.icon}
                 </a>
               </li>

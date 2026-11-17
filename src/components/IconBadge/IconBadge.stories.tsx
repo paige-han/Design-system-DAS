@@ -15,7 +15,7 @@ type Story = StoryObj<typeof meta>;
 export const Default: Story = {};
 export const AllIcons: Story = {
   render: () => (
-    <div className="flex gap-6">
+    <div className="flex gap-lg">
       {[LeaderboardIcon, MonitoringIcon, AcuteIcon, AdminPanelIcon].map((I, i) => (
         <IconBadge key={i} icon={<I />} />
       ))}

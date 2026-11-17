@@ -26,7 +26,7 @@ export const WithPicture: Story = {
 export const Grid: Story = {
   parameters: { layout: "padded" },
   render: () => (
-    <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
+    <div className="grid grid-cols-1 gap-md md:grid-cols-2 lg:grid-cols-3">
       <ListItem icon={<CampaignIcon />} label="Community Engagement Liaison" />
       <ListItem icon={<CodeIcon />} label="Software Engineer" />
       <ListItem icon={<MonitoringIcon />} label="Data Analyst" />

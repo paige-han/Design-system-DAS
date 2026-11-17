@@ -18,12 +18,12 @@ export function FilterChip({ label, selected = false, className = "", ...props }
       type="button"
       aria-pressed={selected}
       className={[
-        "inline-flex h-8 cursor-pointer items-center gap-2 rounded-sm px-4",
+        "inline-flex h-8 cursor-pointer items-center gap-xs rounded-sm px-md",
         "type-label-lg-semibold transition-colors",
-        "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary",
+        "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand",
         selected
-          ? "border border-transparent bg-status-active pl-2 text-on-surface"
-          : "border border-outline text-on-surface-variant hover:bg-outline-soft",
+          ? "border border-transparent bg-status-active pl-xs text-primary"
+          : "border border-strong text-secondary hover:bg-surface-alt",
         className,
       ].join(" ")}
       {...props}

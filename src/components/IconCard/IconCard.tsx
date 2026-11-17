@@ -19,14 +19,14 @@ export function IconCard({ icon, title, description, className = "" }: IconCardP
   return (
     <article
       className={[
-        "flex flex-col items-center gap-6 rounded-card border-3 border-surface-card bg-surface-card p-8 text-center",
+        "flex flex-col items-center gap-lg rounded-md border-3 border-on-surface bg-default p-xl text-center",
         "shadow-elevation-1",
         className,
       ].join(" ")}
     >
       <IconBadge icon={icon} />
-      <h3 className="type-title-lg text-on-surface">{title}</h3>
-      <p className="type-body-md text-on-surface">{description}</p>
+      <h3 className="type-title-lg text-primary">{title}</h3>
+      <p className="type-body-md text-primary">{description}</p>
     </article>
   );
 }
