@@ -1,8 +1,12 @@
 import type { FormEvent, ReactNode } from "react";
+import Box from "@mui/material/Box";
+import Button from "@mui/material/Button";
+import Typography from "@mui/material/Typography";
 import { Logo } from "../Logo/Logo";
-import { Button } from "../Button/Button";
 import { TextInput } from "../TextInput/TextInput";
 import { GitHubIcon, LinkedInIcon } from "../../icons";
+import { focusRing, sp } from "../../mui/sx";
+import { layout } from "../../tokens/tokens";
 
 /**
  * Footer: newsletter signup, site links, credits and social links.
@@ -58,72 +62,95 @@ export function Footer({
     onSubscribe?.(String(email ?? ""));
   }
 
+  const list = { m: 0, p: 0, listStyle: "none" } as const;
+
   return (
-    <footer className="bg-inverse px-md py-14 text-on-dark lg:px-0 lg:py-4xl">
-      <div className="mx-auto flex max-w-content flex-col gap-14 lg:gap-4xl">
+    <Box component="footer" sx={{ bgcolor: "ds.bg.inverse", color: "ds.text.onDark", px: { xs: sp.md, lg: 0 }, py: { xs: "56px", lg: sp["4xl"] } }}>
+      <Box sx={{ mx: "auto", display: "flex", maxWidth: layout.contentWidth, flexDirection: "column", gap: { xs: "56px", lg: sp["4xl"] } }}>
         {/* Newsletter */}
-        <div className="flex flex-col gap-lg lg:flex-row lg:items-center lg:justify-between">
+        <Box
+          sx={{
+            display: "flex",
+            flexDirection: { xs: "column", lg: "row" },
+            alignItems: { lg: "center" },
+            justifyContent: { lg: "space-between" },
+            gap: sp.lg,
+          }}
+        >
           <div>
-            <h2 className="type-headline-md">Sign up for our newsletter</h2>
-            <p className="type-body-lg">{newsletterText}</p>
+            <Typography variant="headlineMedium" component="h2">
+              Sign up for our newsletter
+            </Typography>
+            <Typography variant="bodyLarge">{newsletterText}</Typography>
           </div>
-          <form onSubmit={handleSubmit} className="flex flex-col gap-md md:flex-row md:gap-xl">
-            <TextInput
-              label="Email address"
-              name="email"
-              type="email"
-              placeholder="email address"
-              required
-              className="w-full md:w-[400px]"
-            />
+          <Box component="form" onSubmit={handleSubmit} sx={{ display: "flex", flexDirection: { xs: "column", md: "row" }, gap: { xs: sp.md, md: sp.xl } }}>
+            <TextInput label="Email address" name="email" type="email" placeholder="email address" required sx={{ width: { xs: "100%", md: 400 } }} />
             <Button type="submit" variant="elevated">
               Sign up
             </Button>
-          </form>
-        </div>
+          </Box>
+        </Box>
 
         {/* Links */}
-        <div className="flex flex-col gap-2xl lg:flex-row lg:justify-between">
-          <div className="flex flex-col justify-between gap-lg">
+        <Box sx={{ display: "flex", flexDirection: { xs: "column", lg: "row" }, justifyContent: { lg: "space-between" }, gap: sp["2xl"] }}>
+          <Box sx={{ display: "flex", flexDirection: "column", justifyContent: "space-between", gap: sp.lg }}>
             <Logo />
-            <div className="flex flex-col gap-md type-label-sm">
-              <p className="font-normal">
+            <Box sx={{ display: "flex", flexDirection: "column", gap: sp.md }}>
+              <Typography variant="labelSmall" component="p" sx={{ fontWeight: 400 }}>
                 Illustrations by:
                 <br />
                 Storyset by Freepik
-              </p>
-              <p>© Digital Aid Seattle {new Date().getFullYear()}</p>
-            </div>
-          </div>
+              </Typography>
+              <Typography variant="labelSmall" component="p">
+                © Digital Aid Seattle {new Date().getFullYear()}
+              </Typography>
+            </Box>
+          </Box>
 
-          <nav aria-label="Footer" className="grid grid-cols-1 gap-x-5xl gap-y-2xl md:grid-cols-2">
+          <Box
+            component="nav"
+            aria-label="Footer"
+            sx={{ display: "grid", gridTemplateColumns: { xs: "1fr", md: "1fr 1fr" }, columnGap: sp["5xl"], rowGap: sp["2xl"] }}
+          >
             {linkGroups.map((group) => (
-              <div key={group.title} className="flex w-[190px] flex-col gap-2xs">
-                <h3 className="type-label-lg">{group.title}</h3>
-                <ul className="flex flex-col gap-2xs">
+              <Box key={group.title} sx={{ display: "flex", width: 190, flexDirection: "column", gap: sp["2xs"] }}>
+                <Typography variant="labelLarge" component="h3">
+                  {group.title}
+                </Typography>
+                <Box component="ul" sx={{ ...list, display: "flex", flexDirection: "column", gap: sp["2xs"] }}>
                   {group.links.map((link) => (
                     <li key={link.href}>
-                      <a href={link.href} className="type-body-lg hover:underline">
+                      <Typography
+                        variant="bodyLarge"
+                        component="a"
+                        href={link.href}
+                        sx={{ color: "inherit", textDecoration: "none", "&:hover": { textDecoration: "underline" }, ...focusRing(true) }}
+                      >
                         {link.label}
-                      </a>
+                      </Typography>
                     </li>
                   ))}
-                </ul>
-              </div>
+                </Box>
+              </Box>
             ))}
-          </nav>
+          </Box>
 
-          <ul className="flex gap-lg lg:flex-col lg:justify-center">
+          <Box component="ul" sx={{ ...list, display: "flex", flexDirection: { lg: "column" }, justifyContent: { lg: "center" }, gap: sp.lg }}>
             {socialLinks.map((s) => (
               <li key={s.href}>
-                <a href={s.href} aria-label={s.label} className="block size-12 text-on-dark">
+                <Box
+                  component="a"
+                  href={s.href}
+                  aria-label={s.label}
+                  sx={{ display: "block", width: 48, height: 48, color: "ds.text.onDark", "& svg": { fontSize: 48 }, borderRadius: "50%", ...focusRing(true) }}
+                >
                   {s.icon}
-                </a>
+                </Box>
               </li>
             ))}
-          </ul>
-        </div>
-      </div>
-    </footer>
+          </Box>
+        </Box>
+      </Box>
+    </Box>
   );
 }

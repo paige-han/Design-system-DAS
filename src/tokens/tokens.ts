@@ -1,9 +1,13 @@
 /**
- * Design tokens as a JavaScript object, for code that can't read CSS variables
- * (the MUI theme in `src/mui/theme.ts`, charts, emails).
+ * Digital Aid Seattle design tokens: the single source of truth for every style value.
  *
- * Same values as `tokens.css`, same names as the Figma Foundations variables.
- * `tokens.test.ts` fails if this file and `tokens.css` ever disagree, so change both together.
+ * Source: Figma "Website Prototype" → Design System → Foundations (node 2009:9282).
+ * Names mirror the Figma variables:  color/bg/brand → color.bg.brand,  spacing/lg → spacing.lg,
+ * radius/md → radius.md,  Elevation/2 → elevation[2],  Title/Large → typography.titleLarge.
+ *
+ * `src/mui/theme.ts` turns these into the MUI theme; components read them through the theme
+ * (sx={{ bgcolor: "ds.bg.brand", p: sp.lg }}). Change a value here and everything updates.
+ * Values marked "extra" are not in the Figma guide yet.
  */
 
 export const primitives = {
@@ -20,6 +24,7 @@ export const primitives = {
   lime: { 200: "#b8e97a", 300: "#a6d569", 400: "#8bb950", 600: "#598320" },
   yellow: { 100: "#fffad8", 400: "#f5ed4f" },
   coral: { 400: "#e58a7b", 500: "#cf6f64" },
+  // red/600 is extra: red/500 is 4.47:1 on white, just under the 4.5:1 text minimum, so error TEXT uses 600
   red: { 500: "#de3730", 600: "#ba1a1a" },
   neutral: {
     0: "#ffffff",
@@ -55,9 +60,11 @@ export const color = {
     actionPressed: green[400],
     actionOnDark: green[600],
     stateLayer: neutral[500],
+    // Extra: project status badges, matching the live site (StateBadge.tsx)
     statusActive: yellow[100],
     statusUnderEvaluation: "#ddffaf",
     statusCompleted: "#fff0ee",
+    // Extra: alert and message backgrounds
     successSubtle: green[50],
     errorSubtle: "#fff0ee",
   },
@@ -112,6 +119,9 @@ export const elevation = {
 
 export const breakpoints = { md: 600, lg: 960 } as const;
 
+/** Desktop content width (1280 frame minus 200px sides). */
+export const layout = { contentWidth: 880 } as const;
+
 export const fonts = {
   sans: '"Montserrat", ui-sans-serif, system-ui, sans-serif',
   display: '"Oswald", "Montserrat", ui-sans-serif, sans-serif',
@@ -150,5 +160,5 @@ export const typography = {
   caption: t("sans", 400, 11, 16, 0),
 } as const;
 
-export const tokens = { primitives, color, spacing, radius, elevation, breakpoints, fonts, typography } as const;
+export const tokens = { primitives, color, spacing, radius, elevation, breakpoints, layout, fonts, typography } as const;
 export default tokens;

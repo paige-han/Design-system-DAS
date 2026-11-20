@@ -1,35 +1,31 @@
-import type { ButtonHTMLAttributes } from "react";
+import Chip, { type ChipProps } from "@mui/material/Chip";
 import { CheckIcon } from "../../icons";
 
 /**
  * FilterChip: toggle used to filter a list (e.g. project status).
  *
- * Figma mapping: "Filter chip" (M3, Style=outlined). The unselected look comes from Figma.
- * The selected look (light yellow fill + check) follows the M3 pattern and is not in Figma yet.
+ * Built on MUI Chip, the same way the live Projects page does it:
+ * outlined when off; filled yellow with a check when on (look set in the theme).
+ * Adds aria-pressed so screen readers announce on/off.
+ *
+ * Figma mapping: "Filter chip" (M3, Style=outlined). The selected look is from the live site;
+ * it is not in Figma yet.
  */
-export interface FilterChipProps extends Omit<ButtonHTMLAttributes<HTMLButtonElement>, "children"> {
+export interface FilterChipProps extends Omit<ChipProps, "variant" | "icon" | "onClick" | "children"> {
   label: string;
   selected?: boolean;
+  onClick?: () => void;
 }
 
-export function FilterChip({ label, selected = false, className = "", ...props }: FilterChipProps) {
+export function FilterChip({ label, selected = false, onClick, ...props }: FilterChipProps) {
   return (
-    <button
-      type="button"
+    <Chip
+      label={label}
+      variant={selected ? "filled" : "outlined"}
+      icon={selected ? <CheckIcon /> : undefined}
+      onClick={onClick ?? (() => {})}
       aria-pressed={selected}
-      className={[
-        "inline-flex h-8 cursor-pointer items-center gap-xs rounded-sm px-md",
-        "type-label-lg-semibold transition-colors",
-        "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand",
-        selected
-          ? "border border-transparent bg-status-active pl-xs text-primary"
-          : "border border-strong text-secondary hover:bg-surface-alt",
-        className,
-      ].join(" ")}
       {...props}
-    >
-      {selected && <CheckIcon className="size-[18px]" />}
-      {label}
-    </button>
+    />
   );
 }

@@ -1,37 +1,32 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
-
-const steps = [
-  ["2xs", 4],
-  ["xs", 8],
-  ["sm", 12],
-  ["md", 16],
-  ["lg", 24],
-  ["xl", 32],
-  ["2xl", 40],
-  ["3xl", 64],
-  ["4xl", 80],
-  ["5xl", 120],
-] as const;
+import Box from "@mui/material/Box";
+import Typography from "@mui/material/Typography";
+import { spacing } from "../tokens/tokens";
+import { rd, sp } from "../mui/sx";
+import { Code, FoundationPage } from "./shared";
 
 function SpacingPage() {
   return (
-    <div className="flex flex-col gap-lg p-xl">
-      <div>
-        <h1 className="type-headline-lg text-primary">Spacing</h1>
-        <p className="type-body-md text-secondary">
-          Use the names with any spacing class: <code>p-lg</code>, <code>gap-md</code>, <code>mt-xl</code>. Odd
-          one-off values can still use the 4px base unit (<code>gap-1.5</code> = 6px).
-        </p>
-      </div>
-      {steps.map(([name, px]) => (
-        <div key={name} className="flex items-center gap-md">
-          <p className="w-45 type-label-md text-primary">
-            spacing/{name} · {px}px
-          </p>
-          <div className="h-6 rounded-xs bg-brand" style={{ width: `var(--spacing-${name})` }} />
-        </div>
-      ))}
-    </div>
+    <FoundationPage
+      title="Spacing"
+      intro={
+        <>
+          Use the names through <Code>sp</Code>: <Code>{"sx={{ p: sp.lg, gap: sp.md }}"}</Code>. <Code>sp</Code> converts to MUI's
+          8px unit (sp.lg = 3 = 24px), so it mixes with the site's existing <Code>{"sx={{ m: 4 }}"}</Code>.
+        </>
+      }
+    >
+      <Box sx={{ display: "flex", flexDirection: "column", gap: sp.lg }}>
+        {Object.entries(spacing).map(([name, px]) => (
+          <Box key={name} sx={{ display: "flex", alignItems: "center", gap: sp.md }}>
+            <Typography variant="labelMedium" component="p" color="ds.text.primary" sx={{ width: 220 }}>
+              spacing/{name} · {px}px · sp["{name}"] = {px / 8}
+            </Typography>
+            <Box sx={{ height: 24, width: px, borderRadius: rd.xs, bgcolor: "ds.bg.brand" }} />
+          </Box>
+        ))}
+      </Box>
+    </FoundationPage>
   );
 }
 

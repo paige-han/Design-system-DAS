@@ -1,4 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
+import Box from "@mui/material/Box";
+import { sp } from "../../mui/sx";
 import { ListItem } from "./ListItem";
 import { CampaignIcon, CodeIcon, GroupsIcon, MonitoringIcon } from "../../icons";
 import { partnerLogo } from "../../stories/placeholders";
@@ -6,7 +8,7 @@ import { partnerLogo } from "../../stories/placeholders";
 const meta = {
   title: "Basics/ListItem",
   component: ListItem,
-  args: { label: "Community Engagement Liaison", icon: <CampaignIcon />, className: "w-[278px]" },
+  args: { label: "Community Engagement Liaison", icon: <CampaignIcon />, sx: { width: 278 } },
   argTypes: { icon: { control: false } },
   globals: { backgrounds: { value: "surface" } },
 } satisfies Meta<typeof ListItem>;
@@ -26,13 +28,13 @@ export const WithPicture: Story = {
 export const Grid: Story = {
   parameters: { layout: "padded" },
   render: () => (
-    <div className="grid grid-cols-1 gap-md md:grid-cols-2 lg:grid-cols-3">
+    <Box sx={{ display: "grid", gridTemplateColumns: { xs: "1fr", md: "1fr 1fr", lg: "repeat(3, 1fr)" }, gap: sp.md }}>
       <ListItem icon={<CampaignIcon />} label="Community Engagement Liaison" />
       <ListItem icon={<CodeIcon />} label="Software Engineer" />
       <ListItem icon={<MonitoringIcon />} label="Data Analyst" />
       <ListItem icon={<GroupsIcon />} label="Project Manager" />
       <ListItem icon={<CampaignIcon />} label="Marketing Lead" />
       <ListItem icon={<CodeIcon />} label="QA Engineer" />
-    </div>
+    </Box>
   ),
 };

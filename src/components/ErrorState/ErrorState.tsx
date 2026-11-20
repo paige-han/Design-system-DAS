@@ -1,9 +1,13 @@
 import type { ReactNode } from "react";
-import { ButtonLink } from "../Button";
+import Box from "@mui/material/Box";
+import Button from "@mui/material/Button";
+import Typography from "@mui/material/Typography";
+import { sp, withSx, type Sx } from "../../mui/sx";
+import { layout } from "../../tokens/tokens";
 
 /**
  * ErrorState: the body of a whole-page error (404 Page not found, 500 System error).
- * Same content as the site's ErrorComponent: title, explanation, "Back Home".
+ * Same content as the site's ErrorComponent: title, explanation, "Back home".
  * The large code replaces the PNG illustration until a new one is designed.
  *
  * Not in the Figma guide yet.
@@ -15,24 +19,67 @@ export interface ErrorStateProps {
   description: ReactNode;
   /** Defaults to a "Back home" button linking to "/". */
   action?: ReactNode;
-  className?: string;
+  sx?: Sx;
 }
 
-export function ErrorState({ code, title, description, action, className = "" }: ErrorStateProps) {
+export function ErrorState({ code, title, description, action, sx }: ErrorStateProps) {
   return (
-    <section
-      className={`mx-auto flex w-full max-w-content flex-col items-center gap-2xl px-md py-4xl lg:flex-row lg:justify-between lg:px-0 ${className}`}
-    >
-      <div className="flex max-w-[418px] flex-col items-center gap-xl text-center lg:items-start lg:text-left">
-        <h2 className="type-headline-lg text-primary">{title}</h2>
-        <p className="type-body-lg text-secondary">{description}</p>
-        {action ?? <ButtonLink href="/">Back home</ButtonLink>}
-      </div>
-      {code && (
-        <p aria-hidden="true" className="select-none font-display text-[160px] leading-none font-medium text-brand lg:text-[220px]">
-          {code}
-        </p>
+    <Box
+      component="section"
+      sx={withSx(
+        {
+          mx: "auto",
+          display: "flex",
+          width: "100%",
+          maxWidth: layout.contentWidth,
+          flexDirection: { xs: "column", lg: "row" },
+          alignItems: "center",
+          justifyContent: { lg: "space-between" },
+          gap: sp["2xl"],
+          px: { xs: sp.md, lg: 0 },
+          py: sp["4xl"],
+        },
+        sx,
       )}
-    </section>
+    >
+      <Box
+        sx={{
+          display: "flex",
+          maxWidth: 418,
+          flexDirection: "column",
+          alignItems: { xs: "center", lg: "flex-start" },
+          gap: sp.xl,
+          textAlign: { xs: "center", lg: "left" },
+        }}
+      >
+        <Typography variant="headlineLarge" component="h2" color="ds.text.primary">
+          {title}
+        </Typography>
+        <Typography variant="bodyLarge" color="ds.text.secondary">
+          {description}
+        </Typography>
+        {action ?? (
+          <Button variant="contained" href="/">
+            Back home
+          </Button>
+        )}
+      </Box>
+      {code && (
+        <Typography
+          aria-hidden="true"
+          component="p"
+          sx={(t) => ({
+            fontFamily: t.typography.displayLarge.fontFamily,
+            fontWeight: 500,
+            fontSize: { xs: 160, lg: 220 },
+            lineHeight: 1,
+            userSelect: "none",
+            color: "ds.text.brand",
+          })}
+        >
+          {code}
+        </Typography>
+      )}
+    </Box>
   );
 }

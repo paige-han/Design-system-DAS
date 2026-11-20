@@ -52,7 +52,9 @@ export const Sending: Story = {
   args: { onSend: fn(() => new Promise<void>(() => {})) },
   play: async ({ canvasElement }) => {
     const c = await fillIn(canvasElement);
-    await expect(c.getByRole("button", { name: "Send message" })).toHaveAttribute("aria-busy", "true");
+    const button = c.getByRole("button", { name: "Send message" });
+    await expect(button).toBeDisabled();
+    await expect(within(button).getByRole("progressbar")).toBeInTheDocument();
   },
 };
 

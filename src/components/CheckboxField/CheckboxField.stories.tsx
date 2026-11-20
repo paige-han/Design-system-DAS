@@ -1,11 +1,11 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
-import { Checkbox } from "./Checkbox";
+import { CheckboxField } from "./CheckboxField";
 
 const meta = {
-  title: "Forms/Checkbox",
-  component: Checkbox,
+  title: "Forms/CheckboxField",
+  component: CheckboxField,
   args: { label: "Send me the Digital Aid Seattle newsletter" },
-} satisfies Meta<typeof Checkbox>;
+} satisfies Meta<typeof CheckboxField>;
 export default meta;
 type Story = StoryObj<typeof meta>;
 

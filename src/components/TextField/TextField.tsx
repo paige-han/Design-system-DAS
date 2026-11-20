@@ -1,79 +1,91 @@
-import { useId, type InputHTMLAttributes, type TextareaHTMLAttributes } from "react";
+import { useId, type ChangeEventHandler, type HTMLInputTypeAttribute } from "react";
+import FormControl from "@mui/material/FormControl";
+import FormHelperText from "@mui/material/FormHelperText";
+import FormLabel from "@mui/material/FormLabel";
+import OutlinedInput from "@mui/material/OutlinedInput";
+import Typography from "@mui/material/Typography";
 import { ErrorIcon } from "../../icons";
+import { sp, withSx, type Sx } from "../../mui/sx";
 
 /**
- * TextField: a form field with a visible label, for forms on light backgrounds.
- * (TextInput is the label-less pill used in the footer newsletter.)
+ * TextField: a form field with its label ABOVE the box, plus helper text and an error message.
  *
- * Not in the Figma guide yet. Built from tokens: label/large label, body/large input,
- * 48px tall, radius md, border default → brand on focus → error.
- * Same name as MUI's TextField so it maps 1:1 when the site adopts these components.
+ * Built from MUI's form parts (FormControl, FormLabel, OutlinedInput, FormHelperText), which the
+ * theme styles. Use it instead of MUI's own <TextField>, whose label floats inside the border.
+ * Not in the Figma guide yet: 48px tall, radius md, border default → brand on focus → error.
  */
-interface BaseProps {
+export interface TextFieldProps {
   /** Visible label. Say what to enter ("Email address"), not an instruction. */
   label: string;
   /** Extra guidance under the label, e.g. a format example. */
   helperText?: string;
-  /** Error message. Replaces nothing: the helper text stays, the error shows below the field. */
+  /** Error message, shown below the field. The helper text stays. */
   error?: string;
   /** Marks the field "(optional)". Fields are required by default; mark the exceptions. */
   optional?: boolean;
-  className?: string;
+  multiline?: boolean;
+  /** Rows for a multiline field. */
+  rows?: number;
+  id?: string;
+  name?: string;
+  type?: HTMLInputTypeAttribute;
+  value?: string;
+  defaultValue?: string;
+  placeholder?: string;
+  autoComplete?: string;
+  disabled?: boolean;
+  onChange?: ChangeEventHandler<HTMLInputElement | HTMLTextAreaElement>;
+  sx?: Sx;
 }
 
-type InputProps = BaseProps & { multiline?: false } & Omit<InputHTMLAttributes<HTMLInputElement>, "className">;
-type AreaProps = BaseProps & { multiline: true; rows?: number } & Omit<TextareaHTMLAttributes<HTMLTextAreaElement>, "className">;
-export type TextFieldProps = InputProps | AreaProps;
-
-export function TextField(props: TextFieldProps) {
-  const { label, helperText, error, optional = false, className = "", id: idProp, ...rest } = props;
+export function TextField({
+  label,
+  helperText,
+  error,
+  optional = false,
+  multiline = false,
+  rows = 5,
+  id: idProp,
+  disabled,
+  sx,
+  ...inputProps
+}: TextFieldProps) {
   const autoId = useId();
   const id = idProp ?? autoId;
   const helperId = `${id}-helper`;
   const errorId = `${id}-error`;
   const describedBy = [helperText && helperId, error && errorId].filter(Boolean).join(" ") || undefined;
 
-  const fieldClasses = [
-    "w-full rounded-md border bg-default px-md type-body-lg text-primary placeholder:text-tertiary",
-    "focus-visible:outline-2 focus-visible:outline-offset-0 focus-visible:outline-brand",
-    error ? "border-2 border-error" : "border-default",
-  ].join(" ");
-
-  const shared = {
-    id,
-    "aria-invalid": error ? true : undefined,
-    "aria-describedby": describedBy,
-    required: optional ? undefined : true,
-  };
-
   return (
-    <div className={`flex flex-col gap-xs ${className}`}>
-      <label htmlFor={id} className="type-label-lg text-primary">
+    <FormControl error={Boolean(error)} disabled={disabled} sx={withSx({ display: "flex", gap: sp.xs }, sx)}>
+      <FormLabel htmlFor={id}>
         {label}
-        {optional && <span className="type-label-md text-tertiary"> (optional)</span>}
-      </label>
+        {optional && (
+          <Typography component="span" variant="labelMedium" color="ds.text.tertiary">
+            {" "}
+            (optional)
+          </Typography>
+        )}
+      </FormLabel>
       {helperText && (
-        <p id={helperId} className="type-label-md text-secondary">
+        <FormHelperText id={helperId} error={false}>
           {helperText}
-        </p>
+        </FormHelperText>
       )}
-      {"multiline" in rest && rest.multiline ? (
-        (() => {
-          const { multiline: _m, rows = 5, ...areaRest } = rest as Omit<AreaProps, keyof BaseProps>;
-          return <textarea rows={rows} className={`${fieldClasses} py-sm`} {...shared} {...areaRest} />;
-        })()
-      ) : (
-        (() => {
-          const { multiline: _m, ...inputRest } = rest as Omit<InputProps, keyof BaseProps>;
-          return <input className={`${fieldClasses} h-12`} {...shared} {...inputRest} />;
-        })()
-      )}
+      <OutlinedInput
+        id={id}
+        multiline={multiline}
+        rows={multiline ? rows : undefined}
+        required={!optional}
+        inputProps={{ "aria-describedby": describedBy, "aria-invalid": error ? true : undefined }}
+        {...inputProps}
+      />
       {error && (
-        <p id={errorId} className="flex items-center gap-2xs type-label-md text-error">
-          <ErrorIcon className="size-4 shrink-0" />
+        <FormHelperText id={errorId}>
+          <ErrorIcon sx={{ fontSize: 16 }} />
           {error}
-        </p>
+        </FormHelperText>
       )}
-    </div>
+    </FormControl>
   );
 }

@@ -1,51 +1,47 @@
 /**
- * Guards against drift: tokens.ts (used by the MUI theme) must match tokens.css (used by Storybook).
- * If this fails, update both files to the same value.
+ * Keeps tokens as the only source of style values.
+ * Fails if a component, pattern or page hard-codes a color, or if the theme drops a token.
+ * Fix: use a token (sx={{ color: "ds.text.secondary" }}) or add the value to tokens.ts first.
  */
-import { readFileSync } from "node:fs";
+import { readdirSync, readFileSync, statSync } from "node:fs";
+import { join } from "node:path";
+import { fileURLToPath } from "node:url";
 import { describe, expect, it } from "vitest";
-import { color, elevation, primitives, radius, spacing } from "./tokens";
+import { theme } from "../mui/theme";
+import { color, elevation, typography } from "./tokens";
 
-const css = readFileSync(new URL("./tokens.css", import.meta.url), "utf8");
-const vars = new Map<string, string>();
-for (const m of css.matchAll(/--([a-z0-9-]+):\s*([^;]+);/g)) vars.set(m[1], m[2].trim());
+const src = fileURLToPath(new URL("..", import.meta.url));
 
-function resolve(name: string, seen = new Set<string>()): string {
-  const raw = vars.get(name);
-  if (raw === undefined) throw new Error(`--${name} is missing from tokens.css`);
-  const ref = raw.match(/^var\(--([a-z0-9-]+)\)$/);
-  if (!ref) return raw.toLowerCase();
-  if (seen.has(name)) throw new Error(`circular token --${name}`);
-  seen.add(name);
-  return resolve(ref[1], seen);
+function files(dir: string): string[] {
+  return readdirSync(dir).flatMap((name) => {
+    const full = join(dir, name);
+    return statSync(full).isDirectory() ? files(full) : /\.tsx?$/.test(name) ? [full] : [];
+  });
 }
-const kebab = (s: string) => s.replace(/[A-Z]/g, (c) => `-${c.toLowerCase()}`);
 
-describe("tokens.ts matches tokens.css", () => {
-  it("primitives", () => {
-    for (const [family, steps] of Object.entries(primitives))
-      for (const [step, value] of Object.entries(steps))
-        expect(resolve(`color-${family}-${step}`), `${family}/${step}`).toBe(value);
+describe("components use tokens only", () => {
+  const checked = ["components", "patterns", "pages"].flatMap((d) => files(join(src, d)));
+
+  it.each(checked.map((f) => [f.slice(src.length), f]))("%s has no hard-coded colors", (_name, file) => {
+    const code = readFileSync(file, "utf8")
+      .replace(/\/\*[\s\S]*?\*\//g, "")
+      .replace(/\/\/.*$/gm, "");
+    expect(code.match(/#[0-9a-fA-F]{3,8}\b|rgba?\(/g) ?? []).toEqual([]);
   });
+});
 
-  it("semantic colors", () => {
-    for (const [group, names] of Object.entries(color))
-      for (const [name, value] of Object.entries(names))
-        expect(resolve(`${group}-color-${kebab(name)}`), `${group}/${name}`).toBe(value);
+describe("theme carries every token", () => {
+  it("palette.ds is the full semantic color set", () => {
+    expect(theme.palette.ds).toEqual(color);
   });
-
-  it("spacing", () => {
-    for (const [name, px] of Object.entries(spacing)) expect(resolve(`spacing-${name}`)).toBe(`${px}px`);
+  it("shadows 1–4 are Elevation 1–4", () => {
+    expect(theme.shadows.slice(1, 5)).toEqual([elevation[1], elevation[2], elevation[3], elevation[4]]);
   });
-
-  it("radius", () => {
-    for (const [name, px] of Object.entries(radius)) expect(resolve(`radius-${name}`)).toBe(`${px}px`);
-  });
-
-  it("elevation", () => {
-    for (const [name, value] of Object.entries(elevation)) {
-      const cssName = name === "dark2" ? "shadow-elevation-dark-2" : `shadow-elevation-${name}`;
-      expect(resolve(cssName)).toBe(value);
+  it("Figma text styles exist as typography variants", () => {
+    const { displaySmall, ...rest } = typography;
+    expect(theme.typography.displayMedium).toMatchObject(displaySmall); // Figma Display/Small
+    for (const [name, style] of Object.entries(rest)) {
+      expect(theme.typography[name as keyof typeof theme.typography]).toMatchObject(style);
     }
   });
 });

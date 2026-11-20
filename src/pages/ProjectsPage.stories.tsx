@@ -1,15 +1,20 @@
 import { useState } from "react";
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import { expect, userEvent, within } from "storybook/test";
+import Box from "@mui/material/Box";
+import Button from "@mui/material/Button";
+import LinearProgress from "@mui/material/LinearProgress";
+import Typography from "@mui/material/Typography";
+import { visuallyHidden } from "@mui/utils";
 import {
-  Button,
   EmptyState,
   ErrorIcon,
   FilterChip,
   Footer,
   Header,
-  ProgressBar,
+  layout,
   ProjectCard,
+  sp,
   ProjectCardSkeleton,
   RefreshIcon,
   SearchOffIcon,
@@ -64,17 +69,36 @@ function ProjectsPage({ state: initialState = "ready", initialFilter = [], data 
     setTimeout(() => setState("ready"), 1200);
   };
 
+  const grid = { display: "grid", width: "100%", gridTemplateColumns: { xs: "1fr", md: "1fr 1fr" }, justifyItems: "center", gap: sp.xl } as const;
+
   return (
-    <div className="bg-surface">
-      {state === "loading" && <ProgressBar label="Loading projects" className="fixed top-0 z-10" />}
+    <Box sx={{ bgcolor: "ds.bg.surface" }}>
+      {state === "loading" && (
+        <LinearProgress aria-label="Loading projects" sx={{ position: "fixed", top: 0, left: 0, right: 0, zIndex: 10 }} />
+      )}
       <Header activeHref="/projects" />
-      <main className="mx-auto flex max-w-content flex-col items-center gap-2xl px-md pt-2xl pb-5xl lg:px-0">
-        <h1 className="type-display-lg text-center text-primary">Projects</h1>
-        <div className="flex flex-wrap justify-center gap-lg">
+      <Box
+        component="main"
+        sx={{
+          mx: "auto",
+          display: "flex",
+          maxWidth: layout.contentWidth,
+          flexDirection: "column",
+          alignItems: "center",
+          gap: sp["2xl"],
+          px: { xs: sp.md, lg: 0 },
+          pt: sp["2xl"],
+          pb: sp["5xl"],
+        }}
+      >
+        <Typography variant="displayLarge" component="h1" color="ds.text.primary" sx={{ textAlign: "center" }}>
+          Projects
+        </Typography>
+        <Box sx={{ display: "flex", flexWrap: "wrap", justifyContent: "center", gap: sp.lg }}>
           {statuses.map((s) => (
             <FilterChip key={s.value} label={s.label} selected={filter.includes(s.value)} onClick={() => toggle(s.value)} />
           ))}
-        </div>
+        </Box>
         {state === "error" ? (
           <EmptyState
             tone="error"
@@ -82,19 +106,21 @@ function ProjectsPage({ state: initialState = "ready", initialFilter = [], data 
             title="We couldn't load projects"
             description="Check your connection and try again. If it keeps happening, we're probably fixing it."
             action={
-              <Button icon={<RefreshIcon />} onClick={retry}>
+              <Button variant="contained" startIcon={<RefreshIcon />} onClick={retry}>
                 Try again
               </Button>
             }
           />
         ) : state === "loading" ? (
           <>
-            <h2 className="sr-only">Loading projects</h2>
-            <div className="grid w-full grid-cols-1 justify-items-center gap-xl md:grid-cols-2">
+            <Typography variant="headlineSmall" component="h2" sx={visuallyHidden}>
+              Loading projects
+            </Typography>
+            <Box sx={grid}>
               {[0, 1, 2, 3].map((i) => (
                 <ProjectCardSkeleton key={i} />
               ))}
-            </div>
+            </Box>
           </>
         ) : visible.length === 0 ? (
           <EmptyState
@@ -109,17 +135,19 @@ function ProjectsPage({ state: initialState = "ready", initialFilter = [], data 
           />
         ) : (
           <>
-            <h2 className="sr-only">All projects</h2>
-            <div className="grid w-full grid-cols-1 justify-items-center gap-xl md:grid-cols-2">
+            <Typography variant="headlineSmall" component="h2" sx={visuallyHidden}>
+              All projects
+            </Typography>
+            <Box sx={grid}>
               {visible.map((p) => (
                 <ProjectCard key={p.title} {...p} imageSrc={p.image} imageAlt={`${p.title} image`} imageFit={p.fit} />
               ))}
-            </div>
+            </Box>
           </>
         )}
-      </main>
+      </Box>
       <Footer />
-    </div>
+    </Box>
   );
 }
 

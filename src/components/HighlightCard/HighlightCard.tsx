@@ -1,3 +1,7 @@
+import Card from "@mui/material/Card";
+import Typography from "@mui/material/Typography";
+import { sp, withSx, type Sx } from "../../mui/sx";
+
 /**
  * HighlightCard: a short stat or achievement with a supporting line.
  *
@@ -7,20 +11,16 @@
 export interface HighlightCardProps {
   title: string;
   description: string;
-  className?: string;
+  sx?: Sx;
 }
 
-export function HighlightCard({ title, description, className = "" }: HighlightCardProps) {
+export function HighlightCard({ title, description, sx }: HighlightCardProps) {
   return (
-    <article
-      className={[
-        "flex flex-col rounded-md border-3 border-on-surface bg-surface p-xl text-center text-primary",
-        "shadow-elevation-1",
-        className,
-      ].join(" ")}
-    >
-      <h3 className="type-body-md font-bold">{title}</h3>
-      <p className="type-body-md">{description}</p>
-    </article>
+    <Card component="article" sx={withSx({ display: "flex", flexDirection: "column", p: sp.xl, textAlign: "center", color: "ds.text.primary" }, sx)}>
+      <Typography variant="bodyMedium" component="h3" sx={{ fontWeight: 700 }}>
+        {title}
+      </Typography>
+      <Typography variant="bodyMedium">{description}</Typography>
+    </Card>
   );
 }

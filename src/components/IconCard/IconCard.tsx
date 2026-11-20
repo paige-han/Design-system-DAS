@@ -1,8 +1,12 @@
 import type { ReactNode } from "react";
+import Card from "@mui/material/Card";
+import Typography from "@mui/material/Typography";
 import { IconBadge } from "../IconBadge/IconBadge";
+import { sp, withSx, type Sx } from "../../mui/sx";
 
 /**
  * IconCard: centered card with an icon badge, a title and a short description.
+ * MUI Card (rounded, white border, Elevation 1 from the theme) on a white background.
  *
  * Figma mapping: "Card 1 w/ Icon" (also used as "Card 2" and "Card 3", which only
  * change the icon and text). Volunteer benefits: New Skills, Networking, Community.
@@ -12,21 +16,25 @@ export interface IconCardProps {
   icon: ReactNode;
   title: string;
   description: string;
-  className?: string;
+  sx?: Sx;
 }
 
-export function IconCard({ icon, title, description, className = "" }: IconCardProps) {
+export function IconCard({ icon, title, description, sx }: IconCardProps) {
   return (
-    <article
-      className={[
-        "flex flex-col items-center gap-lg rounded-md border-3 border-on-surface bg-default p-xl text-center",
-        "shadow-elevation-1",
-        className,
-      ].join(" ")}
+    <Card
+      component="article"
+      sx={withSx(
+        { display: "flex", flexDirection: "column", alignItems: "center", gap: sp.lg, p: sp.xl, textAlign: "center", bgcolor: "ds.bg.default" },
+        sx,
+      )}
     >
       <IconBadge icon={icon} />
-      <h3 className="type-title-lg text-primary">{title}</h3>
-      <p className="type-body-md text-primary">{description}</p>
-    </article>
+      <Typography variant="titleLarge" color="ds.text.primary">
+        {title}
+      </Typography>
+      <Typography variant="bodyMedium" color="ds.text.primary">
+        {description}
+      </Typography>
+    </Card>
   );
 }

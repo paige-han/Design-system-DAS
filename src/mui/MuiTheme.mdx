@@ -7,15 +7,19 @@ import { Meta } from "@storybook/addon-docs/blocks";
 `src/mui/theme.ts` is a drop-in replacement for `theme/theme.ts` in
 [digital-aid-seattle-website](https://github.com/digitalaidseattle/digital-aid-seattle-website).
 It is built from `src/tokens/tokens.ts`, which uses the same names and values as the Figma
-**Foundations** page. A unit test (`src/tokens/tokens.test.ts`) fails if `tokens.ts` and
-`tokens.css` (used by Storybook) ever disagree.
+**Foundations** page. Storybook runs on this exact theme, so every story shows what the site will look like.
+
+Every component in this Storybook is built with MUI v6 and this theme, the same stack as the site.
+Base parts (Button, Chip, Card, Alert, Skeleton, LinearProgress, form fields) are plain MUI, styled
+by the theme. Composed components (cards, Header, Footer, EmptyState …) can be copied from
+`src/components/` along with `src/icons` and `src/mui/sx.ts`.
 
 See it rendered: **For developers → MUI theme preview**.
 
 ## How to adopt it
 
-1. Copy `src/tokens/tokens.ts` and `src/mui/theme.ts` into the website (e.g. `theme/tokens.ts`, `theme/theme.ts`),
-   and change the import in `theme.ts` to `./tokens`.
+1. Copy `src/tokens/tokens.ts`, `src/mui/theme.ts` and `src/mui/sx.ts` into the website (e.g. `theme/`),
+   and fix the import paths.
 2. Keep exporting `theme` as before. Breakpoints, typography variant names, the `card` button variant and the
    component overrides are unchanged, so pages need no edits.
 3. Check these pages, where the fixes below are visible: Home, Volunteers, Projects, the newsletter form.
@@ -33,6 +37,13 @@ See it rendered: **For developers → MUI theme preview**.
 | Shadows 1–4 | MUI defaults | Figma Elevation 1–4 | Cards and menus match the designs |
 | `labelSmall` letter spacing | 0.5px | 0 | Figma Label/Small |
 | `caption` | MUI default | Montserrat 11/16 | Figma Caption |
+| Contained primary button | `#003029` | `#00382F`, hover `#005D51` | Figma bg/action |
+| Outlined button | 14px label | 12px label, 2px green border | Figma Volunteer Position "Learn more" |
+| New button variant `elevated` | — | Green + soft shadow | Footer "Sign up" on dark |
+| Button `loading` | — | Spinner before the label | Forms while sending |
+| Chips | MUI size | 32px tall, Label/Large SemiBold | Figma Filter chip |
+| Form fields, Checkbox, Alert, Skeleton, LinearProgress | MUI defaults | Token colors and type | Match "Forms" and "Feedback" in Storybook |
+| New typography variant `labelLargeSemibold` | — | Montserrat 600 14/20 | Chips, badges |
 
 Everything else keeps its current value: primary green `#003029`, page background `#F2F7F7`,
 fonts, radii and spacing.

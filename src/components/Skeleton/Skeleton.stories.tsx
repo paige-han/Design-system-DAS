@@ -1,6 +1,10 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
-import { Skeleton, ProjectCardSkeleton } from "./Skeleton";
+import Box from "@mui/material/Box";
+import Skeleton from "@mui/material/Skeleton";
+import { ProjectCardSkeleton } from "./Skeleton";
+import { sp } from "../../mui/sx";
 
+/** MUI Skeleton with the theme's color and gentle pulse (still for people who turn off motion). */
 const meta = {
   title: "Feedback/Skeleton",
   component: Skeleton,
@@ -11,13 +15,13 @@ type Story = StoryObj<typeof meta>;
 
 export const Shapes: Story = {
   render: () => (
-    <div className="flex w-[360px] flex-col gap-md">
-      <Skeleton className="h-7 w-2/3" />
-      <Skeleton className="h-4 w-full" />
-      <Skeleton className="h-4 w-5/6" />
-      <Skeleton shape="block" className="h-40 w-full" />
-      <Skeleton shape="pill" className="h-10 w-28" />
-    </div>
+    <Box sx={{ display: "flex", width: 360, flexDirection: "column", gap: sp.md }}>
+      <Skeleton variant="text" width="66%" height={28} />
+      <Skeleton variant="text" height={16} />
+      <Skeleton variant="text" width="83%" height={16} />
+      <Skeleton variant="rounded" height={160} />
+      <Skeleton variant="rounded" width={112} height={40} sx={{ borderRadius: "999px" }} />
+    </Box>
   ),
 };
 export const ProjectCardLoading: Story = { render: () => <ProjectCardSkeleton /> };

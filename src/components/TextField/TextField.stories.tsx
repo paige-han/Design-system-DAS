@@ -4,7 +4,7 @@ import { TextField } from "./TextField";
 const meta = {
   title: "Forms/TextField",
   component: TextField,
-  args: { label: "Email address", className: "w-[400px]" },
+  args: { label: "Email address", sx: { width: 400 } },
 } satisfies Meta<typeof TextField>;
 export default meta;
 type Story = StoryObj<typeof meta>;

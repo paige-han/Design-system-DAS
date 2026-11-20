@@ -1,3 +1,8 @@
+import Box from "@mui/material/Box";
+import Card from "@mui/material/Card";
+import Typography from "@mui/material/Typography";
+import { sp, withSx, type Sx } from "../../mui/sx";
+
 /**
  * TeamCard: a team member's name and role, with an optional photo.
  *
@@ -8,23 +13,17 @@ export interface TeamCardProps {
   role: string;
   /** Square headshot. Leave out for the compact (mobile) version. */
   photoSrc?: string;
-  className?: string;
+  sx?: Sx;
 }
 
-export function TeamCard({ name, role, photoSrc, className = "" }: TeamCardProps) {
+export function TeamCard({ name, role, photoSrc, sx }: TeamCardProps) {
   return (
-    <article
-      className={[
-        "flex w-full max-w-[196px] flex-col overflow-hidden rounded-md border-3 border-on-surface bg-surface",
-        "shadow-elevation-1",
-        className,
-      ].join(" ")}
-    >
-      {photoSrc && <img src={photoSrc} alt={name} className="aspect-square w-full object-cover" />}
-      <div className="flex flex-col gap-2xs p-md text-primary">
-        <h3 className="type-title-md">{name}</h3>
-        <p className="type-body-md">{role}</p>
-      </div>
-    </article>
+    <Card component="article" sx={withSx({ display: "flex", flexDirection: "column", width: "100%", maxWidth: 196 }, sx)}>
+      {photoSrc && <Box component="img" src={photoSrc} alt={name} sx={{ aspectRatio: "1", width: "100%", objectFit: "cover" }} />}
+      <Box sx={{ display: "flex", flexDirection: "column", gap: sp["2xs"], p: sp.md, color: "ds.text.primary" }}>
+        <Typography variant="titleMedium">{name}</Typography>
+        <Typography variant="bodyMedium">{role}</Typography>
+      </Box>
+    </Card>
   );
 }

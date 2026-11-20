@@ -1,136 +1,113 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
+import Box from "@mui/material/Box";
+import Typography from "@mui/material/Typography";
+import { color, primitives } from "../tokens/tokens";
+import { rd, sp } from "../mui/sx";
+import { Code, FoundationPage } from "./shared";
 
-/** Reads values straight from tokens.css, so this page always matches the code. */
-function cssVar(name: string) {
-  return getComputedStyle(document.documentElement).getPropertyValue(name).trim();
-}
-
-type Group = { title: string; varPrefix: string; usage: string; tokens: [string, string][] };
-
-const semantic: Group[] = [
-  {
-    title: "Background",
-    varPrefix: "--bg-color-",
-    usage: "bg-",
-    tokens: [
-      ["default", "Cards, inputs"],
-      ["subtle", "Light green tint"],
-      ["surface", "Page background, project cards"],
-      ["surface-alt", "Hover on light surfaces"],
-      ["brand", "Icon badges"],
-      ["brand-strong", "Header, hero"],
-      ["inverse", "Footer"],
-      ["accent", "Buttons on dark backgrounds"],
-      ["accent-subtle", "Selected chips, active status"],
-      ["highlight", "Lime highlight"],
-      ["action", "Primary buttons"],
-      ["action-pressed", "Primary button hover / pressed"],
-      ["action-on-dark", "Elevated button on dark"],
-      ["state-layer", "Overlays, use with opacity (bg-state-layer/24)"],
-      ["status-active", "Badge: Active (extra)"],
-      ["status-under-evaluation", "Badge: Evaluating (extra)"],
-      ["status-completed", "Badge: Completed (extra)"],
-    ],
+/** What each semantic token is for. Values are read from tokens.ts, so this page always matches the code. */
+const usage: Record<string, Record<string, string>> = {
+  bg: {
+    default: "Cards, inputs",
+    subtle: "Light green tint, success alerts",
+    surface: "Page background, project cards",
+    surfaceAlt: "Page background (site), info alerts",
+    brand: "Icon badges",
+    brandStrong: "Header, hero",
+    inverse: "Footer",
+    accent: "Buttons on dark backgrounds, selected chips",
+    accentSubtle: "Chip hover, active status",
+    highlight: "Lime highlight",
+    action: "Primary buttons",
+    actionPressed: "Primary button hover / pressed",
+    actionOnDark: "Elevated button on dark",
+    stateLayer: "Overlays, used with opacity",
+    statusActive: "Badge: Active (extra)",
+    statusUnderEvaluation: "Badge: Evaluating (extra)",
+    statusCompleted: "Badge: Completed (extra)",
+    successSubtle: "Success alert (extra)",
+    errorSubtle: "Error alert, error summary (extra)",
   },
-  {
-    title: "Text",
-    varPrefix: "--text-color-",
-    usage: "text-",
-    tokens: [
-      ["primary", "Main text"],
-      ["secondary", "Labels, supporting text"],
-      ["tertiary", "Placeholders, hints"],
-      ["brand", "Brand-colored text and icons"],
-      ["on-dark", "Text on dark backgrounds"],
-      ["on-accent", "Text on yellow"],
-      ["error", "Error messages (red/600, extra: red/500 fails 4.5:1 on white)"],
-      ["action", "Outlined button label"],
-      ["on-action", "Text on primary buttons"],
-    ],
+  text: {
+    primary: "Main text",
+    secondary: "Labels, supporting text",
+    tertiary: "Placeholders, hints",
+    brand: "Brand-colored text and icons",
+    onDark: "Text on dark backgrounds",
+    onAccent: "Text on yellow",
+    error: "Error messages (red/600, extra: red/500 fails 4.5:1 on white)",
+    action: "Outlined button label",
+    onAction: "Text on primary buttons",
   },
-  {
-    title: "Border",
-    varPrefix: "--border-color-",
-    usage: "border-",
-    tokens: [
-      ["default", "Default borders"],
-      ["subtle", "Dividers, image frames"],
-      ["strong", "Chip outlines"],
-      ["brand", "Selected / outlined button"],
-      ["on-surface", "White card edge, focus ring on dark"],
-      ["error", "Field in error"],
-    ],
+  border: {
+    default: "Field borders",
+    subtle: "Dividers, image frames",
+    strong: "Chip outlines, field hover",
+    brand: "Focus ring, focused field, outlined button",
+    onSurface: "White card edge, focus ring on dark",
+    error: "Field in error",
   },
-  {
-    title: "Icon",
-    varPrefix: "--icon-color-",
-    usage: "icon-",
-    tokens: [
-      ["default", "Icons on light"],
-      ["on-dark", "Icons on dark"],
-      ["accent", "Lime accent icons, logo trees"],
-    ],
-  },
-];
+  icon: { default: "Icons on light", onDark: "Icons on dark", accent: "Lime accent icons, logo trees" },
+};
 
-const primitives: { name: string; steps: string[] }[] = [
-  { name: "green", steps: ["50", "400", "500", "600", "700", "800", "900", "950"] },
-  { name: "lime", steps: ["200", "300", "400", "600"] },
-  { name: "yellow", steps: ["100", "400"] },
-  { name: "coral", steps: ["400", "500"] },
-  { name: "red", steps: ["500", "600"] },
-  { name: "neutral", steps: ["0", "50", "100", "200", "300", "400", "500", "600", "700", "800", "900", "950"] },
-];
+const titles: Record<string, string> = { bg: "Background", text: "Text", border: "Border", icon: "Icon" };
 
-function Swatch({ cssName, label, note }: { cssName: string; label: string; note?: string }) {
-  const value = cssVar(cssName);
+function Swatch({ value, label, note }: { value: string; label: string; note?: string }) {
   return (
-    <div className="flex w-[196px] flex-col gap-xs">
-      <div className="h-18 rounded-sm border border-subtle" style={{ background: `var(${cssName})` }} />
+    <Box sx={{ display: "flex", width: 196, flexDirection: "column", gap: sp.xs }}>
+      <Box sx={{ height: 72, borderRadius: rd.sm, border: "1px solid", borderColor: "ds.border.subtle", bgcolor: value }} />
       <div>
-        <p className="type-label-lg text-primary">{label}</p>
-        <p className="type-caption text-tertiary">
-          {value || "—"}
+        <Typography variant="labelLarge" component="p" color="ds.text.primary">
+          {label}
+        </Typography>
+        <Typography variant="caption" component="p" color="ds.text.tertiary">
+          {value}
           {note ? ` · ${note}` : ""}
-        </p>
+        </Typography>
       </div>
-    </div>
+    </Box>
   );
 }
 
 function ColorsPage() {
   return (
-    <div className="flex flex-col gap-3xl p-xl">
-      <header>
-        <h1 className="type-headline-lg text-primary">Colour</h1>
-        <p className="type-body-md text-secondary">
-          Same names as the Figma Foundations page. Components use the semantic tokens; primitives are only for
-          defining them.
-        </p>
-      </header>
-      {semantic.map((g) => (
-        <section key={g.title} className="flex flex-col gap-md">
-          <h2 className="type-title-md text-primary">
-            {g.title} <span className="type-caption text-tertiary">class: {g.usage}…</span>
-          </h2>
-          <div className="flex flex-wrap gap-md">
-            {g.tokens.map(([t, note]) => (
-              <Swatch key={t} cssName={`${g.varPrefix}${t}`} label={`${g.usage}${t}`} note={note} />
+    <FoundationPage
+      title="Colour"
+      intro={
+        <>
+          Same names as the Figma Foundations page. Components use the semantic tokens through the theme, e.g.{" "}
+          <Code>sx={'{{ bgcolor: "ds.bg.brand", color: "ds.text.onDark" }}'}</Code>. Primitives only define them.
+        </>
+      }
+    >
+      {Object.entries(color).map(([group, tokens]) => (
+        <Box component="section" key={group} sx={{ display: "flex", flexDirection: "column", gap: sp.md }}>
+          <Typography variant="titleMedium" component="h2" color="ds.text.primary">
+            {titles[group]}{" "}
+            <Typography component="span" variant="caption" color="ds.text.tertiary">
+              ds.{group}.…
+            </Typography>
+          </Typography>
+          <Box sx={{ display: "flex", flexWrap: "wrap", gap: sp.md }}>
+            {Object.entries(tokens).map(([name, value]) => (
+              <Swatch key={name} value={value} label={`ds.${group}.${name}`} note={usage[group]?.[name]} />
             ))}
-          </div>
-        </section>
+          </Box>
+        </Box>
       ))}
-      <section className="flex flex-col gap-md">
-        <h2 className="type-title-md text-primary">Primitives</h2>
-        {primitives.map((p) => (
-          <div key={p.name} className="flex flex-wrap gap-md">
-            {p.steps.map((s) => (
-              <Swatch key={s} cssName={`--color-${p.name}-${s}`} label={`${p.name}/${s}`} />
+      <Box component="section" sx={{ display: "flex", flexDirection: "column", gap: sp.md }}>
+        <Typography variant="titleMedium" component="h2" color="ds.text.primary">
+          Primitives
+        </Typography>
+        {Object.entries(primitives).map(([family, steps]) => (
+          <Box key={family} sx={{ display: "flex", flexWrap: "wrap", gap: sp.md }}>
+            {Object.entries(steps).map(([step, value]) => (
+              <Swatch key={step} value={value} label={`${family}/${step}`} />
             ))}
-          </div>
+          </Box>
         ))}
-      </section>
-    </div>
+      </Box>
+    </FoundationPage>
   );
 }
 

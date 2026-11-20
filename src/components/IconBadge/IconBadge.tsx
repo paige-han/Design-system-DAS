@@ -1,4 +1,6 @@
 import type { ReactNode } from "react";
+import Box from "@mui/material/Box";
+import { withSx, type Sx } from "../../mui/sx";
 
 /**
  * IconBadge: an icon inside an 80px green circle.
@@ -7,18 +9,33 @@ import type { ReactNode } from "react";
  * Card 1 w/ Icon, Card 2, Card 3 and Card 1 w Icon LA.
  */
 export interface IconBadgeProps {
-  /** A Material Symbol from src/icons. */
+  /** A Material Symbol from src/icons (or @mui/icons-material). Shown at 40px. */
   icon: ReactNode;
-  className?: string;
+  sx?: Sx;
 }
 
-export function IconBadge({ icon, className = "" }: IconBadgeProps) {
+export function IconBadge({ icon, sx }: IconBadgeProps) {
   return (
-    <span
+    <Box
+      component="span"
       aria-hidden="true"
-      className={`flex size-20 shrink-0 items-center justify-center rounded-full bg-brand icon-on-dark ${className}`}
+      sx={withSx(
+        {
+          display: "flex",
+          width: 80,
+          height: 80,
+          flexShrink: 0,
+          alignItems: "center",
+          justifyContent: "center",
+          borderRadius: "50%",
+          bgcolor: "ds.bg.brand",
+          color: "ds.icon.onDark",
+          "& svg": { fontSize: 40 },
+        },
+        sx,
+      )}
     >
-      <span className="size-10">{icon}</span>
-    </span>
+      {icon}
+    </Box>
   );
 }

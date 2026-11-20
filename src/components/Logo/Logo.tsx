@@ -1,3 +1,5 @@
+import Box from "@mui/material/Box";
+import type { SxProps, Theme } from "@mui/material/styles";
 /**
  * Logo: Digital Aid Seattle wordmark.
  *
@@ -9,7 +11,7 @@ export interface LogoProps {
   braces?: boolean;
   /** Height in px. Width scales automatically (Figma size: 48). */
   height?: number;
-  className?: string;
+  sx?: SxProps<Theme>;
 }
 
 const BRACES =
@@ -24,21 +26,22 @@ const TREES = [
   "M45.2643 42.2807H33.6062L39.4354 15.0098L45.2643 42.2807Z",
 ];
 
-export function Logo({ braces = true, height = 48, className = "" }: LogoProps) {
+export function Logo({ braces = true, height = 48, sx }: LogoProps) {
   return (
-    <svg
+    <Box
+      component="svg"
       viewBox="0 0 155 49"
       height={height}
       width={(height * 155) / 49}
       role="img"
       aria-label="Digital Aid Seattle"
-      className={`text-on-dark ${className}`}
+      sx={[{ display: "block", color: "ds.text.onDark" }, ...(Array.isArray(sx) ? sx : [sx])]}
     >
       {braces && <path d={BRACES} fill="currentColor" />}
       <path d={WORDMARK} fill="currentColor" />
       {TREES.map((d) => (
-        <path key={d} d={d} className="fill-accent" />
+        <Box component="path" key={d} d={d} sx={{ fill: (t) => t.palette.ds.icon.accent }} />
       ))}
-    </svg>
+    </Box>
   );
 }

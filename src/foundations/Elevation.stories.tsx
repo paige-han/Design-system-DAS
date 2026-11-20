@@ -1,36 +1,56 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
+import Box from "@mui/material/Box";
+import Button from "@mui/material/Button";
+import Typography from "@mui/material/Typography";
+import { rd, sp } from "../mui/sx";
+import { Code, FoundationPage } from "./shared";
 
 const levels = [
-  { cls: "shadow-elevation-1", name: "Elevation/1", use: "Cards" },
-  { cls: "shadow-elevation-2", name: "Elevation/2", use: "Hovered cards, menus" },
-  { cls: "shadow-elevation-3", name: "Elevation/3", use: "Popovers, raised panels" },
-  { cls: "shadow-elevation-4", name: "Elevation/4", use: "Dialogs" },
+  { level: 1, use: "Cards (MUI Card default)" },
+  { level: 2, use: "Hovered cards, menus, volunteer position card" },
+  { level: 3, use: "Popovers, raised panels" },
+  { level: 4, use: "Dialogs" },
 ];
+
+const tile = { display: "flex", height: 120, width: 200, flexDirection: "column", justifyContent: "flex-end", borderRadius: rd.md, p: sp.md } as const;
 
 function ElevationPage() {
   return (
-    <div className="flex flex-col gap-2xl p-xl">
-      <div>
-        <h1 className="type-headline-lg text-primary">Elevation</h1>
-        <p className="type-body-md text-secondary">Shadows from the Figma Foundations page (Elevation/1–4).</p>
-      </div>
-      <div className="flex flex-wrap gap-2xl">
+    <FoundationPage
+      title="Elevation"
+      intro={
+        <>
+          Figma Elevation/1–4 are the theme's shadows 1–4: <Code>{"sx={{ boxShadow: 2 }}"}</Code> or <Code>{"<Card elevation={2}>"}</Code>.
+        </>
+      }
+    >
+      <Box sx={{ display: "flex", flexWrap: "wrap", gap: sp["2xl"] }}>
         {levels.map((l) => (
-          <div key={l.cls} className={`flex h-30 w-50 flex-col justify-end rounded-md bg-default p-md ${l.cls}`}>
-            <p className="type-label-lg text-primary">{l.name}</p>
-            <p className="type-caption text-tertiary">{l.cls}</p>
-            <p className="type-caption text-tertiary">{l.use}</p>
-          </div>
+          <Box key={l.level} sx={{ ...tile, bgcolor: "ds.bg.default", boxShadow: l.level }}>
+            <Typography variant="labelLarge" component="p" color="ds.text.primary">
+              Elevation/{l.level}
+            </Typography>
+            <Typography variant="caption" component="p" color="ds.text.tertiary">
+              boxShadow: {l.level}
+            </Typography>
+            <Typography variant="caption" component="p" color="ds.text.tertiary">
+              {l.use}
+            </Typography>
+          </Box>
         ))}
-        <div className="flex h-30 w-50 flex-col justify-end rounded-md bg-brand-strong p-md">
-          <div className="mb-auto flex h-10 items-center justify-center rounded-full bg-action-on-dark shadow-elevation-dark-2 type-label-lg text-on-action">
-            Sign up
-          </div>
-          <p className="type-label-lg text-on-dark">Elevation Dark/2 (extra)</p>
-          <p className="type-caption text-on-dark">shadow-elevation-dark-2</p>
-        </div>
-      </div>
-    </div>
+        <Box sx={{ ...tile, bgcolor: "ds.bg.brandStrong" }}>
+          <Box sx={{ mb: "auto" }}>
+            <Button variant="elevated">Sign up</Button>
+          </Box>
+          <Typography variant="labelLarge" component="p" color="ds.text.onDark">
+            Elevation Dark/2 (extra)
+          </Typography>
+          <Typography variant="caption" component="p" color="ds.text.onDark">
+            Button variant="elevated"
+          </Typography>
+        </Box>
+      </Box>
+    </FoundationPage>
   );
 }
 
@@ -38,7 +58,6 @@ const meta = {
   title: "Foundations/Elevation",
   component: ElevationPage,
   parameters: { layout: "fullscreen" },
-  globals: { backgrounds: { value: "surface" } },
   tags: ["!autodocs"],
 } satisfies Meta<typeof ElevationPage>;
 export default meta;

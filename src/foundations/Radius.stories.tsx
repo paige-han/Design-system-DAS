@@ -1,37 +1,45 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
+import Box from "@mui/material/Box";
+import Typography from "@mui/material/Typography";
+import { radius } from "../tokens/tokens";
+import { rd, sp } from "../mui/sx";
+import { Code, FoundationPage } from "./shared";
 
-const radii = [
-  ["none", "0px", ""],
-  ["xs", "4px", "Checkboxes"],
-  ["sm", "8px", "Chips, images, list items"],
-  ["md", "12px", "Cards"],
-  ["lg", "16px", "Large panels"],
-  ["xl", "28px", "Text inputs"],
-  ["full", "9999px", "Buttons, badges, icon badges"],
-] as const;
+const use: Record<string, string> = {
+  none: "Full-bleed images",
+  xs: "Small tags, skeleton lines",
+  sm: "List items, chips, image frames",
+  md: "Cards, fields, alerts",
+  lg: "Large panels",
+  xl: "Footer email field",
+  full: "Buttons, badges, nav pills",
+};
 
 function RadiusPage() {
   return (
-    <div className="flex flex-col gap-lg p-xl">
-      <div>
-        <h1 className="type-headline-lg text-primary">Radius</h1>
-        <p className="type-body-md text-secondary">
-          Class: <code>rounded-md</code>, <code>rounded-full</code> …
-        </p>
-      </div>
-      <div className="flex flex-wrap gap-md">
-        {radii.map(([name, px, use]) => (
-          <div key={name} className="flex w-30 flex-col gap-xs">
-            <div className="h-24 bg-highlight" style={{ borderRadius: `var(--radius-${name})` }} />
-            <p className="type-label-md text-primary">rounded-{name}</p>
-            <p className="type-caption text-tertiary">
-              {px}
-              {use ? ` · ${use}` : ""}
-            </p>
-          </div>
+    <FoundationPage
+      title="Radius"
+      intro={
+        <>
+          Use <Code>{"sx={{ borderRadius: rd.md }}"}</Code>. A bare number in sx is multiplied by MUI's base radius, so always use{" "}
+          <Code>rd</Code>.
+        </>
+      }
+    >
+      <Box sx={{ display: "flex", flexWrap: "wrap", gap: sp.xl }}>
+        {Object.entries(radius).map(([name, px]) => (
+          <Box key={name} sx={{ display: "flex", width: 160, flexDirection: "column", gap: sp.xs }}>
+            <Box sx={{ height: 96, borderRadius: rd[name as keyof typeof rd], bgcolor: "ds.bg.brand" }} />
+            <Typography variant="labelLarge" component="p" color="ds.text.primary">
+              radius/{name} · {px === 9999 ? "full" : `${px}px`}
+            </Typography>
+            <Typography variant="caption" component="p" color="ds.text.tertiary">
+              {use[name]}
+            </Typography>
+          </Box>
         ))}
-      </div>
-    </div>
+      </Box>
+    </FoundationPage>
   );
 }
 

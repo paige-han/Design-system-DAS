@@ -1,7 +1,12 @@
 import { useState } from "react";
+import { alpha } from "@mui/material/styles";
+import Box from "@mui/material/Box";
+import Button from "@mui/material/Button";
+import IconButton from "@mui/material/IconButton";
 import { Logo } from "../Logo/Logo";
-import { Button } from "../Button/Button";
 import { CloseIcon, MenuIcon } from "../../icons";
+import { focusRing, rd, sp } from "../../mui/sx";
+import { color, layout } from "../../tokens/tokens";
 
 /**
  * Header: site navigation bar.
@@ -36,17 +41,25 @@ export const defaultNavLinks: NavLink[] = [
 
 function NavItem({ link, active }: { link: NavLink; active: boolean }) {
   return (
-    <a
+    <Box
+      component="a"
       href={link.href}
       aria-current={active ? "page" : undefined}
-      className={[
-        "rounded-full px-sm py-2.5 type-label-lg text-on-dark transition-colors",
-        "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-on-surface",
-        active ? "bg-state-layer/24" : "hover:bg-state-layer/16",
-      ].join(" ")}
+      sx={(t) => ({
+        ...t.typography.labelLarge,
+        borderRadius: rd.full,
+        px: sp.sm,
+        py: "10px",
+        color: "ds.text.onDark",
+        textDecoration: "none",
+        transition: "background-color 150ms",
+        bgcolor: active ? alpha(color.bg.stateLayer, 0.24) : "transparent",
+        "&:hover": { bgcolor: alpha(color.bg.stateLayer, active ? 0.24 : 0.16) },
+        ...focusRing(true),
+      })}
     >
       {link.label}
-    </a>
+    </Box>
   );
 }
 
@@ -60,46 +73,59 @@ export function Header({
   const [open, setOpen] = useState(defaultMenuOpen);
 
   return (
-    <header className="bg-brand-strong">
-      <div className="mx-auto flex h-20 max-w-content items-center justify-between px-md lg:h-[78px] lg:px-0">
-        <a href="/" className="rounded-sm focus-visible:outline-2 focus-visible:outline-on-surface">
-          <Logo braces={false} className="lg:hidden" />
-          <Logo className="hidden lg:block" />
-        </a>
+    <Box component="header" sx={{ bgcolor: "ds.bg.brandStrong" }}>
+      <Box
+        sx={{
+          mx: "auto",
+          display: "flex",
+          height: { xs: 80, lg: 78 },
+          maxWidth: layout.contentWidth,
+          alignItems: "center",
+          justifyContent: "space-between",
+          px: { xs: sp.md, lg: 0 },
+        }}
+      >
+        <Box component="a" href="/" sx={{ borderRadius: rd.sm, ...focusRing(true) }}>
+          <Logo braces={false} sx={{ display: { lg: "none" } }} />
+          <Logo sx={{ display: { xs: "none", lg: "block" } }} />
+        </Box>
 
-        <nav aria-label="Main" className="hidden items-center gap-lg lg:flex">
+        <Box component="nav" aria-label="Main" sx={{ display: { xs: "none", lg: "flex" }, alignItems: "center", gap: sp.lg }}>
           {links.map((link) => (
             <NavItem key={link.href} link={link} active={link.href === activeHref} />
           ))}
-        </nav>
+        </Box>
 
-        <div className="hidden lg:block">
-          <Button variant="onDark" onClick={onCtaClick}>
+        <Box sx={{ display: { xs: "none", lg: "block" } }}>
+          <Button variant="contained" color="secondary" onClick={onCtaClick}>
             {ctaLabel}
           </Button>
-        </div>
+        </Box>
 
-        <button
-          type="button"
+        <IconButton
           aria-label={open ? "Close menu" : "Open menu"}
           aria-expanded={open}
           onClick={() => setOpen(!open)}
-          className="flex size-10 cursor-pointer items-center justify-center text-on-dark lg:hidden"
+          sx={{ display: { lg: "none" }, width: 40, height: 40, p: 0, color: "ds.text.onDark", ...focusRing(true) }}
         >
-          {open ? <CloseIcon className="size-8" /> : <MenuIcon className="size-10" />}
-        </button>
-      </div>
+          {open ? <CloseIcon sx={{ fontSize: 32 }} /> : <MenuIcon sx={{ fontSize: 40 }} />}
+        </IconButton>
+      </Box>
 
       {open && (
-        <nav aria-label="Main" className="flex flex-col items-start gap-xs px-md pt-xs pb-lg lg:hidden">
+        <Box
+          component="nav"
+          aria-label="Main"
+          sx={{ display: { xs: "flex", lg: "none" }, flexDirection: "column", alignItems: "flex-start", gap: sp.xs, px: sp.md, pt: sp.xs, pb: sp.lg }}
+        >
           {links.map((link) => (
             <NavItem key={link.href} link={link} active={link.href === activeHref} />
           ))}
-          <Button variant="onDark" onClick={onCtaClick} className="mt-xs">
+          <Button variant="contained" color="secondary" onClick={onCtaClick} sx={{ mt: sp.xs }}>
             {ctaLabel}
           </Button>
-        </nav>
+        </Box>
       )}
-    </header>
+    </Box>
   );
 }

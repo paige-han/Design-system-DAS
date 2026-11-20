@@ -1,7 +1,7 @@
 # Digital Aid Seattle Design System
 
-A code-first component library for the Digital Aid Seattle website, designed by prompt with Claude Code
-and previewed in Storybook.
+A code-first component library for the Digital Aid Seattle website, built with MUI v6 (like the site),
+designed by prompt with Claude Code and previewed in Storybook.
 
 ## Get started
 
@@ -14,13 +14,15 @@ npm run storybook
 
 Storybook opens at http://localhost:6006.
 
-Published Storybook (after GitHub Pages is turned on): https://paige-han.github.io/design-system/
+Published Storybook: https://paige-han.github.io/design-system/
 
 ## Where things live
 
 | What | Where |
 | --- | --- |
-| Design tokens (colors, type, radius, spacing, breakpoints) | `src/tokens/tokens.css` |
+| Design tokens (colors, type, radius, spacing, breakpoints) | `src/tokens/tokens.ts` |
+| MUI theme (for the website) | `src/mui/theme.ts` |
+| `sx` helpers (`sp`, `rd`, `focusRing`) | `src/mui/sx.ts` |
 | Components | `src/components/<Name>/` |
 | Rules Claude follows | `CLAUDE.md` |
 | `/new-component` command | `.claude/commands/new-component.md` |
@@ -32,6 +34,6 @@ Published Storybook (after GitHub Pages is turned on): https://paige-han.github.
 3. Watch Storybook update, then refine in words.
 
 Prompts to try first:
-- "Add a small size to Button: 32px tall with 16px side padding. Add it to the stories."
-- "Add an outline variant to Button for secondary actions on light backgrounds."
-- `/new-component Filter chip: a 32px pill toggle with selected and unselected states`
+- "Add a small size to Button: 32px tall with 16px side padding. Add it to the theme and the stories."
+- "Build an FAQ section from MUI Accordion with our tokens."
+- `/new-component Testimonial card: quote, name and role, with a photo option`

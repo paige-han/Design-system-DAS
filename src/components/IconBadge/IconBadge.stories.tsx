@@ -1,4 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
+import Box from "@mui/material/Box";
+import { sp } from "../../mui/sx";
 import { IconBadge } from "./IconBadge";
 import { AcuteIcon, AdminPanelIcon, LeaderboardIcon, MonitoringIcon } from "../../icons";
 
@@ -15,10 +17,10 @@ type Story = StoryObj<typeof meta>;
 export const Default: Story = {};
 export const AllIcons: Story = {
   render: () => (
-    <div className="flex gap-lg">
+    <Box sx={{ display: "flex", gap: sp.lg }}>
       {[LeaderboardIcon, MonitoringIcon, AcuteIcon, AdminPanelIcon].map((I, i) => (
         <IconBadge key={i} icon={<I />} />
       ))}
-    </div>
+    </Box>
   ),
 };

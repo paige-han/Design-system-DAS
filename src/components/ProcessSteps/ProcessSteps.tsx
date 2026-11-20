@@ -1,3 +1,7 @@
+import Box from "@mui/material/Box";
+import Typography from "@mui/material/Typography";
+import { sp, withSx, type Sx } from "../../mui/sx";
+
 /**
  * ProcessSteps: a numbered list of steps.
  *
@@ -6,20 +10,22 @@
  */
 export interface ProcessStepsProps {
   steps: string[];
-  className?: string;
+  sx?: Sx;
 }
 
-export function ProcessSteps({ steps, className = "" }: ProcessStepsProps) {
+export function ProcessSteps({ steps, sx }: ProcessStepsProps) {
   return (
-    <ol className={`flex flex-col gap-xs ${className}`}>
+    <Box component="ol" sx={withSx({ display: "flex", flexDirection: "column", gap: sp.xs, m: 0, p: 0, listStyle: "none" }, sx)}>
       {steps.map((step, i) => (
-        <li key={step} className="flex items-baseline">
-          <span className="w-10 shrink-0 type-title-lg text-brand" aria-hidden="true">
+        <Box component="li" key={step} sx={{ display: "flex", alignItems: "baseline" }}>
+          <Typography variant="titleLarge" component="span" aria-hidden="true" color="ds.text.brand" sx={{ width: 40, flexShrink: 0 }}>
             {i + 1}.
-          </span>
-          <span className="type-body-lg text-primary">{step}</span>
-        </li>
+          </Typography>
+          <Typography variant="bodyLarge" component="span" color="ds.text.primary">
+            {step}
+          </Typography>
+        </Box>
       ))}
-    </ol>
+    </Box>
   );
 }

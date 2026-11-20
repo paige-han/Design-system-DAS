@@ -7,7 +7,7 @@ const meta = {
   args: {
     title: "2 Projects Deployed with 4+ Underway",
     description: "Websites, databases, mobile apps, and dashboards built for local nonprofits since 2023.",
-    className: "w-[272px]",
+    sx: { width: 272 },
   },
   globals: { backgrounds: { value: "surface" } },
 } satisfies Meta<typeof HighlightCard>;

@@ -1,3 +1,8 @@
+import Box from "@mui/material/Box";
+import Card from "@mui/material/Card";
+import Typography from "@mui/material/Typography";
+import { rd, sp, withSx, type Sx } from "../../mui/sx";
+
 /**
  * EventCard: an upcoming event with image, date, time, place and description.
  *
@@ -12,43 +17,57 @@ export interface EventCardProps {
   description: string;
   imageSrc: string;
   imageAlt: string;
-  className?: string;
+  sx?: Sx;
 }
 
-export function EventCard({
-  title,
-  date,
-  time,
-  location,
-  description,
-  imageSrc,
-  imageAlt,
-  className = "",
-}: EventCardProps) {
+export function EventCard({ title, date, time, location, description, imageSrc, imageAlt, sx }: EventCardProps) {
   return (
-    <article
-      className={[
-        "flex flex-col gap-lg rounded-md border-3 border-on-surface bg-surface p-xl md:flex-row md:items-center md:gap-2xl",
-        "shadow-elevation-1",
-        className,
-      ].join(" ")}
+    <Card
+      component="article"
+      sx={withSx(
+        {
+          display: "flex",
+          flexDirection: { xs: "column", md: "row" },
+          alignItems: { md: "center" },
+          gap: { xs: sp.lg, md: sp["2xl"] },
+          p: sp.xl,
+        },
+        sx,
+      )}
     >
-      <img
+      <Box
+        component="img"
         src={imageSrc}
         alt={imageAlt}
-        className="aspect-square w-full shrink-0 rounded-sm border-2 border-subtle bg-default object-cover md:size-[215px]"
+        sx={{
+          aspectRatio: "1",
+          width: { xs: "100%", md: 215 },
+          height: { md: 215 },
+          flexShrink: 0,
+          borderRadius: rd.sm,
+          border: "2px solid",
+          borderColor: "ds.border.subtle",
+          bgcolor: "ds.bg.default",
+          objectFit: "cover",
+        }}
       />
-      <div className="flex flex-col gap-7.5">
-        <div className="flex flex-col gap-md">
-          <h3 className="type-title-lg text-primary">{title}</h3>
-          <p className="flex flex-wrap gap-x-lg type-label-lg text-secondary">
+      <Box sx={{ display: "flex", flexDirection: "column", gap: "30px" }}>
+        <Box sx={{ display: "flex", flexDirection: "column", gap: sp.md }}>
+          <Typography variant="titleLarge" color="ds.text.primary">
+            {title}
+          </Typography>
+          <Typography variant="labelLarge" component="p" color="ds.text.secondary" sx={{ display: "flex", flexWrap: "wrap", columnGap: sp.lg }}>
             <span>{date}</span>
             <span>{time}</span>
-          </p>
-          <p className="type-label-md text-secondary">{location}</p>
-        </div>
-        <p className="type-body-md text-primary">{description}</p>
-      </div>
-    </article>
+          </Typography>
+          <Typography variant="labelMedium" component="p" color="ds.text.secondary">
+            {location}
+          </Typography>
+        </Box>
+        <Typography variant="bodyMedium" color="ds.text.primary">
+          {description}
+        </Typography>
+      </Box>
+    </Card>
   );
 }

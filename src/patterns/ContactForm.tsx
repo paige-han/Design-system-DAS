@@ -1,5 +1,13 @@
 import { useEffect, useRef, useState, type FormEvent } from "react";
-import { Alert, Button, Checkbox, TextField } from "../index";
+import Alert from "@mui/material/Alert";
+import AlertTitle from "@mui/material/AlertTitle";
+import Box from "@mui/material/Box";
+import Button from "@mui/material/Button";
+import Link from "@mui/material/Link";
+import Typography from "@mui/material/Typography";
+import { CheckboxField } from "../components/CheckboxField";
+import { TextField } from "../components/TextField";
+import { focusRing, rd, sp } from "../mui/sx";
 
 /**
  * ContactForm: the pattern for any multi-field form (partner request, volunteer interest,
@@ -80,44 +88,55 @@ export function ContactForm({ onSend }: ContactFormProps) {
     }
   }
 
+  const formWidth = { width: "100%", maxWidth: 560 };
+
   if (status === "success") {
     return (
-      <div className="w-full max-w-[560px]">
-        <Alert tone="success" title="Thanks, we got your message">
-          A Digital Aid Seattle volunteer will reply to {values.email} within a week.
-        </Alert>
-      </div>
+      <Alert severity="success" role="status" sx={formWidth}>
+        <AlertTitle>Thanks, we got your message</AlertTitle>A Digital Aid Seattle volunteer will reply to {values.email} within a week.
+      </Alert>
     );
   }
 
   const errorList = Object.entries(errors) as [keyof ContactFormValues, string][];
 
   return (
-    <form noValidate onSubmit={submit} className="flex w-full max-w-[560px] flex-col gap-lg">
+    <Box component="form" noValidate onSubmit={submit} sx={{ ...formWidth, display: "flex", flexDirection: "column", gap: sp.lg }}>
       {errorList.length > 0 && (
-        <div
+        <Box
           ref={summaryRef}
           tabIndex={-1}
           role="alert"
           aria-labelledby="error-summary-title"
-          className="flex flex-col gap-xs rounded-md border-l-4 border-error bg-error-subtle p-md focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand"
+          sx={{
+            display: "flex",
+            flexDirection: "column",
+            gap: sp.xs,
+            borderRadius: rd.md,
+            borderLeft: "4px solid",
+            borderColor: "ds.border.error",
+            bgcolor: "ds.bg.errorSubtle",
+            p: sp.md,
+            ...focusRing(),
+          }}
         >
-          <p id="error-summary-title" className="type-title-md text-primary">
+          <Typography id="error-summary-title" variant="titleMedium" component="p" color="ds.text.primary">
             Please fix {errorList.length === 1 ? "this" : `these ${errorList.length} things`}
-          </p>
-          <ul className="flex list-disc flex-col gap-2xs pl-lg">
+          </Typography>
+          <Box component="ul" sx={{ m: 0, pl: sp.lg, display: "flex", flexDirection: "column", gap: sp["2xs"] }}>
             {errorList.map(([key, msg]) => (
               <li key={key}>
-                <a href={`#${ids[key]}`} className="type-body-md text-error underline">
+                <Link href={`#${ids[key]}`} variant="bodyMedium" sx={{ color: "ds.text.error", textDecorationColor: "currentColor" }}>
                   {msg}
-                </a>
+                </Link>
               </li>
             ))}
-          </ul>
-        </div>
+          </Box>
+        </Box>
       )}
       {status === "failed" && (
-        <Alert tone="error" title="We couldn't send your message">
+        <Alert severity="error">
+          <AlertTitle>We couldn't send your message</AlertTitle>
           Something went wrong on our end. Your answers are still here; please try again.
         </Alert>
       )}
@@ -150,7 +169,7 @@ export function ContactForm({ onSend }: ContactFormProps) {
         onChange={(e) => set("message", e.target.value)}
         error={errors.message}
       />
-      <Checkbox
+      <CheckboxField
         id={ids.consent}
         label="I agree to be contacted about this request"
         checked={values.consent}
@@ -158,10 +177,10 @@ export function ContactForm({ onSend }: ContactFormProps) {
         error={errors.consent}
       />
       <div>
-        <Button type="submit" loading={status === "sending"}>
+        <Button type="submit" variant="contained" loading={status === "sending"}>
           Send message
         </Button>
       </div>
-    </form>
+    </Box>
   );
 }

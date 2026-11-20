@@ -1,15 +1,19 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
-import { ErrorState, Footer, Header } from "../index";
+import Box from "@mui/material/Box";
+import Typography from "@mui/material/Typography";
+import { ErrorState, Footer, Header, sp } from "../index";
 
 /** Whole-page errors, with the live site's copy. */
 function ErrorPage({ kind }: { kind: "404" | "500" }) {
   return (
-    <div className="bg-surface-alt">
+    <Box sx={{ bgcolor: "ds.bg.surfaceAlt" }}>
       <Header />
       <main>
-        <div className="bg-brand-strong py-3xl text-center">
-          <h1 className="type-display-lg text-on-dark">{kind === "404" ? "Page Not Found" : "Oops!"}</h1>
-        </div>
+        <Box sx={{ bgcolor: "ds.bg.brandStrong", py: sp["3xl"], textAlign: "center" }}>
+          <Typography variant="displayLarge" component="h1" color="ds.text.onDark">
+            {kind === "404" ? "Page Not Found" : "Oops!"}
+          </Typography>
+        </Box>
         {kind === "404" ? (
           <ErrorState
             code="404"
@@ -25,7 +29,7 @@ function ErrorPage({ kind }: { kind: "404" | "500" }) {
         )}
       </main>
       <Footer />
-    </div>
+    </Box>
   );
 }
 

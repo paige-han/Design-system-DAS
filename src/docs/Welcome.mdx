@@ -5,8 +5,13 @@ import { Meta } from "@storybook/addon-docs/blocks";
 # Digital Aid Seattle Design System
 
 Components for the Digital Aid Seattle website, built from the Figma style guide and grown by prompt.
+Everything here is built with **MUI v6**, the same library the website uses, so developers can copy
+components straight into the site.
 
-- **Tokens** live in `src/tokens/tokens.css`. Every color, font, radius and spacing value comes from there.
+- **Tokens** live in `src/tokens/tokens.ts`. Every color, font, radius, shadow and spacing value comes from there.
+- **Theme**: `src/mui/theme.ts` turns the tokens into an MUI theme. It also styles MUI's own Button, Chip, Card,
+  form fields, Alert and loading parts, so plain MUI code already looks right.
 - **Components** live in `src/components/<Name>/`: the component, its stories, and an `index.ts`.
-- **Breakpoints**: Small (under 600px), Medium (600–960px), Large (960px and up). Use the viewport menu in the toolbar to preview each.
-- **Backgrounds**: switch between Light and Dark green in the toolbar.
+- **Breakpoints**: Small (under 600px), Medium (600–960px), Large (960px and up). Use the viewport menu in the toolbar.
+- **Backgrounds**: switch between White, Surface and Dark green in the toolbar.
+- Developers: start at **For developers → MUI theme**.

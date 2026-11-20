@@ -1,5 +1,9 @@
 import type { ReactNode } from "react";
+import Box from "@mui/material/Box";
+import Card from "@mui/material/Card";
+import Typography from "@mui/material/Typography";
 import { IconBadge } from "../IconBadge/IconBadge";
+import { sp, withSx, type Sx } from "../../mui/sx";
 
 /**
  * FeatureCard: wide card with an icon badge beside a title and a paragraph.
@@ -11,23 +15,20 @@ export interface FeatureCardProps {
   icon: ReactNode;
   title: string;
   description: string;
-  className?: string;
+  sx?: Sx;
 }
 
-export function FeatureCard({ icon, title, description, className = "" }: FeatureCardProps) {
+export function FeatureCard({ icon, title, description, sx }: FeatureCardProps) {
   return (
-    <article
-      className={[
-        "flex flex-col gap-lg rounded-md border-3 border-on-surface bg-surface p-xl md:flex-row md:gap-xl",
-        "shadow-elevation-1",
-        className,
-      ].join(" ")}
+    <Card
+      component="article"
+      sx={withSx({ display: "flex", flexDirection: { xs: "column", md: "row" }, gap: { xs: sp.lg, md: sp.xl }, p: sp.xl }, sx)}
     >
       <IconBadge icon={icon} />
-      <div className="flex flex-col gap-lg text-primary">
-        <h3 className="type-title-md">{title}</h3>
-        <p className="type-body-lg">{description}</p>
-      </div>
-    </article>
+      <Box sx={{ display: "flex", flexDirection: "column", gap: sp.lg, color: "ds.text.primary" }}>
+        <Typography variant="titleMedium">{title}</Typography>
+        <Typography variant="bodyLarge">{description}</Typography>
+      </Box>
+    </Card>
   );
 }

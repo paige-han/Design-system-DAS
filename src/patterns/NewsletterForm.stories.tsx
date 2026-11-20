@@ -46,7 +46,9 @@ export const Sending: Story = {
     const c = within(canvasElement);
     await userEvent.type(c.getByLabelText("Email address"), "paige@example.org");
     await userEvent.click(c.getByRole("button", { name: "Sign up" }));
-    await expect(c.getByRole("button", { name: "Sign up" })).toHaveAttribute("aria-busy", "true");
+    const button = c.getByRole("button", { name: "Sign up" });
+    await expect(button).toBeDisabled();
+    await expect(within(button).getByRole("progressbar")).toBeInTheDocument();
   },
 };
 

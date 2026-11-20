@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import { EmptyState } from "./EmptyState";
-import { Button } from "../Button";
+import Button from "@mui/material/Button";
 import { EventBusyIcon, MailIcon, RefreshIcon, SearchOffIcon, ErrorIcon } from "../../icons";
 
 const meta = {
@@ -47,7 +47,7 @@ export const LoadError: Story = {
     title: "We couldn't load projects",
     description: "Check your connection and try again. If it keeps happening, we're probably fixing it.",
     action: (
-      <Button variant="primary" icon={<RefreshIcon />}>
+      <Button variant="contained" startIcon={<RefreshIcon />}>
         Try again
       </Button>
     ),

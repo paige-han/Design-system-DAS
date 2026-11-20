@@ -1,5 +1,7 @@
 import { useState } from "react";
 import type { Meta, StoryObj } from "@storybook/react-vite";
+import Box from "@mui/material/Box";
+import { sp } from "../../mui/sx";
 import { FilterChip } from "./FilterChip";
 
 const meta = {
@@ -21,11 +23,11 @@ export const StatusFilter: Story = {
     const toggle = (s: string) =>
       setSelected((cur) => (cur.includes(s) ? cur.filter((x) => x !== s) : [...cur, s]));
     return (
-      <div className="flex gap-lg">
+      <Box sx={{ display: "flex", gap: sp.lg }}>
         {["Active", "Evaluating", "Completed"].map((s) => (
           <FilterChip key={s} label={s} selected={selected.includes(s)} onClick={() => toggle(s)} />
         ))}
-      </div>
+      </Box>
     );
   },
 };

@@ -1,4 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
+import Box from "@mui/material/Box";
+import { sp } from "../../mui/sx";
 import { StatusBadge } from "./StatusBadge";
 
 const meta = {
@@ -17,10 +19,10 @@ export const UnderEvaluation: Story = { args: { status: "Under Evaluation" } };
 export const Completed: Story = { args: { status: "Completed" } };
 export const AllStatuses: Story = {
   render: () => (
-    <div className="flex gap-md">
+    <Box sx={{ display: "flex", gap: sp.md }}>
       <StatusBadge status="Active" />
       <StatusBadge status="Under Evaluation" />
       <StatusBadge status="Completed" />
-    </div>
+    </Box>
   ),
 };

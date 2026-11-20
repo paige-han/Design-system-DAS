@@ -1,5 +1,12 @@
 import { useState, type FormEvent } from "react";
-import { Alert, Button, TextInput } from "../index";
+import Alert from "@mui/material/Alert";
+import AlertTitle from "@mui/material/AlertTitle";
+import Box from "@mui/material/Box";
+import Button from "@mui/material/Button";
+import Typography from "@mui/material/Typography";
+import { visuallyHidden } from "@mui/utils";
+import { TextInput } from "../components/TextInput";
+import { sp } from "../mui/sx";
 
 /**
  * NewsletterForm: the "Stay Connected!" sign-up from the site footer, with every state.
@@ -47,30 +54,51 @@ export function NewsletterForm({ onSubscribe, showLabel = true }: NewsletterForm
     }
   }
 
+  const alertWidth = { width: "100%", maxWidth: { lg: 464 } };
+
   return (
-    <section
+    <Box
+      component="section"
       aria-labelledby="newsletter-heading"
-      className="flex flex-col gap-xl bg-brand-strong px-md py-3xl lg:flex-row lg:items-start lg:justify-between lg:px-4xl"
+      sx={{
+        display: "flex",
+        flexDirection: { xs: "column", lg: "row" },
+        alignItems: { lg: "flex-start" },
+        justifyContent: { lg: "space-between" },
+        gap: sp.xl,
+        bgcolor: "ds.bg.brandStrong",
+        px: { xs: sp.md, lg: sp["4xl"] },
+        py: sp["3xl"],
+      }}
     >
-      <div className={showLabel ? "flex flex-col gap-2xs" : "sr-only"}>
-        <h2 id="newsletter-heading" className="type-headline-md text-on-dark">
+      <Box sx={showLabel ? { display: "flex", flexDirection: "column", gap: sp["2xs"] } : visuallyHidden}>
+        <Typography id="newsletter-heading" variant="headlineMedium" component="h2" color="ds.text.onDark">
           Stay Connected!
-        </h2>
-        <p className="type-body-lg text-on-dark">Sign up for our newsletter</p>
-      </div>
+        </Typography>
+        <Typography variant="bodyLarge" color="ds.text.onDark">
+          Sign up for our newsletter
+        </Typography>
+      </Box>
 
       {status === "success" ? (
-        <Alert tone="success" title="You're subscribed" className="w-full lg:w-[464px]">
+        <Alert severity="success" role="status" sx={alertWidth}>
+          <AlertTitle>You're subscribed</AlertTitle>
           Thanks for signing up. Look for our next newsletter in your inbox.
         </Alert>
       ) : (
-        <div className="flex w-full flex-col gap-md lg:w-auto">
+        <Box sx={{ display: "flex", width: { xs: "100%", lg: "auto" }, flexDirection: "column", gap: sp.md }}>
           {status === "failed" && (
-            <Alert tone="error" title="We couldn't sign you up" className="lg:w-[464px]">
+            <Alert severity="error" sx={alertWidth}>
+              <AlertTitle>We couldn't sign you up</AlertTitle>
               Something went wrong on our end. Please try again in a few minutes.
             </Alert>
           )}
-          <form noValidate onSubmit={submit} className="flex flex-col gap-md md:flex-row md:items-start">
+          <Box
+            component="form"
+            noValidate
+            onSubmit={submit}
+            sx={{ display: "flex", flexDirection: { xs: "column", md: "row" }, alignItems: { md: "flex-start" }, gap: sp.md }}
+          >
             <TextInput
               label="Email address"
               type="email"
@@ -84,14 +112,14 @@ export function NewsletterForm({ onSubscribe, showLabel = true }: NewsletterForm
               error={error || undefined}
               onDark
               readOnly={status === "sending"}
-              className="w-full md:w-[400px]"
+              sx={{ width: { xs: "100%", md: 400 } }}
             />
             <Button type="submit" variant="elevated" loading={status === "sending"}>
               Sign up
             </Button>
-          </form>
-        </div>
+          </Box>
+        </Box>
       )}
-    </section>
+    </Box>
   );
 }

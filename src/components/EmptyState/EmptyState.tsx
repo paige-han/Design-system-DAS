@@ -1,4 +1,7 @@
 import type { ReactNode } from "react";
+import Box from "@mui/material/Box";
+import Typography from "@mui/material/Typography";
+import { sp, withSx, type Sx } from "../../mui/sx";
 
 /**
  * EmptyState: shown where content would be, when there is none or it couldn't load.
@@ -21,35 +24,45 @@ export interface EmptyStateProps {
   tone?: "neutral" | "error";
   /** Heading level for the title, to fit the page outline. */
   headingLevel?: 2 | 3;
-  className?: string;
+  sx?: Sx;
 }
 
-export function EmptyState({
-  icon,
-  title,
-  description,
-  action,
-  tone = "neutral",
-  headingLevel = 2,
-  className = "",
-}: EmptyStateProps) {
-  const Heading = `h${headingLevel}` as const;
+export function EmptyState({ icon, title, description, action, tone = "neutral", headingLevel = 2, sx }: EmptyStateProps) {
+  const error = tone === "error";
   return (
-    <div
-      role={tone === "error" ? "alert" : undefined}
-      className={`flex max-w-[480px] flex-col items-center gap-md px-md py-2xl text-center ${className}`}
+    <Box
+      role={error ? "alert" : undefined}
+      sx={withSx(
+        { display: "flex", maxWidth: 480, flexDirection: "column", alignItems: "center", gap: sp.md, px: sp.md, py: sp["2xl"], textAlign: "center" },
+        sx,
+      )}
     >
-      <span
+      <Box
+        component="span"
         aria-hidden="true"
-        className={`flex size-16 items-center justify-center rounded-full ${
-          tone === "error" ? "bg-error-subtle text-error" : "bg-subtle text-primary"
-        }`}
+        sx={{
+          display: "flex",
+          width: 64,
+          height: 64,
+          alignItems: "center",
+          justifyContent: "center",
+          borderRadius: "50%",
+          bgcolor: error ? "ds.bg.errorSubtle" : "ds.bg.subtle",
+          color: error ? "ds.text.error" : "ds.text.primary",
+          "& svg": { fontSize: 32 },
+        }}
       >
-        <span className="size-8">{icon}</span>
-      </span>
-      <Heading className="type-headline-sm text-primary">{title}</Heading>
-      {description && <p className="type-body-lg text-secondary">{description}</p>}
-      {action && <div className="mt-xs">{action}</div>}
-    </div>
+        {icon}
+      </Box>
+      <Typography variant="headlineSmall" component={`h${headingLevel}`} color="ds.text.primary">
+        {title}
+      </Typography>
+      {description && (
+        <Typography variant="bodyLarge" color="ds.text.secondary">
+          {description}
+        </Typography>
+      )}
+      {action && <Box sx={{ mt: sp.xs }}>{action}</Box>}
+    </Box>
   );
 }

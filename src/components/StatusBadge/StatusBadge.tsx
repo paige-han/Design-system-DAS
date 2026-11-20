@@ -1,3 +1,7 @@
+import Box from "@mui/material/Box";
+import { sp, withSx, type Sx } from "../../mui/sx";
+import type { color } from "../../tokens/tokens";
+
 /**
  * StatusBadge: shows a project's status on a project card.
  *
@@ -16,7 +20,7 @@ export type ProjectStatus = "Active" | "Under Evaluation" | "Completed";
 export interface StatusBadgeProps {
   /** The project's status as stored in the CMS. */
   status: ProjectStatus;
-  className?: string;
+  sx?: Sx;
 }
 
 export const statusLabels: Record<ProjectStatus, string> = {
@@ -25,18 +29,31 @@ export const statusLabels: Record<ProjectStatus, string> = {
   Completed: "Completed",
 };
 
-const statusBg: Record<ProjectStatus, string> = {
-  Active: "bg-status-active",
-  "Under Evaluation": "bg-status-under-evaluation",
-  Completed: "bg-status-completed",
+const statusBg: Record<ProjectStatus, `ds.bg.${keyof typeof color.bg}`> = {
+  Active: "ds.bg.statusActive",
+  "Under Evaluation": "ds.bg.statusUnderEvaluation",
+  Completed: "ds.bg.statusCompleted",
 };
 
-export function StatusBadge({ status, className = "" }: StatusBadgeProps) {
+export function StatusBadge({ status, sx }: StatusBadgeProps) {
   return (
-    <span
-      className={`inline-flex h-10 items-center rounded-full px-sm type-label-lg-semibold text-secondary ${statusBg[status]} ${className}`}
+    <Box
+      component="span"
+      sx={withSx(
+        (t) => ({
+          ...t.typography.labelLargeSemibold,
+          display: "inline-flex",
+          height: 40,
+          alignItems: "center",
+          px: sp.sm,
+          borderRadius: "999px",
+          color: "ds.text.secondary",
+          bgcolor: statusBg[status],
+        }),
+        sx,
+      )}
     >
       {statusLabels[status]}
-    </span>
+    </Box>
   );
 }

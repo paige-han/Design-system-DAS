@@ -1,47 +1,72 @@
-import { useId, type InputHTMLAttributes } from "react";
+import { useId } from "react";
+import Box from "@mui/material/Box";
+import InputBase, { type InputBaseProps } from "@mui/material/InputBase";
+import Typography from "@mui/material/Typography";
+import { visuallyHidden } from "@mui/utils";
 import { ErrorIcon } from "../../icons";
+import { rd, sp, withSx, type Sx } from "../../mui/sx";
+import { color } from "../../tokens/tokens";
 
 /**
- * TextInput: single-line text field.
+ * TextInput: the white pill email field from the footer newsletter.
+ * For forms with a visible label, use TextField.
  *
- * Figma mapping: "Email address input" (footer newsletter).
- * White pill, 40px tall, 16px side padding, body/large text.
- * Error state uses color/border/error and color/text/error from the Foundations guide.
+ * Figma mapping: "Email address input". 40px tall, radius xl, body/large text.
  */
-export interface TextInputProps extends InputHTMLAttributes<HTMLInputElement> {
+export interface TextInputProps extends Omit<InputBaseProps, "error" | "sx"> {
   /** Accessible label. Shown to screen readers only, since the design has no visible label. */
   label: string;
   /** Error message. When set, the field gets a red border and the message shows below. */
   error?: string;
   /** Set when the field sits on a dark background, so the error message stays readable. */
   onDark?: boolean;
+  sx?: Sx;
 }
 
-export function TextInput({ label, error, onDark = false, className = "", ...props }: TextInputProps) {
-  const errorId = useId();
+export function TextInput({ label, error, onDark = false, sx, id: idProp, ...props }: TextInputProps) {
+  const autoId = useId();
+  const id = idProp ?? autoId;
+  const errorId = `${id}-error`;
   return (
-    <label className={`block ${className}`}>
-      <span className="sr-only">{label}</span>
-      <input
-        aria-invalid={error ? true : undefined}
-        aria-describedby={error ? errorId : undefined}
-        className={[
-          "h-10 w-full rounded-xl bg-default px-md",
-          "type-body-lg text-primary placeholder:text-tertiary",
-          "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-on-surface",
-          error ? "border-2 border-error" : "",
-        ].join(" ")}
+    <Box sx={withSx({ display: "block" }, sx)}>
+      <Box component="label" htmlFor={id} sx={visuallyHidden}>
+        {label}
+      </Box>
+      <InputBase
+        id={id}
+        error={Boolean(error)}
+        fullWidth
+        inputProps={{ "aria-invalid": error ? true : undefined, "aria-describedby": error ? errorId : undefined }}
+        sx={(t) => ({
+          ...t.typography.bodyLarge,
+          height: 40,
+          px: sp.md,
+          borderRadius: rd.xl,
+          bgcolor: "ds.bg.default",
+          color: "ds.text.primary",
+          border: error ? `2px solid ${color.border.error}` : "none",
+          "& input::placeholder": { color: color.text.tertiary, opacity: 1 },
+          "&.Mui-focused": { outline: `2px solid ${color.border.onSurface}`, outlineOffset: "2px" },
+        })}
         {...props}
       />
       {error && (
-        <span
+        <Typography
           id={errorId}
-          className={`mt-xs flex items-center gap-2xs px-md type-label-md ${onDark ? "text-on-dark" : "text-error"}`}
+          variant="labelMedium"
+          sx={{
+            mt: sp.xs,
+            px: sp.md,
+            display: "flex",
+            alignItems: "center",
+            gap: sp["2xs"],
+            color: onDark ? "ds.text.onDark" : "ds.text.error",
+          }}
         >
-          <ErrorIcon className="size-4 shrink-0" />
+          <ErrorIcon sx={{ fontSize: 16 }} />
           {error}
-        </span>
+        </Typography>
       )}
-    </label>
+    </Box>
   );
 }

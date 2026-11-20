@@ -1,4 +1,8 @@
+import Box from "@mui/material/Box";
+import Card from "@mui/material/Card";
+import Typography from "@mui/material/Typography";
 import { StatusBadge, type ProjectStatus } from "../StatusBadge/StatusBadge";
+import { rd, sp, withSx, type Sx } from "../../mui/sx";
 
 /**
  * ProjectCard: one project on the Projects page.
@@ -21,51 +25,50 @@ export interface ProjectCardProps {
   imageAlt: string;
   /** "contain" for logos (default), "cover" for photos. */
   imageFit?: "contain" | "cover";
-  className?: string;
+  sx?: Sx;
 }
 
-export function ProjectCard({
-  title,
-  partner,
-  programArea,
-  status,
-  dates,
-  description,
-  imageSrc,
-  imageAlt,
-  imageFit = "contain",
-  className = "",
-}: ProjectCardProps) {
+export function ProjectCard({ title, partner, programArea, status, dates, description, imageSrc, imageAlt, imageFit = "contain", sx }: ProjectCardProps) {
   return (
-    <article
-      className={[
-        "flex w-full max-w-[420px] flex-col gap-5 rounded-md border-3 border-on-surface bg-surface p-xl",
-        "shadow-elevation-1",
-        className,
-      ].join(" ")}
-    >
-      <div className="aspect-square w-full overflow-hidden rounded-sm border-2 border-subtle bg-default">
-        <img
-          src={imageSrc}
-          alt={imageAlt}
-          className={`size-full ${imageFit === "cover" ? "object-cover" : "object-contain"}`}
-        />
-      </div>
+    <Card component="article" sx={withSx({ display: "flex", width: "100%", maxWidth: 420, flexDirection: "column", gap: "20px", p: sp.xl }, sx)}>
+      <Box
+        sx={{
+          aspectRatio: "1",
+          width: "100%",
+          overflow: "hidden",
+          borderRadius: rd.sm,
+          border: "2px solid",
+          borderColor: "ds.border.subtle",
+          bgcolor: "ds.bg.default",
+        }}
+      >
+        <Box component="img" src={imageSrc} alt={imageAlt} sx={{ width: "100%", height: "100%", objectFit: imageFit }} />
+      </Box>
 
-      <h3 className="type-title-lg text-primary">{title}</h3>
+      <Typography variant="titleLarge" color="ds.text.primary">
+        {title}
+      </Typography>
 
-      <div className="flex items-start justify-between gap-md">
-        <div className="flex flex-col gap-md pt-2.5 text-secondary">
-          <p className="type-label-lg">{partner}</p>
-          <p className="type-label-md">{programArea}</p>
-        </div>
-        <div className="flex flex-col items-end gap-1.5">
+      <Box sx={{ display: "flex", alignItems: "flex-start", justifyContent: "space-between", gap: sp.md }}>
+        <Box sx={{ display: "flex", flexDirection: "column", gap: sp.md, pt: "10px", color: "ds.text.secondary" }}>
+          <Typography variant="labelLarge" component="p">
+            {partner}
+          </Typography>
+          <Typography variant="labelMedium" component="p">
+            {programArea}
+          </Typography>
+        </Box>
+        <Box sx={{ display: "flex", flexDirection: "column", alignItems: "flex-end", gap: "6px" }}>
           <StatusBadge status={status} />
-          <p className="type-label-md text-right text-secondary">{dates}</p>
-        </div>
-      </div>
+          <Typography variant="labelMedium" component="p" color="ds.text.secondary" sx={{ textAlign: "right" }}>
+            {dates}
+          </Typography>
+        </Box>
+      </Box>
 
-      <p className="type-body-md text-primary">{description}</p>
-    </article>
+      <Typography variant="bodyMedium" color="ds.text.primary">
+        {description}
+      </Typography>
+    </Card>
   );
 }

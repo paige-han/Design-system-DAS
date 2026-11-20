@@ -14,7 +14,7 @@ const meta = {
       "Join us in person or online to help research, design and build tech-for-good products for our planet and its people.",
     imageSrc: eventImage("Event"),
     imageAlt: "Earth-a-thon event poster",
-    className: "max-w-[880px]",
+    sx: { maxWidth: 880 },
   },
   parameters: { layout: "padded" },
   globals: { backgrounds: { value: "surface" } },

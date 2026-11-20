@@ -10,7 +10,7 @@ const meta = {
     title: "Internal tools",
     description:
       "Every organization needs infrastructure. Support comes in part from good tooling, and we help design and develop effective tools that help teams thrive. As a bonus, we help teams implement good practices and level up on those tools, too.",
-    className: "max-w-[880px]",
+    sx: { maxWidth: 880 },
   },
   argTypes: { icon: { control: false } },
   parameters: { layout: "padded" },
