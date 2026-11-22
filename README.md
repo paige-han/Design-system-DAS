@@ -14,7 +14,7 @@ npm run storybook
 
 Storybook opens at http://localhost:6006.
 
-Published Storybook: https://paige-han.github.io/design-system/
+Published Storybook: https://paige-han.github.io/Design-system-DAS/
 
 ## Where things live
 
